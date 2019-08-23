@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\common\DeviceStreamDevice.cs" Link="DeviceStreamDevice.cs" />
+    <Compile Include="..\common\DeviceStreamingCommon.cs" Link="DeviceStreamingCommon.cs" />
+    <Compile Include="..\common\DeviceStreamSvc.cs" Link="DeviceStreamSvc.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Amqp" Version="2.4.3" />
+    <PackageReference Include="Microsoft.Azure.Devices" Version="1.27.0-preview-003" />
+    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.29.0-preview-002" />
+    <PackageReference Include="System.Net.WebSockets.Client" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AzIoTHubModues\AzIoTHubModules.csproj" />
+  </ItemGroup>
+
+</Project>
