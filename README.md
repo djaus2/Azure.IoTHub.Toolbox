@@ -2,7 +2,7 @@
 A broad collection of Azure IoT Hub functions that can be actioned in without muCh effort. That is QUICKstarts.
 
 ## About
-This repository is an expansion of the Azure IoT Hub functionality of the [djaus2/AzDeviceStreaming](https://github.com/djaus2/AzDeviceStreaming) GitHub repository which was focused just upon the DeviceStreaming functionality. Check out the functionality imported to this repository and teh envisgaed additional Azure IOT Hub features that may be demonstarted here: 
+This repository is an expansion of the Azure IoT Hub functionality of the [djaus2/AzDeviceStreaming](https://github.com/djaus2/AzDeviceStreaming) GitHub repository which was focused just upon the DeviceStreaming functionality. Check out the functionality imported to this repository and teh envisgaed additional Azure IOT Hub features that may be demonstrated in the Wiki: 
 [Roadmap for this Repository](https://github.com/djaus2/Azure.IoTHub.Toolbox/wiki)
 
 ---
