@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 
-namespace AzIoTHubDeviceStreams
+namespace Azure_IoTHub_DeviceStreaming
 {
 
     public class DeviceStream_Device

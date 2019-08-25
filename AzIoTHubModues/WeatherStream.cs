@@ -6,7 +6,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace AzIoTHubModules
+namespace Azure_IoTHub_Telemetry
 {
     public static class Weather
     {
@@ -77,7 +77,7 @@ namespace AzIoTHubModules
 
         public static async Task<TelemetryDataPoint> GetWeatherObj()
         {
-            string url = string.Format("http://api.openweathermap.org/data/2.5/weather?id={0}&appid={1}", Cities[CurrentCityIndex].id, AzureConnections.MyConnections.OpenWeatherAppKey);
+            string url = string.Format("http://api.openweathermap.org/data/2.5/weather?id={0}&appid={1}", Cities[CurrentCityIndex].id, Azure_IoTHub_Connections.MyConnections.OpenWeatherAppKey);
             string weatherjson = await GetAsync(url);
             dynamic obj = JsonConvert.DeserializeObject(weatherjson);
             dynamic fgh = obj.main;

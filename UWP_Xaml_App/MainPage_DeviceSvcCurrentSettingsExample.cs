@@ -20,7 +20,7 @@ namespace UWPXamlApp
     /// to: 
     /// DeviceStream_Svc.RunSvc(service_cs, device_id, msgOut, OnSvcRecvText, keepAlive, responseExpected, new DeviceSvcCurrentSettings_Example()).GetAwaiter().GetResult();
     /// </summary>
-    public class DeviceSvcCurrentSettings_Example : AzIoTHubDeviceStreams.DeviceAndSvcCurrentSettings
+    public class DeviceSvcCurrentSettings_Example : Azure_IoTHub_DeviceStreaming.DeviceAndSvcCurrentSettings
     {
         public Load_DeviceAndSvcCurrentSettings plugin = null;
         public void LoadPlugIn(string path)

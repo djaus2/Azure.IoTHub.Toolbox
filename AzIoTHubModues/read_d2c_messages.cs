@@ -11,7 +11,7 @@ using System.Threading;
 using System.Text;
 using System.Collections.Generic;
 
-namespace read_d2c_messages
+namespace Azure_IoTHub_Telemetry
 {
     public class ReadDeviceToCloudMessages
     {
@@ -67,7 +67,7 @@ namespace read_d2c_messages
                         System.Diagnostics.Debug.WriteLine("  {0}: {1}", prop.Key, prop.Value);
                     }
 
-                    OnDeviceStatusUpdateD?.Invoke(AzIoTHubModules.SyntheticIoTMessage.EventData_ToString(eventData));
+                    OnDeviceStatusUpdateD?.Invoke(Azure_IoTHub_Telemetry.SyntheticIoTMessage.EventData_ToString(eventData));
                 }
             }
         }
@@ -109,19 +109,19 @@ namespace read_d2c_messages
 
             //Get some of event cs properties from hub cs
 
-            string iotHubSasKeyName  = AzureConnections.MyConnections.IotHubKeyName;
+            string iotHubSasKeyName  = Azure_IoTHub_Connections.MyConnections.IotHubKeyName;
 
 
             EventHubsConnectionStringBuilder EventHubConnectionString = null;
 
-            if (AzureConnections.MyConnections.EHMethod1)
-                EventHubConnectionString = new EventHubsConnectionStringBuilder(AzureConnections.MyConnections.EventHubsConnectionString);
+            if (Azure_IoTHub_Connections.MyConnections.EHMethod1)
+                EventHubConnectionString = new EventHubsConnectionStringBuilder(Azure_IoTHub_Connections.MyConnections.EventHubsConnectionString);
             else
             EventHubConnectionString = new EventHubsConnectionStringBuilder(
-                new Uri(AzureConnections.MyConnections.EventHubsCompatibleEndpoint),
-                AzureConnections.MyConnections.EventHubsCompatiblePath,
-                AzureConnections.MyConnections.IotHubKeyName,
-                AzureConnections.MyConnections.EventHubsSasKey);
+                new Uri(Azure_IoTHub_Connections.MyConnections.EventHubsCompatibleEndpoint),
+                Azure_IoTHub_Connections.MyConnections.EventHubsCompatiblePath,
+                Azure_IoTHub_Connections.MyConnections.IotHubKeyName,
+                Azure_IoTHub_Connections.MyConnections.EventHubsSasKey);
 
 
             s_eventHubClient = EventHubClient.CreateFromConnectionString(EventHubConnectionString.ToString());

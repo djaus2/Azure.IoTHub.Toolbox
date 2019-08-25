@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AzIoTHubDeviceStreams;
+using Azure_IoTHub_DeviceStreaming;
 using System.Threading.Tasks;
-using SimulatedDevice_ns;
+using Azure_IoTHub_Telemetry;
 
 //Ref: https://github.com/PieEatingNinjas/UwpConsoleApp/tree/master/Source/UwpConsole
 
@@ -12,24 +12,24 @@ namespace UWPConsoleDeviceApp
 {
     public static class Program
     {
-        private static int waitAtEndOfConsoleAppSecs = AzureConnections.MyConnections.WaitAtEndOfConsoleAppSecs;
-        private static int timeout = AzureConnections.MyConnections.Timeout;
+        private static int waitAtEndOfConsoleAppSecs = Azure_IoTHub_Connections.MyConnections.WaitAtEndOfConsoleAppSecs;
+        private static int timeout = Azure_IoTHub_Connections.MyConnections.Timeout;
 
-        private static int DeviceAction = AzureConnections.MyConnections.DeviceAction;
+        private static int DeviceAction = Azure_IoTHub_Connections.MyConnections.DeviceAction;
 
-        private static bool basicMode = AzureConnections.MyConnections.basicMode;
-        private static bool UseCustomClass = AzureConnections.MyConnections.UseCustomClass;
-        private static bool ResponseExpected = AzureConnections.MyConnections.ResponseExpected;
-        private static bool KeepAlive = AzureConnections.MyConnections.KeepAlive;
+        private static bool basicMode = Azure_IoTHub_Connections.MyConnections.basicMode;
+        private static bool UseCustomClass = Azure_IoTHub_Connections.MyConnections.UseCustomClass;
+        private static bool ResponseExpected = Azure_IoTHub_Connections.MyConnections.ResponseExpected;
+        private static bool KeepAlive = Azure_IoTHub_Connections.MyConnections.KeepAlive;
 
-        private static string service_cs = AzureConnections.MyConnections.IoTHubConnectionString;
-        private static string device_id = AzureConnections.MyConnections.DeviceId;
-        private static string device_cs = AzureConnections.MyConnections.DeviceConnectionString;
+        private static string service_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
+        private static string device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
+        private static string device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
 
-        private static bool KeepDeviceListening = AzureConnections.MyConnections.KeepDeviceListening;
+        private static bool KeepDeviceListening = Azure_IoTHub_Connections.MyConnections.KeepDeviceListening;
 
         //The next is superfulous as this device app will always autostart.
-        private static bool AutoStartDevice = AzureConnections.MyConnections.AutoStartDevice;
+        private static bool AutoStartDevice = Azure_IoTHub_Connections.MyConnections.AutoStartDevice;
 
         public static int Main()
         {
@@ -84,8 +84,8 @@ namespace UWPConsoleDeviceApp
                     }
                     break;
                 case 3:
-                    SimulatedDevice_ns.SimulatedDevice.Configure(AzureConnections.MyConnections.DeviceConnectionString, true, AzIoTHubDeviceStreams.DeviceStreamingCommon.device_transportType, false);
-                    msgOut = AzIoTHubDeviceStreams.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn + SimulatedDevice_ns.SimulatedDevice.Run().GetAwaiter().GetResult();
+                    Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, true, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, false);
+                    msgOut = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn + Azure_IoTHub_Telemetry.SimulatedDevice.Run().GetAwaiter().GetResult();
                     message = SimulatedDevice.Message;
                     break;
                 case 4:

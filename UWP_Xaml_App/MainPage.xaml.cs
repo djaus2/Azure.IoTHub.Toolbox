@@ -12,7 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using AzIoTHubDeviceStreams;
+using Azure_IoTHub_Connections;
+using Azure_IoTHub_DeviceStreaming;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI;
@@ -24,9 +25,9 @@ namespace UWPXamlApp
 
     public sealed partial class MainPage : Page
     {
-        string service_cs = AzureConnections.MyConnections.IoTHubConnectionString;
-        string device_id = AzureConnections.MyConnections.DeviceId;
-        string device_cs = AzureConnections.MyConnections.DeviceConnectionString;
+        string service_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
+        string device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
+        string device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
 
 
         public  List<Microsoft.Azure.Devices.Client.TransportType> ListEnum { get { return typeof(Microsoft.Azure.Devices.Client.TransportType).GetEnumValues().Cast<Microsoft.Azure.Devices.Client.TransportType>().ToList(); } }
@@ -46,9 +47,9 @@ namespace UWPXamlApp
             if (IsFirstTime)
                 LoadConSettings();
             
-            service_cs = AzureConnections.MyConnections.IoTHubConnectionString;
-            device_id = AzureConnections.MyConnections.DeviceId;
-            device_cs = AzureConnections.MyConnections.DeviceConnectionString;
+            service_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
+            device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
+            device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
 
 
             if (IsFirstTime)
@@ -57,9 +58,9 @@ namespace UWPXamlApp
                 AppBarButton_Click(BtnFeatureMode2, null);
 
                 ListviewTransports2.ItemsSource = ListEnum;
-                ListviewTransports2.SelectedItem = AzIoTHubDeviceStreams.DeviceStreamingCommon.device_transportType;
+                ListviewTransports2.SelectedItem = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType;
                 ListviewTransports2.ScrollIntoView(ListviewTransports2.SelectedItem);
-                AzureConnections.MyConnections.OnStatusUpdateD = OnDeviceSvcUpdate;
+                Azure_IoTHub_Connections.MyConnections.OnStatusUpdateD = OnDeviceSvcUpdate;
                 LstDeviceAction.ItemsSource = ListEnum2;
                 LstDeviceAction.SelectedItem = ListEnum2[1];
                 LstDeviceAction.ScrollIntoView(ListEnum2[1]);
@@ -95,28 +96,28 @@ namespace UWPXamlApp
             Control cntrl = (Control)sender;
             //if ("1" == (string)cntrl.Tag)
             //{
-            //    conDetail = new ConDetail(AzureConnections.MyConnections.IoTHubConnectionString, AzureConnections.MyConnections.DeviceConnectionString, AzureConnections.MyConnections.DeviceId);
+            //    conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
             //    Popup_SetConnectionDetails.DataContext = conDetail;
             //    Popup_SetConnectionDetails.IsOpen = false;
             //    Popup_SetConnectionDetails.IsOpen = true;
             //}
             //else if ("2" == (string)cntrl.Tag)
             //{
-            //    conDetail = new ConDetail(AzureConnections.MyConnections.IoTHubConnectionString, AzureConnections.MyConnections.DeviceConnectionString, AzureConnections.MyConnections.DeviceId);
+            //    conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
             //    Popup_GetConnectionDetails.DataContext = conDetail;
             //    Popup_GetConnectionDetails.IsOpen = false;
             //    Popup_GetConnectionDetails.IsOpen = true;
             //}
             //else if ("3" == (string)cntrl.Tag)
             //{
-            //    conDetail = new ConDetail(AzureConnections.MyConnections.IoTHubConnectionString, AzureConnections.MyConnections.DeviceConnectionString, AzureConnections.MyConnections.DeviceId);
+            //    conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
             //    Popup_CreateDeviceDetails.DataContext = conDetail;
             //    Popup_CreateDeviceDetails.IsOpen = false;
             //    Popup_CreateDeviceDetails.IsOpen = true;
             //}
             //else if ("4" == (string)cntrl.Tag)
             //{
-            //    conDetail = new ConDetail(AzureConnections.MyConnections.IoTHubConnectionString, AzureConnections.MyConnections.DeviceConnectionString, AzureConnections.MyConnections.DeviceId);
+            //    conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
             //    Popup_Delete.DataContext = conDetail;
             //    Popup_Delete.IsOpen = false;
             //    Popup_Delete.IsOpen = true;
@@ -377,37 +378,37 @@ namespace UWPXamlApp
         //        tbSvcTimeout.Text = DeviceStreamingCommon.SvcTimeoutDef.ToString();
         //}
 
-        //private void SaveConnectionSettingsToAzureConnections(ConDetail ccondetail)
+        //private void SaveConnectionSettingsToAzure_IoTHub_Connections(ConDetail ccondetail)
         //{
         //    conDetail = ccondetail;
-        //    AzureConnections.MyConnections.IoTHubConnectionString = ccondetail.IoTHubConnectionString;
-        //    AzureConnections.MyConnections.DeviceConnectionString = ccondetail.DeviceConnectionString;
-        //    AzureConnections.MyConnections.DeviceId = ccondetail.DeviceId;
-        //    service_cs = AzureConnections.MyConnections.IoTHubConnectionString;
-        //    device_id = AzureConnections.MyConnections.DeviceId;
-        //    device_cs = AzureConnections.MyConnections.DeviceConnectionString;
+        //    Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString = ccondetail.IoTHubConnectionString;
+        //    Azure_IoTHub_Connections.MyConnections.DeviceConnectionString = ccondetail.DeviceConnectionString;
+        //    Azure_IoTHub_Connections.MyConnections.DeviceId = ccondetail.DeviceId;
+        //    service_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
+        //    device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
+        //    device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
         //}
         //private void DoneSetConnectionDetails_Click(object sender, RoutedEventArgs e)
         //{
         //    if (Popup_SetConnectionDetails.IsOpen)
         //    {
-        //        SaveConnectionSettingsToAzureConnections(conDetail);
+        //        SaveConnectionSettingsToAzure_IoTHub_Connections(conDetail);
         //        Popup_SetConnectionDetails.IsOpen = false;
         //    }
         //    else if (Popup_GetConnectionDetails.IsOpen)
         //    {
-        //        conDetail.DevString = AzureConnections.MyConnections.GetDeviceCSAsync(conDetail.ConString, conDetail.DevId);
+        //        conDetail.DevString = Azure_IoTHub_Connections.MyConnections.GetDeviceCSAsync(conDetail.ConString, conDetail.DevId);
         //        Popup_GetConnectionDetails.IsOpen = false;
         //    }
         //    else if (Popup_CreateDeviceDetails.IsOpen)
         //    {
-        //        conDetail.DevString = AzureConnections.MyConnections.AddDeviceAsync(conDetail.ConString, conDetail.DevId);
+        //        conDetail.DevString = Azure_IoTHub_Connections.MyConnections.AddDeviceAsync(conDetail.ConString, conDetail.DevId);
         //        Popup_CreateDeviceDetails.IsOpen = false;
         //    }
         //    else if (Popup_Delete.IsOpen)
         //    {
-        //        conDetail = new ConDetail(AzureConnections.MyConnections.IoTHubConnectionString, AzureConnections.MyConnections.DeviceConnectionString, AzureConnections.MyConnections.DeviceId);
-        //        conDetail.DevString = AzureConnections.MyConnections.RemoveDeviceAsync(conDetail.ConString, conDetail.DevId);
+        //        conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
+        //        conDetail.DevString = Azure_IoTHub_Connections.MyConnections.RemoveDeviceAsync(conDetail.ConString, conDetail.DevId);
         //        Popup_Delete.IsOpen = false;
         //        conDetail.DevId = "";
         //        conDetail.DevString = "";
@@ -642,12 +643,12 @@ namespace UWPXamlApp
             if(IsRunningTelem)
             {
                 IsRunningTelem = false;
-                SimulatedDevice_ns.SimulatedDevice.ContinueLoop = false;
+                Azure_IoTHub_Telemetry.SimulatedDevice.ContinueLoop = false;
                 return;
             }
             IsRunningTelem = true;
-            SimulatedDevice_ns.SimulatedDevice.Configure(AzureConnections.MyConnections.DeviceConnectionString, false, AzIoTHubDeviceStreams.DeviceStreamingCommon.device_transportType, true, TelemMsg);
-            string msg  = await SimulatedDevice_ns.SimulatedDevice.Run();
+            Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, false, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, true, TelemMsg);
+            string msg  = await Azure_IoTHub_Telemetry.SimulatedDevice.Run();
 
         }
          
@@ -670,7 +671,7 @@ namespace UWPXamlApp
         {
             await Task.Run(async () =>
             { 
-                await read_d2c_messages.ReadDeviceToCloudMessages.Run(OnSvcRecvText);
+                await Azure_IoTHub_Telemetry.ReadDeviceToCloudMessages.Run(OnSvcRecvText);
             });
 
     
@@ -679,11 +680,11 @@ namespace UWPXamlApp
 
         private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
         {
-            Environment.SetEnvironmentVariable("IOTHUB_DEVICE_CONN_STRING", AzureConnections.MyConnections.IoTHubConnectionString, EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("IOTHUB_DEVICE_CONN_STRING", Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, EnvironmentVariableTarget.User);
             var xxx = Environment.GetEnvironmentVariable("IOTHUB_DEVICE_CONN_STRING");
 
-            Environment.SetEnvironmentVariable("DEVICE_ID", AzureConnections.MyConnections.DeviceId);
-            Environment.SetEnvironmentVariable("IOTHUB_CONN_STRING_CSHARP", AzureConnections.MyConnections.IoTHubConnectionString);
+            Environment.SetEnvironmentVariable("DEVICE_ID", Azure_IoTHub_Connections.MyConnections.DeviceId);
+            Environment.SetEnvironmentVariable("IOTHUB_CONN_STRING_CSHARP", Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString);
         }
 
         private void CommandBar_Tapped(object sender, TappedRoutedEventArgs e)

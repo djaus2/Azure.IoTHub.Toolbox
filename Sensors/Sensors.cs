@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AzSensors
+namespace Azure_IoTHub_Sensors
 {
     public class Sensors
     {

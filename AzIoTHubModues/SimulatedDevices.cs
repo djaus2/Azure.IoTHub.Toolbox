@@ -9,10 +9,10 @@ using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System.Text;
 using System.Threading.Tasks;
-using AzIoTHubModules;
+using Azure_IoTHub_Telemetry;
 
 
-namespace SimulatedDevice_ns
+namespace Azure_IoTHub_Telemetry
 {
 
     public class SimulatedDevice
@@ -66,7 +66,7 @@ namespace SimulatedDevice_ns
 
                 Message.Properties.Add("temperatureAlert", (currentTemperature > 30) ? "true" : "false");
                 Message.Properties.Add("temperatureAlert2", (currentTemperature > 40) ? "true" : "false");
-                AzIoTHubModules.SyntheticIoTMessage iotmessage = new AzIoTHubModules.SyntheticIoTMessage(Message);
+                Azure_IoTHub_Telemetry.SyntheticIoTMessage iotmessage = new Azure_IoTHub_Telemetry.SyntheticIoTMessage(Message);
                 MessageString = iotmessage.Serialise();
 
                 

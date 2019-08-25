@@ -9,7 +9,7 @@ using Microsoft.Azure.Devices.Client.Exceptions;
 //using Windows.Security.Cryptography.Core;
 //using Windows.Storage.Streams;
 
-namespace AzureConnections
+namespace Azure_IoTHub_Connections
 {
     public static partial class MyConnections
     {

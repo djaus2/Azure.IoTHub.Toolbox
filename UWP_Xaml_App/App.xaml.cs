@@ -132,16 +132,16 @@ namespace UWPXamlApp
    //                 details.ConString = (string)composite["ConString"];
    //                 details.DevString = (string)composite["DevString"];
    //                 details.DevId = (string)composite["DevId"];
-   //                 SaveConnectionSettingsToAzureConnections(details);
+   //                 SaveConnectionSettingsToAzure_IoTHub_Connections(details);
    //             }
    //         }
       //  }
 
-        //private void SaveConnectionSettingsToAzureConnections(ConDetail ccondetail)
+        //private void SaveConnectionSettingsToAzure_IoTHub_Connections(ConDetail ccondetail)
         //{
-        //    AzureConnections.MyConnections.IoTHubConnectionString = ccondetail.ConString;
-        //    AzureConnections.MyConnections.DeviceConnectionString = ccondetail.DevString;
-        //    AzureConnections.MyConnections.DeviceId = ccondetail.DevId;
+        //    Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString = ccondetail.ConString;
+        //    Azure_IoTHub_Connections.MyConnections.DeviceConnectionString = ccondetail.DevString;
+        //    Azure_IoTHub_Connections.MyConnections.DeviceId = ccondetail.DevId;
         //}
 
 

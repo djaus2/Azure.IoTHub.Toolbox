@@ -1,4 +1,4 @@
-﻿using AzureConnections;
+﻿using Azure_IoTHub_Connections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -141,10 +141,10 @@ namespace UWPXamlApp
 
         /* Relevant Code:
             var EventHubConnectionString = new EventHubsConnectionStringBuilder(
-            new Uri(AzureConnections.MyConnections.EventHubsCompatibleEndpoint),
-            AzureConnections.MyConnections.EventHubsCompatiblePath,
-            AzureConnections.MyConnections.IotHubKeyName,
-            AzureConnections.MyConnections.Saskey);
+            new Uri(Azure_IoTHub_Connections.MyConnections.EventHubsCompatibleEndpoint),
+            Azure_IoTHub_Connections.MyConnections.EventHubsCompatiblePath,
+            Azure_IoTHub_Connections.MyConnections.IotHubKeyName,
+            Azure_IoTHub_Connections.MyConnections.Saskey);
 
             OR
 
@@ -299,7 +299,7 @@ namespace UWPXamlApp
             switch (g)
             {
                 case "Device":
-                    AzureConnections.MyConnections.AddDeviceAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
+                    Azure_IoTHub_Connections.MyConnections.AddDeviceAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
                     Data1.DeviceConnectionString = IoTHubConnectionDetails.DeviceConnectionString;
                     break;
             }
@@ -316,7 +316,7 @@ namespace UWPXamlApp
             switch (g)
             {
                 case "Device":
-                    AzureConnections.MyConnections.RemoveDeviceAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
+                    Azure_IoTHub_Connections.MyConnections.RemoveDeviceAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
                     Data1.DeviceConnectionString = "";
                     break;
             }
@@ -427,7 +427,7 @@ namespace UWPXamlApp
 
         private void GetSasKey(string property)
         {
-            Data1.EventHubsSasKey= read_d2c_messages.ReadDeviceToCloudMessages.GetSasKey(Data1.IoTHubConnectionString);
+            Data1.EventHubsSasKey= Azure_IoTHub_Telemetry.ReadDeviceToCloudMessages.GetSasKey(Data1.IoTHubConnectionString);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -561,7 +561,7 @@ namespace UWPXamlApp
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            AzureConnections.MyConnections.AddDeviceAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
+            Azure_IoTHub_Connections.MyConnections.AddDeviceAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.DeviceConnectionString))
             {
                 Data1.DeviceConnectionString = IoTHubConnectionDetails.DeviceConnectionString;
@@ -573,7 +573,7 @@ namespace UWPXamlApp
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            AzureConnections.MyConnections.GetDeviceCSAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
+            Azure_IoTHub_Connections.MyConnections.GetDeviceCSAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.DeviceConnectionString))
             {
                 Data1.DeviceConnectionString = IoTHubConnectionDetails.DeviceConnectionString;

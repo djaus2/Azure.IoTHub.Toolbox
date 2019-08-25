@@ -7,7 +7,7 @@ using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Client.Exceptions;
 
 
-namespace AzureConnections
+namespace Azure_IoTHub_Connections
 {
     public static partial class MyConnections
     {

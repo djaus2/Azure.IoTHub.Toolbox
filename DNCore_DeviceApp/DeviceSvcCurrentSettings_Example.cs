@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using AzIoTHubDeviceStreams;
+using Azure_IoTHub_DeviceStreaming;
 using System;
 
 namespace DeviceDNCoreApp

@@ -1,4 +1,4 @@
-﻿namespace AzIoTHubDeviceStreams
+﻿namespace Azure_IoTHub_DeviceStreaming
 {
     public interface IDeviceAndSvcCurrentSettings
     {

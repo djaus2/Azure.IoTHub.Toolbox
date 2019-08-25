@@ -1,4 +1,4 @@
-﻿using AzIoTHubDeviceStreams;
+﻿using Azure_IoTHub_DeviceStreaming;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace UWPXamlApp
 
         private string OnDeviceRecvTextIO(string msgIn, out Microsoft.Azure.Devices.Client.Message message )
         {
-            string res = AzSensors.Weather.GetWeather().GetAwaiter().GetResult();
+            string res = Azure_IoTHub_Sensors.Weather.GetWeather().GetAwaiter().GetResult();
             message = null;
             //Perform device side processing here. Eg read sensors.
             string msgOut = msgIn;
@@ -120,8 +120,8 @@ namespace UWPXamlApp
                     }
                     break;
                 case 3:
-                    msgOut  = AzIoTHubDeviceStreams.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn + SimulatedDevice_ns.SimulatedDevice.Run().GetAwaiter().GetResult();
-                    message = SimulatedDevice_ns.SimulatedDevice.Message;
+                    msgOut  = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn + Azure_IoTHub_Telemetry.SimulatedDevice.Run().GetAwaiter().GetResult();
+                    message = Azure_IoTHub_Telemetry.SimulatedDevice.Message;
                     break;
                 case 4:
                     msgOut = "Not implemented for desktop.\r\nTry with Win 10 IoT-Core (eg RPI) running UWP_BGAppAzDeviceStream_Device, as in GitHub Repository:\r\nhttps://github.com/djaus2/AziothubDeviceStreaming";
@@ -144,7 +144,7 @@ namespace UWPXamlApp
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    tbDevMode.Text = ListEnum2[AzureConnections.MyConnections.DeviceAction];
+                    tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
                     tbDeviceStatus.Text = msgIn;
                 });
             });
@@ -272,11 +272,11 @@ namespace UWPXamlApp
         {
             if (ListviewTransports2.SelectedIndex != -1)
             {
-                AzIoTHubDeviceStreams.DeviceStreamingCommon.device_transportType = (Microsoft.Azure.Devices.Client.TransportType)ListviewTransports2.SelectedItem;
-                System.Diagnostics.Debug.WriteLine(string.Format("Device Transport set to: {0}", AzIoTHubDeviceStreams.DeviceStreamingCommon.device_transportType));
-                tbTransport.Text = string.Format("{0}",AzIoTHubDeviceStreams.DeviceStreamingCommon.device_transportType);
+                Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType = (Microsoft.Azure.Devices.Client.TransportType)ListviewTransports2.SelectedItem;
+                System.Diagnostics.Debug.WriteLine(string.Format("Device Transport set to: {0}", Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType));
+                tbTransport.Text = string.Format("{0}",Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType);
                 DeviceProcessingModeCommands.IsOpen = false;
-                OnDeviceStatusUpdate(string.Format("Device Transport set to: {0}", AzIoTHubDeviceStreams.DeviceStreamingCommon.device_transportType));
+                OnDeviceStatusUpdate(string.Format("Device Transport set to: {0}", Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType));
             }
         }
 
@@ -285,13 +285,13 @@ namespace UWPXamlApp
         {
             if (LstDeviceAction.SelectedIndex != -1)
             {
-                AzureConnections.MyConnections.DeviceAction = LstDeviceAction.SelectedIndex;
-                DeviceAction = AzureConnections.MyConnections.DeviceAction;
+                Azure_IoTHub_Connections.MyConnections.DeviceAction = LstDeviceAction.SelectedIndex;
+                DeviceAction = Azure_IoTHub_Connections.MyConnections.DeviceAction;
                 DeviceProcessingModeCommands.IsOpen = false;
-                tbDevMode.Text = ListEnum2[AzureConnections.MyConnections.DeviceAction];
+                tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
                 OnDeviceStatusUpdate(string.Format("Device Processing set to: {0}", ListEnum2[DeviceAction]));
                 if(ListEnum2[DeviceAction] == "Sim Telemetry")
-                    SimulatedDevice_ns.SimulatedDevice.Configure(AzureConnections.MyConnections.DeviceConnectionString, true, AzIoTHubDeviceStreams.DeviceStreamingCommon.device_transportType, false);
+                    Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, true, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, false);
             }
         }
 

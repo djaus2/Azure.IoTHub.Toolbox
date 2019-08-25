@@ -7,7 +7,7 @@ using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.EventHubs;
 using Newtonsoft.Json;
 
-namespace AzIoTHubModules
+namespace Azure_IoTHub_Telemetry
 {
     // A Simple Class to pass Microsoft.Azure.Devices.Client.Message properties
     public class SyntheticIoTMessage

@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices;
 
-namespace AzIoTHubDeviceStreams
+namespace Azure_IoTHub_DeviceStreaming
 {
     
     public class DeviceStream_Svc
@@ -245,16 +245,16 @@ namespace AzIoTHubDeviceStreams
                                                 var receiveResult = await stream.ReceiveAsync(ReceiveBuffer, cancellationTokenSourceTimeout.Token).ConfigureAwait(false);
 
                                                 MsgIn = Encoding.UTF8.GetString(receiveBuffer, 0, receiveResult.Count);
-                                                string subStrn = AzIoTHubDeviceStreams.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn;
+                                                string subStrn = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn;
                                                 int subStrnLen = subStrn.Length;
                                                 if (MsgIn.Length>= subStrnLen)
                                                     if (MsgIn.Substring(0,subStrnLen) == subStrn)
                                                 {
                                                     MsgIn = MsgIn.Substring(subStrnLen);
-                                                    AzIoTHubModules.SyntheticIoTMessage iotHubMessage = AzIoTHubModules.SyntheticIoTMessage.Deserialize(MsgIn);
+                                                    Azure_IoTHub_Telemetry.SyntheticIoTMessage iotHubMessage = Azure_IoTHub_Telemetry.SyntheticIoTMessage.Deserialize(MsgIn);
                                                     Microsoft.Azure.Devices.Client.Message message = iotHubMessage.ToMessage();
-                                                    Microsoft.Azure.EventHubs.EventData eventData = AzIoTHubModules.SyntheticIoTMessage.ToEventData(message);
-                                                    MsgIn = AzIoTHubModules.SyntheticIoTMessage.EventData_ToString(eventData);
+                                                    Microsoft.Azure.EventHubs.EventData eventData = Azure_IoTHub_Telemetry.SyntheticIoTMessage.ToEventData(message);
+                                                    MsgIn = Azure_IoTHub_Telemetry.SyntheticIoTMessage.EventData_ToString(eventData);
                                                 }
                                                 keepAlive = false;
                                                 if (SvcCurrentSettings != null)
