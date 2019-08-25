@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace UWPXamlApp
+namespace Azure_IoTHub_Toolbox_App
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -41,6 +41,7 @@ namespace UWPXamlApp
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+        
             this.DebugSettings.EnableFrameRateCounter = false;
             this.DebugSettings.IsOverdrawHeatMapEnabled = false;
             this.DebugSettings.IsTextPerformanceVisualizationEnabled = false;
@@ -55,9 +56,9 @@ namespace UWPXamlApp
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-               
 
-                
+
+
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
                 rootFrame.Navigated += RootFrame_Navigated;
@@ -84,7 +85,7 @@ namespace UWPXamlApp
                     AppViewBackButtonVisibility.Collapsed;
             }
 
-            
+
 
             if (e.PrelaunchActivated == false)
             {
@@ -97,55 +98,9 @@ namespace UWPXamlApp
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
-            }
+            }     
         }
 
-        //public class ConDetail
-        //{
-        //    public string ConString { get; set; }
-        //    public string DevString { get; set; }
-        //    public string DevId { get; set; }
-        //    public ConDetail(string a, string b, string c)
-        //    {
-        //        ConString = a;
-        //        DevString = b;
-        //        DevId = c;
-        //    }
-
-        //    public ConDetail()
-        //    {
-        //    }
-
-        //}
-
-        //public void LoadConSettings()
-        //{
-        //    AppSettings.LoadConSettings();
-   //         Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-   //         if (localSettings.Values.Keys.Contains("ConDetail"))
-   //         {
-   //             Windows.Storage.ApplicationDataCompositeValue composite =
-   //(Windows.Storage.ApplicationDataCompositeValue)localSettings.Values["ConDetail"];
-   //             if (composite != null)
-   //             {
-   //                 ConDetail details = new ConDetail();
-   //                 details.ConString = (string)composite["ConString"];
-   //                 details.DevString = (string)composite["DevString"];
-   //                 details.DevId = (string)composite["DevId"];
-   //                 SaveConnectionSettingsToAzure_IoTHub_Connections(details);
-   //             }
-   //         }
-      //  }
-
-        //private void SaveConnectionSettingsToAzure_IoTHub_Connections(ConDetail ccondetail)
-        //{
-        //    Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString = ccondetail.ConString;
-        //    Azure_IoTHub_Connections.MyConnections.DeviceConnectionString = ccondetail.DevString;
-        //    Azure_IoTHub_Connections.MyConnections.DeviceId = ccondetail.DevId;
-        //}
-
-
-        //Ref: https://www.c-sharpcorner.com/UploadFile/909697/everything-about-back-navigation-in-uwp/
         private void RootFrame_Navigated(object sender, NavigationEventArgs e)
         {
             // Each time a navigation event occurs, update the Back button's visibility  

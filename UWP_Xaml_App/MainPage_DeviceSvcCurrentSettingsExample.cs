@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UWPXamlApp
+namespace Azure_IoTHub_Toolbox_App
 {
     /// <summary>
     /// Write a custom handler of KeepAlive and ResponseExpected flag handling.

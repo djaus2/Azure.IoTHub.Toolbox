@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 //Orig
-namespace UWPXamlApp
+namespace Azure_IoTHub_Toolbox_App
 {
     // Class to save and load an app's settings that are public properties an sttaic class to the app's LocalSettings.
     // The static class is IoTHubConnectionDetails.

@@ -7,8 +7,8 @@
     <ProjectGuid>{54396A12-9EB5-4CA1-A82C-2A3970088520}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UWPXamlApp</RootNamespace>
-    <AssemblyName>AzIoTHubWorkBench</AssemblyName>
+    <RootNamespace>Azure_IoTHub_Toolbox_App</RootNamespace>
+    <AssemblyName>AzureIoTHubToolboxApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
@@ -230,29 +230,32 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AzDeviceStreaming\AzDeviceStreaming.csproj">
+    <ProjectReference Include="..\AzDeviceStreaming\AzureIoTHubDeviceStreaming.csproj">
       <Project>{daa4a52e-c175-4b0a-921d-050db55874e2}</Project>
-      <Name>AzDeviceStreaming</Name>
+      <Name>AzureIoTHubDeviceStreaming</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AzIoTHubModues\AzIoTHubModules.csproj">
+    <ProjectReference Include="..\AzIoTHubModues\AzureIoTHubModules.csproj">
       <Project>{f6b57a33-866e-4189-b93d-0fa270e156e5}</Project>
-      <Name>AzIoTHubModules</Name>
+      <Name>AzureIoTHubModules</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AzureConnections\AzureConnections.csproj">
+    <ProjectReference Include="..\AzureConnections\AzureIoTHubConnections.csproj">
       <Project>{02549731-8979-48bb-bd26-d313828c3aac}</Project>
-      <Name>AzureConnections</Name>
+      <Name>AzureIoTHubConnections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sensors\AzSensors.csproj">
+    <ProjectReference Include="..\Sensors\AzureIoTHubSensors.csproj">
       <Project>{913bb6b0-6b12-4395-b625-26c972f6c8f6}</Project>
-      <Name>AzSensors</Name>
+      <Name>AzureIoTHubSensors</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)cities.json"   "$(TargetDir)Appx"</PostBuildEvent>
+    <PostBuildEvent>rem copy "$(TargetDir)cities.json"   "$(TargetDir)Appx"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace UWPXamlApp
+namespace Azure_IoTHub_Toolbox_App
 {
     public class EnumToStringConverter : IValueConverter
     {

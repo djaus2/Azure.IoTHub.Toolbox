@@ -8,7 +8,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace UWPXamlApp
+namespace Azure_IoTHub_Toolbox_App
 {
     sealed partial class MainPage : Page
     {
@@ -39,9 +39,7 @@ namespace UWPXamlApp
                                 msgOut = "Invalid request. Try Help";
                                 if (msg.Length > 2)
                                 {
-                                    int val;
-                                    bool bval;
-                                    if (int.TryParse(msg[2], out val))
+                                    if (int.TryParse(msg[2], out int val))
                                     {
                                         switch (msg[1].Substring(0, 3).ToLower())
                                         {
@@ -58,7 +56,7 @@ namespace UWPXamlApp
                                                 break;
                                         }
                                     }
-                                    else if (bool.TryParse(msg[2], out bval))
+                                    else if (bool.TryParse(msg[2], out bool bval))
                                     {
                                         switch (msg[1].Substring(0, 3).ToLower())
                                         {
@@ -177,8 +175,8 @@ namespace UWPXamlApp
             DeviceStream_Device.deviceStream_Device?.Cancel();
         }
 
-        public bool deviceBasicMode { get; set; } = false;
-        public bool deviceUseCustomClass { get; set; } = false;
+        public bool DeviceBasicMode { get; set; } = false;
+        public bool DeviceUseCustomClass { get; set; } = false;
 
         private async void Button_Click_Device(object sender, RoutedEventArgs e)
         {
@@ -187,9 +185,9 @@ namespace UWPXamlApp
             {
                 try
                 {
-                    if (deviceBasicMode)
+                    if (DeviceBasicMode)
                         DeviceStream_Device.RunDevice(device_cs, OnDeviceRecvTextIO).GetAwaiter().GetResult();
-                    if (!deviceUseCustomClass)
+                    if (!DeviceUseCustomClass)
                         DeviceStream_Device.RunDevice(device_cs, OnDeviceRecvTextIO, OnDeviceStatusUpdate, ActionCommand, KeepDeviceListening ).GetAwaiter().GetResult();
                     else
                         DeviceStream_Device.RunDevice(device_cs, OnDeviceRecvTextIO, OnDeviceStatusUpdate, ActionCommand, KeepDeviceListening , new DeviceSvcCurrentSettings_Example()).GetAwaiter().GetResult();

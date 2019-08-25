@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace UWPXamlApp
+namespace Azure_IoTHub_Toolbox_App
 {
 
     public class IoTHubConnectionDetails
@@ -409,21 +409,7 @@ namespace UWPXamlApp
         //    Update();         
         //}
 
-        //public void ValueChangedHub(string val)
-        //{
-        //    IoTHubName = val;
-        //    Update();
-        //}
-
-        string msg = "Hello Hub";
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var dataPackage = new DataPackage();
-            dataPackage.SetText(msg);
-            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
-        }
+      
 
         private void GetSasKey(string property)
         {
@@ -495,30 +481,6 @@ namespace UWPXamlApp
             NCS2.GenerateEntityInfo = GenerateEntityInfo;
         }
 
-        public void ValueChangedD(string propertyName)
-        {
-            return;
-            //System.Diagnostics.Debug.WriteLine(propertyName);
-            //switch (propertyName.ToLower())
-            //{
-            //    case "group":
-            //        ResourceGroupName = NG.Text;
-            //        NGCode.Code = NewGroupCode;
-            //        DelGrp.Code = DeleteGroupCode;
-            //        break;
-            //    case "hub":
-            //        IoTHubName = NH.Text;
-            //        NHCode.Code = NewHubCode;
-            //        DelHub.Code = DeleteHubCode;
-            //        HubOwnerConString.Code = iotownerconstring;
-            //        HubServoceConString.Code = serviceconstring;
-            //        break;
-            //    case "device":
-            //        DeviceId = ND.Text;
-            //        break;
-            //}
-        }
-
         private void RbF1_Checked(object sender, RoutedEventArgs e)
         {
             if (sender is Control)
@@ -554,26 +516,9 @@ namespace UWPXamlApp
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             Azure_IoTHub_Connections.MyConnections.AddDeviceAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
-            if (!string.IsNullOrEmpty(IoTHubConnectionDetails.DeviceConnectionString))
-            {
-                Data1.DeviceConnectionString = IoTHubConnectionDetails.DeviceConnectionString;
-            }
-        }
-
-
-
-
-        private void Button_Click_6(object sender, RoutedEventArgs e)
-        {
-            Azure_IoTHub_Connections.MyConnections.GetDeviceCSAsync(Data1.IoTHubConnectionString, Data1.DeviceId);
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.DeviceConnectionString))
             {
                 Data1.DeviceConnectionString = IoTHubConnectionDetails.DeviceConnectionString;
@@ -648,18 +593,13 @@ namespace UWPXamlApp
             GeneralTransform gt = PageBody.TransformToVisual(this);
             Point offset = gt.TransformPoint(new Point(0, 0));
             double controlTop = offset.Y;
-            double controlLeft = offset.X;
+            //double controlLeft = offset.X;
             double newHeight = e.NewSize.Height - controlTop -PageHeading.Height;
             //if (1=1)
             //{
             PageBody.Height = newHeight;
 
             // }
-        }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void RbEHMethod1_Checked(object sender, RoutedEventArgs e)

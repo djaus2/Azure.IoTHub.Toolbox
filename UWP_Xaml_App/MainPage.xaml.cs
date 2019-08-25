@@ -20,7 +20,7 @@ using Windows.UI;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace UWPXamlApp
+namespace Azure_IoTHub_Toolbox_App
 {
 
     public sealed partial class MainPage : Page
@@ -78,7 +78,7 @@ namespace UWPXamlApp
         {
             GeneralTransform gt = tbSvcMsgOut.TransformToVisual(this);
             Point offset = gt.TransformPoint(new Point(0, 0));
-            double controlTop = offset.Y;
+            //double controlTop = offset.Y;
             double controlLeft = offset.X;
             double newWidth =  e.NewSize.Width - controlLeft - 20;
             if (newWidth > tbSvcMsgOut.MinWidth)
@@ -181,8 +181,8 @@ namespace UWPXamlApp
                     this.BtnBasicMode2.Background = new SolidColorBrush(Colors.Red);
                     this.BtnFeatureMode2.Background = DeviceProcessingModeCommands.Background;
                     this.BtnExtendedMode2.Background = DeviceProcessingModeCommands.Background;
-                    deviceBasicMode = true;
-                    deviceUseCustomClass = false;
+                    DeviceBasicMode = true;
+                    DeviceUseCustomClass = false;
                     isDeviceMode = true;
                     break;
                 case "12":
@@ -192,8 +192,8 @@ namespace UWPXamlApp
                     this.BtnBasicMode2.Background = DeviceProcessingModeCommands.Background;
                     this.BtnFeatureMode2.Background = new SolidColorBrush(Colors.Red);
                     this.BtnExtendedMode2.Background = DeviceProcessingModeCommands.Background;
-                    deviceBasicMode = false;
-                    deviceUseCustomClass = false;
+                    DeviceBasicMode = false;
+                    DeviceUseCustomClass = false;
                     isDeviceMode = true;
                     break;
                 case "13":
@@ -203,8 +203,8 @@ namespace UWPXamlApp
                     this.BtnBasicMode2.Background = DeviceProcessingModeCommands.Background;
                     this.BtnFeatureMode2.Background = DeviceProcessingModeCommands.Background;
                     this.BtnExtendedMode2.Background = new SolidColorBrush(Colors.Red);
-                    deviceBasicMode = false;
-                    deviceUseCustomClass = true;
+                    DeviceBasicMode = false;
+                    DeviceUseCustomClass = true;
                     isDeviceMode = true;
                     break;
                 case "4":
@@ -243,6 +243,15 @@ namespace UWPXamlApp
                     DevKeepListening = 2;
             }
             else if (isDevice2ndMenu)
+            {
+
+            }
+
+            if( issvcMode )
+            {
+
+            }
+            if( isDeviceMode)
             {
 
             }
@@ -298,10 +307,10 @@ namespace UWPXamlApp
 
             if (localSettings.Values.Keys.Contains("DeviceTimeout"))
             {
-                if (localSettings.Values["DeviceTimeout"] is double)
+                if (localSettings.Values["DeviceTimeout"] is double d)
                 {
-                    double _deviceTimeout = (double)localSettings.Values["DeviceTimeout"];
-                    tbDeviceTimeout.Text = _deviceTimeout.ToString();
+                    //double _deviceTimeout = (double)localSettings.Values["DeviceTimeout"];
+                    tbDeviceTimeout.Text = d.ToString();
                 }
                 else
                     tbDeviceTimeout.Text = DeviceStreamingCommon.DeviceTimeoutDef.ToString();
@@ -310,11 +319,15 @@ namespace UWPXamlApp
                 tbDeviceTimeout.Text = DeviceStreamingCommon.DeviceTimeoutDef.ToString();
             if (localSettings.Values.Keys.Contains("SvcTimeout"))
             {
-                if (localSettings.Values["SvcTimeout"] is double)
+                if (localSettings.Values["SvcTimeout"] is double d)
                 {
-                    double _svcTimeout = (double)localSettings.Values["SvcTimeout"];
-                    tbSvcTimeout.Text = _svcTimeout.ToString();
+                    tbSvcTimeout.Text = d.ToString();
                 }
+                //if (localSettings.Values["SvcTimeout"] is double)
+                //{
+                //    double _svcTimeout = (double)localSettings.Values["SvcTimeout"];
+                //    tbSvcTimeout.Text = _svcTimeout.ToString();
+                //}
                 else
                     tbSvcTimeout.Text = DeviceStreamingCommon.SvcTimeoutDef.ToString();
             }
@@ -511,8 +524,8 @@ namespace UWPXamlApp
         TimeSpan DeviceTimeout { get; set; } = TimeSpan.FromMilliseconds(10000);
         private void TbDeviceTimeout_TextChanged(object sender, TextChangedEventArgs e)
         {
-            double timeout;
-            if (double.TryParse(tbDeviceTimeout.Text, out timeout))
+
+            if (double.TryParse(tbDeviceTimeout.Text, out double timeout))
             {
                 
                 DeviceTimeout = TimeSpan.FromMilliseconds( timeout);
@@ -533,8 +546,7 @@ namespace UWPXamlApp
         TimeSpan SvcTimeout { get; set; } = TimeSpan.FromMilliseconds(10000);
         private void TbSvcTimeout_TextChanged(object sender, TextChangedEventArgs e)
         {
-            double timeout;
-            if (double.TryParse(tbSvcTimeout.Text, out timeout))
+            if (double.TryParse(tbSvcTimeout.Text, out double timeout))
             {
                SvcTimeout = TimeSpan.FromMilliseconds(timeout);
                 DeviceStreamingCommon.SvcTimeout = SvcTimeout;
@@ -662,11 +674,6 @@ namespace UWPXamlApp
             });
         }
 
-        private void BtnTelemSvc_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private async void BtnTelemSvc_Click_1(object sender, RoutedEventArgs e)
         {
             await Task.Run(async () =>
@@ -676,15 +683,6 @@ namespace UWPXamlApp
 
     
             
-        }
-
-        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            Environment.SetEnvironmentVariable("IOTHUB_DEVICE_CONN_STRING", Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, EnvironmentVariableTarget.User);
-            var xxx = Environment.GetEnvironmentVariable("IOTHUB_DEVICE_CONN_STRING");
-
-            Environment.SetEnvironmentVariable("DEVICE_ID", Azure_IoTHub_Connections.MyConnections.DeviceId);
-            Environment.SetEnvironmentVariable("IOTHUB_CONN_STRING_CSHARP", Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString);
         }
 
         private void CommandBar_Tapped(object sender, TappedRoutedEventArgs e)
@@ -705,6 +703,13 @@ namespace UWPXamlApp
             BtnBasicMode2.IsCompact = !BtnBasicMode2.IsCompact;
             BtnFeatureMode2.IsCompact = BtnBasicMode2.IsCompact;
             BtnExtendedMode2.IsCompact = BtnBasicMode2.IsCompact;
+        }
+
+        private void BtnClrRecvdText_Click(object sender, RoutedEventArgs e)
+        {
+            tbSvcMsgIn.Text = "";
+            tbDeviceMsgIn.Text = "";
+            tbDeviceMsgOut.Text = "";
         }
     }
 }

@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace UWPXamlApp
+namespace Azure_IoTHub_Toolbox_App
 {
     public delegate void ValueChanged(string recvTxt);
     /// <summary>
@@ -64,8 +64,7 @@ namespace UWPXamlApp
         {
             SetValue(property, value);
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(p));
+            handler?.Invoke(this, new PropertyChangedEventArgs(p));
         }
 
         public static ValueChanged ValueChanged { get; set; } = null;
@@ -203,40 +202,10 @@ namespace UWPXamlApp
             this.DataContext = this;
         }
 
-        private void InfoVal_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ValueChanged?.Invoke(InfoVal.Text);
-        }
-
         public void Update()
         {
             DataContext = null;
             this.DataContext = this;
-        }
-
-        public void MultiCommentExpand(object sender, RoutedEventArgs e)
-        {
-            //if (MultiComment.Visibility == Visibility.Visible)
-            //{
-            //    Visibility temp = MultiComment1.Visibility;
-            //    MultiComment1.Visibility = MultiComment2.Visibility;
-            //    MultiComment2.Visibility = temp;
-            //}
-        }
-
-        private void InfoVal2_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private async void Butt3_Click(object sender, RoutedEventArgs e)
-        {
-            var cb = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
-            string pastedText = await cb.GetTextAsync();
-            if (!string.IsNullOrEmpty(pastedText))
-            {
-                TextInfo = pastedText;
-            }
         }
 
         public StackPanel SubRegion { get; set; } = null;
