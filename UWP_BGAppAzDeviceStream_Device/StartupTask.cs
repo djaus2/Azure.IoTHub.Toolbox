@@ -95,7 +95,7 @@ namespace BGAppAzDeviceStream_Device
                     message = SimulatedDevice.Message;
                     break;
                 case 4:
-                    msgOut = AzSensors.Sensors.ProcessMsgRecvdByDevice(msgIn);
+                    msgOut = Azure_IoTHub_Sensors.Sensors.ProcessMsgRecvdByDevice(msgIn);
                     break;
             }
 

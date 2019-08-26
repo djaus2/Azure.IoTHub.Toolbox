@@ -139,22 +139,25 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AzDeviceStreaming\AzureIoTHubDeviceStreaming.csproj">
-      <Project>{daa4a52e-c175-4b0a-921d-050db55874e2}</Project>
+    <ProjectReference Include="..\AzureIoTHubDeviceStreaming\AzureIoTHubDeviceStreaming.csproj">
+      <Project>{0b1e9318-4a7c-4f51-9c22-3d347b5efeca}</Project>
       <Name>AzureIoTHubDeviceStreaming</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AzIoTHubModues\AzureIoTHubModules.csproj">
+    <ProjectReference Include="..\AzureIoTHubModules\AzureIoTHubModules.csproj">
       <Project>{F6B57A33-866E-4189-B93D-0FA270E156E5}</Project>
       <Name>AzureIoTHubModules</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AzureConnections\AzureIoTHubConnections.csproj">
+    <ProjectReference Include="..\AzureIoTHubConnections\AzureIoTHubConnections.csproj">
       <Project>{02549731-8979-48bb-bd26-d313828c3aac}</Project>
       <Name>AzureIoTHubConnections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sensors\AzureIoTHubSensors.csproj">
+    <ProjectReference Include="..\AzureIoTHubSensors\AzureIoTHubSensors.csproj">
       <Project>{913bb6b0-6b12-4395-b625-26c972f6c8f6}</Project>
       <Name>AzureIoTHubSensors</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>

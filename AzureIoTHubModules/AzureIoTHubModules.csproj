@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AzureConnections\AzureIoTHubConnections.csproj" />
+    <ProjectReference Include="..\AzureIoTHubConnections\AzureIoTHubConnections.csproj" />
   </ItemGroup>
 
 </Project>
