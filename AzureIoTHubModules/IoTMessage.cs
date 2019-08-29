@@ -154,7 +154,7 @@ namespace Azure_IoTHub_Telemetry
                 if (eventData.SystemProperties != null)
                     foreach (var prop in eventData.SystemProperties)
                     {
-                        response += string.Format("\r\n  {0}: {1}\r\n", prop.Key, prop.Value);
+                        response += string.Format("\r\n  {0}: {1}", prop.Key, prop.Value);
                     }
                 
             }

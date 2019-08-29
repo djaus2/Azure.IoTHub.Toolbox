@@ -17,7 +17,7 @@ namespace Azure_IoTHub_Toolbox_App
 
         private string OnDeviceRecvTextIO(string msgIn, out Microsoft.Azure.Devices.Client.Message message )
         {
-            string res = Azure_IoTHub_Sensors.Weather.GetWeather().GetAwaiter().GetResult();
+
             message = null;
             //Perform device side processing here. Eg read sensors.
             string msgOut = msgIn;
@@ -99,6 +99,8 @@ namespace Azure_IoTHub_Toolbox_App
                                 break;
                         }
                     }
+                    else
+                        msgOut = "try " + msgIn + " help";
                     break;
                 case 21: //Old 2 case
                     switch (msgIn.Substring(0,3).ToLower())
@@ -118,8 +120,52 @@ namespace Azure_IoTHub_Toolbox_App
                     }
                     break;
                 case 3:
-                    msgOut  = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn + Azure_IoTHub_Telemetry.SimulatedDevice.Run().GetAwaiter().GetResult();
-                    message = Azure_IoTHub_Telemetry.SimulatedDevice.Message;
+                    msg = msgIn.Split(new char[] { '-', ' ' });
+                    if (((msg.Length > 1) && (msg[0].ToLower() == "get")) || ( msg.Length>0))
+                    {
+                        switch (msg[0].ToLower().Substring(0, 3))
+                        {
+                            case "set":
+                                if (int.TryParse(msg[1], out int index))
+                                {
+                                    msgOut = "OK";
+                                    switch (index)
+                                    {
+                                        case 0:
+                                            Azure_IoTHub_Sensors.Weather.CurrentWeather = null;
+                                            msgOut = "Cleared";
+                                            break;
+                                        case 1:
+                                            Azure_IoTHub_Sensors.Weather.CurrentWeather = new Azure_IoTHub_Sensors.Weather_Fixed();
+                                            break;
+                                        case 2:
+                                            Azure_IoTHub_Sensors.Weather.CurrentWeather = new Azure_IoTHub_Sensors.Weather_Random();
+                                            break;
+                                        case 3:
+                                            Azure_IoTHub_Sensors.Weather.CurrentWeather = new Azure_IoTHub_Sensors.Weather_FromCities();
+                                            break;
+                                        case 4:
+                                            Azure_IoTHub_Sensors.Weather.CurrentWeather = new Azure_IoTHub_Sensors.Weather_FromHardware();
+                                            break;
+                                        default:
+                                            Azure_IoTHub_Sensors.Weather.CurrentWeather = null;
+                                            msgOut = "Invalid option. Cleared.";
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "get":
+                                msgOut = Azure_IoTHub_Sensors.TelemetryDataPoint.Prefix +
+                                    Azure_IoTHub_Sensors.Weather.CurrentWeather?.ToString();
+                                break;
+                            default:
+                                msgOut = "Help\r\nset 0|1|2|3|4 Choose the weather class.\r\n0=clear,1=Fixed values,2=random values,\r\n3=Rotating from cities,4=From Arduino device\r\nget Get the weather from the weather class chosen";
+                                break;
+                        }
+                    }
+                    else
+                        msgOut = "try " + msgIn + " help";
+                    //message = Azure_IoTHub_Telemetry.SimulatedDevice.Message;
                     break;
                 case 4:
                     msgOut = "Not implemented for desktop.\r\nTry with Win 10 IoT-Core (eg RPI) running UWP_BGAppAzDeviceStream_Device, as in GitHub Repository:\r\nhttps://github.com/djaus2/AziothubDeviceStreaming";

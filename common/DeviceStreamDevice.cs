@@ -228,17 +228,22 @@ namespace Azure_IoTHub_DeviceStreaming
                                         }
                                         else
                                         {
-                                            string msgIn = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+                                            string MsgIn = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
 
 
-                                            updateMsg = string.Format("Device Received stream data: {0}.", msgIn);
+                                            //If the received text is more than one line only use the first line
+                                            string[] lines = MsgIn.Split(new char[] { '\r', '\n' });
+                                            if (lines.Length > 1)
+                                                MsgIn = lines[0];
+
+                                            updateMsg = string.Format("Device Received stream data: {0}.", MsgIn);
                                             UpdateStatus(updateMsg);
 
                                             //Get keepAlive and respond flags and strip from msg in
                                             bool respond = true;
                                             try
                                             {
-                                                msgIn = DeviceCurrentSettings.ProcessMsgIn(msgIn);
+                                                MsgIn = DeviceCurrentSettings.ProcessMsgIn(MsgIn);
                                                 respond = DeviceCurrentSettings.ResponseExpected;
                                                 keepAlive = DeviceCurrentSettings.KeepAlive;
                                                 if (DeviceCurrentSettings.AutoStartDeviceChanged)
@@ -253,12 +258,12 @@ namespace Azure_IoTHub_DeviceStreaming
                                                 respond = false;
                                             }
 
-                                            string msgOut = msgIn;
+                                            string msgOut = MsgIn;
                                             Message sendMessage = null;
                                             try
                                             {
                                                 if (OnRecvdTextIO != null)
-                                                    msgOut = OnRecvdTextIO(msgIn, out sendMessage);
+                                                    msgOut = OnRecvdTextIO(MsgIn, out sendMessage);
                                             }
                                             catch (Exception exx)
                                             {

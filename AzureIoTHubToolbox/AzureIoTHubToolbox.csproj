@@ -241,9 +241,9 @@
       <Project>{02549731-8979-48bb-bd26-d313828c3aac}</Project>
       <Name>AzureIoTHubConnections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AzureIoTHubSensors\AzureIoTHubSensors.csproj">
-      <Project>{913bb6b0-6b12-4395-b625-26c972f6c8f6}</Project>
-      <Name>AzureIoTHubSensors</Name>
+    <ProjectReference Include="..\AzureIoTHubSimSensors\AzureIoTHubSimSensors.csproj">
+      <Project>{577794ca-0ceb-49fc-833d-2468a3757a68}</Project>
+      <Name>AzureIoTHubSimSensors</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
@@ -260,7 +260,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem copy "$(TargetDir)cities.json"   "$(TargetDir)Appx"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)Assets"   "$(TargetDir)Appx\Assets"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -36,36 +36,19 @@ namespace Azure_IoTHub_Telemetry
         // Async method to send simulated telemetry
         private static async Task SendDeviceToCloudMessagesAsync()
         {
-            // Initial telemetry values
-            double minTemperature = 20;
-            double minHumidity = 60;
-            Random rand = new Random();
             ContinueLoop = true;
             while (ContinueLoop)
             {
-                double currentTemperature = minTemperature + rand.NextDouble() * 15;
-                double currentHumidity = minHumidity + rand.NextDouble() * 20;
 
-                var telemetryDataPoint =await  Weather.GetWeatherObj();
-                //Create JSON message
-               //var telemetryDataPoint = new
-               //{
-               //    temperature = currentTemperature,
-               //    humidity = currentHumidity
-               //};
+                var telemetryDataPoint =  Azure_IoTHub_Sensors.Weather.CurrentWeather.GetWeather();
+
                 MessageString = JsonConvert.SerializeObject(telemetryDataPoint);
                 
                 Message = new Message(Encoding.ASCII.GetBytes(MessageString));
-
-                //Stuff:
-                //var mess2 = Encoding.ASCII.GetBytes(MessageString);
-                //var qwe = Message.GetBytes();
-                //string MessageString2= Encoding.UTF8.GetString(qwe, 0, qwe.Length);
-                // Add a custom application property to the message.
-                // An IoT hub can filter on these properties without access to the message body.
-
-                Message.Properties.Add("temperatureAlert", (currentTemperature > 30) ? "true" : "false");
-                Message.Properties.Add("temperatureAlert2", (currentTemperature > 40) ? "true" : "false");
+                //Message.UserId = Azure_IoTHub_Connections.MyConnections.IoTHubName;
+                Message.Properties.Add("temperatureAlert", (telemetryDataPoint.temperature > 30) ? "true" : "false");
+                Message.Properties.Add("humidityAlert", (telemetryDataPoint.humidity > 80) ? "true" : "false");
+                Message.Properties.Add("pressureAlert", (telemetryDataPoint.pressure > 1010) ? "true" : "false");
                 Azure_IoTHub_Telemetry.SyntheticIoTMessage iotmessage = new Azure_IoTHub_Telemetry.SyntheticIoTMessage(Message);
                 MessageString = iotmessage.Serialise();
 
@@ -84,7 +67,6 @@ namespace Azure_IoTHub_Telemetry
                 {
                     ContinueLoop= false;
                 }
-                Weather.GetNextCity();
                 
             }
         }
@@ -111,11 +93,13 @@ namespace Azure_IoTHub_Telemetry
             }
             ContinueLoop = true;
         }
+
+        
         public static async Task<string>  Run()
         {
-            if (Weather.Cities == null)
-                Weather.ReadCities();
-            MessageString = "";
+            if (Azure_IoTHub_Sensors.Weather.CurrentWeather == null)
+                Azure_IoTHub_Sensors.Weather.CurrentWeather = new Azure_IoTHub_Sensors.Weather_Random();
+             MessageString = "";
             System.Diagnostics.Debug.WriteLine("IoT Hub Quickstarts #1 - Simulated device started.");
             // Connect to the IoT hub using the MQTT protocol
            

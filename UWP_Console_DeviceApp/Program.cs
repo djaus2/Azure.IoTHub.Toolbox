@@ -85,7 +85,7 @@ namespace UWPConsoleDeviceApp
                     break;
                 case 3:
                     Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, true, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, false);
-                    msgOut = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn + Azure_IoTHub_Telemetry.SimulatedDevice.Run().GetAwaiter().GetResult();
+                    msgOut = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeviceInSimuatedDeviceModeStrn + Azure_IoTHub_Telemetry.SimulatedDevice.Run().GetAwaiter().GetResult();
                     message = SimulatedDevice.Message;
                     break;
                 case 4:

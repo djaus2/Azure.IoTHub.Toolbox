@@ -151,9 +151,9 @@
       <Project>{02549731-8979-48bb-bd26-d313828c3aac}</Project>
       <Name>AzureIoTHubConnections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AzureIoTHubSensors\AzureIoTHubSensors.csproj">
-      <Project>{913bb6b0-6b12-4395-b625-26c972f6c8f6}</Project>
-      <Name>AzureIoTHubSensors</Name>
+    <ProjectReference Include="..\AzureIoTHubSimSensors\AzureIoTHubSimSensors.csproj">
+      <Project>{577794ca-0ceb-49fc-833d-2468a3757a68}</Project>
+      <Name>AzureIoTHubSimSensors</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

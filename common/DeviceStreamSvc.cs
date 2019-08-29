@@ -245,8 +245,12 @@ namespace Azure_IoTHub_DeviceStreaming
                                                 var receiveResult = await stream.ReceiveAsync(ReceiveBuffer, cancellationTokenSourceTimeout.Token).ConfigureAwait(false);
 
                                                 MsgIn = Encoding.UTF8.GetString(receiveBuffer, 0, receiveResult.Count);
-                                                string subStrn = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeiceInSimuatedDeviceModeStrn;
+
+
+                                                string subStrn = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeviceInSimuatedDeviceModeStrn;
                                                 int subStrnLen = subStrn.Length;
+                                                string subStrn2 = Azure_IoTHub_Sensors.TelemetryDataPoint.Prefix;
+                                                int subStrnLen2 = subStrn2.Length;
                                                 if (MsgIn.Length>= subStrnLen)
                                                     if (MsgIn.Substring(0,subStrnLen) == subStrn)
                                                 {
@@ -256,6 +260,18 @@ namespace Azure_IoTHub_DeviceStreaming
                                                     Microsoft.Azure.EventHubs.EventData eventData = Azure_IoTHub_Telemetry.SyntheticIoTMessage.ToEventData(message);
                                                     MsgIn = Azure_IoTHub_Telemetry.SyntheticIoTMessage.EventData_ToString(eventData);
                                                 }
+                                                
+                                                else if (MsgIn.Length >= subStrnLen2)
+                                                    if (MsgIn.Substring(0, subStrnLen2) == subStrn2)
+                                                    {
+                                                        MsgIn = MsgIn.Substring(subStrnLen2);
+                                                        Azure_IoTHub_Sensors.TelemetryDataPoint telemetry = Azure_IoTHub_Sensors.TelemetryDataPoint.Deserialize(MsgIn);
+                                                        MsgIn = telemetry.ToString();
+
+                                                        //Microsoft.Azure.Devices.Client.Message message = iotHubMessage.ToMessage();
+                                                        //Microsoft.Azure.EventHubs.EventData eventData = Azure_IoTHub_Telemetry.SyntheticIoTMessage.ToEventData(message);
+                                                        //MsgIn = Azure_IoTHub_Telemetry.SyntheticIoTMessage.EventData_ToString(eventData);
+                                                    }
                                                 keepAlive = false;
                                                 if (SvcCurrentSettings != null)
                                                     keepAlive = this.SvcCurrentSettings.KeepAlive;

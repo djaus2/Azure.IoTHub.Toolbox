@@ -88,7 +88,7 @@
                     <TextBlock x:Name="lblRecv" RelativePanel.RightOf="btnSend" RelativePanel.Below="tbSvcMsgOut" RelativePanel.AlignRightWith="lblSvcTimeout"
                         TextAlignment="Right" 
                 Text="Service-Message In:" Margin="10,20,0,0"  />
-                    <TextBox x:Name="tbSvcMsgIn" RelativePanel.RightOf="lblRecv" RelativePanel.AlignTopWith="lblRecv" RelativePanel.AlignLeftWith="tbSvcMsgOut"
+                    <TextBox x:Name="tbSvcMsgIn" RelativePanel.RightOf="lblRecv" RelativePanel.AlignTopWith="lblRecv" RelativePanel.AlignLeftWith="tbSvcMsgOut" ScrollViewer.VerticalScrollBarVisibility="Auto"
                      AcceptsReturn="True" TextWrapping="Wrap"
                      HorizontalAlignment="Left" Height="180" Margin="20,20,0,20" Text="Msg Recv'd" VerticalAlignment="Top" MinWidth="200" IsReadOnly="True"/>
 

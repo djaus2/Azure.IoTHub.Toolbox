@@ -13,8 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AzureIoTHubDeviceStreaming\AzureIoTHubDeviceStreaming.csproj" />
     <ProjectReference Include="..\AzureIoTHubConnections\AzureIoTHubConnections.csproj" />
+    <ProjectReference Include="..\AzureIoTHubDeviceStreaming\AzureIoTHubDeviceStreaming.csproj" />
+    <ProjectReference Include="..\AzureIoTHubModules\AzureIoTHubModules.csproj" />
+    <ProjectReference Include="..\AzureIoTHubSimSensors\AzureIoTHubSimSensors.csproj" />
   </ItemGroup>
 
   

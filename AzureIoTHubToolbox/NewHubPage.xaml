@@ -159,8 +159,15 @@
             <local:NewHubElement DisplayMode="seperator" Color="Red"   />
             <local:NewHubElement x:Name="h7" DisplayMode="sectionHeading"   Code="Misc" HorizontalAlignment="Left" />
             <StackPanel x:Name="Misc" Visibility="Collapsed">
-                <local:NewHubElement DisplayMode="heading"   Code="Some Az Cli Footnotes (wrt Gotchas):" />
-                <local:NewHubElement DisplayMode="comment" Code="If you have more than one Azure Subscription you might run into problems."/>
+                    <local:NewHubElement DisplayMode="heading"   Code="Some Az Cli Footnotes (wrt Gotchas):" />
+                    <local:NewHubElement DisplayMode="comment" Code="Get list of IoT Hubs in current subscription:"/>
+                    <local:NewHubElement DisplayMode="azCodeSnippet"    Code="az iot hub list --output table"/>
+                    <local:NewHubElement DisplayMode="comment" Code="Get list of Resource Groups in current subscripstion:"/>
+                    <local:NewHubElement DisplayMode="azCodeSnippet"    Code="az group list --output table"/>
+                    <local:NewHubElement DisplayMode="comment" Code="Get list of Accounts/Subscriptions:"/>
+                    <local:NewHubElement DisplayMode="azCodeSnippet"    Code="az account list --output table"/>
+                    <local:NewHubElement DisplayMode="seperator" Color="LightGreen"   />
+                    <local:NewHubElement DisplayMode="comment" Code="If you have more than one Azure Subscription you might run into problems."/>
                 <local:NewHubElement DisplayMode="link" Code=" If that is the situation then run the following command,(Replace Subscription-1 with the name shown in the login if different): " 
                                      Url="https://docs.microsoft.com/en-us/cli/azure/account?view=azure-cli-latest " UrlText="Reference"/>
                 <local:NewHubElement DisplayMode="azCodeSnippet"     Code="az account set --subscription Subscription-1" />

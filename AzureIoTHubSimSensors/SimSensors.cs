@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Azure_IoTHub_Sensors
 {
     public class Sensors
     {
+
         private static Sensors CurrentSensor = null;
         private static int currentSensorIndex = -1;
         private static List<string> sensors = null;
@@ -134,6 +136,8 @@ namespace Azure_IoTHub_Sensors
             //It would be nice to use reflection here
             sensors.Add(Sensor1.ClassName.ToLower());
             sensors.Add(Sensor2.ClassName.ToLower());
+            sensors.Add(Weather1.ClassName.ToLower());
+            sensors.Add(Weather2.ClassName.ToLower());
         }
 
 
@@ -184,7 +188,7 @@ namespace Azure_IoTHub_Sensors
     }
 
     /// <summary>
-    /// Simple example
+    /// Simpel example
     /// </summary>
     public class Sensor1 : Sensors
     {
@@ -264,77 +268,65 @@ namespace Azure_IoTHub_Sensors
 
     }
 
-    public static class Weather
+  
+    public class Weather1 : Sensors
     {
-        public static  async Task<string> GetAsync(string uri)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);            
+        public static string ClassName = "Sensor2";
 
-            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                return await reader.ReadToEndAsync();
-            }
+        private double minTemperature = 20;
+        private double minHumidity = 60;
+        Random rand = new Random();
+        public Weather1()
+        {
+            rand = new Random();
         }
 
-        public class TelemetryDataPoint
+        ~Weather1()
         {
-                public int temperature { get; set; }
-                public int pressure { get; set; }
-                public int humidity { get; set; }
 
-            public TelemetryDataPoint()
-            {
-
-            }
         }
-
-        public static async Task<string> GetWeather()
+        public override string getval(string val)
         {
-            string url = "http://api.openweathermap.org/data/2.5/weather?id=2158177&appid=df39100f7fe7b297c789818c5f2bb1bd";
-            string weatherjson = await GetAsync(url);
-            var obj = Windows.Data.Json.JsonObject.Parse(weatherjson);
-            var otemperature = ((int)obj["main"].GetObject()["temp"].GetNumber()) - 273;
-            var opressure = (int)obj["main"].GetObject()["pressure"].GetNumber();
-            var ohumidity = (int)obj["main"].GetObject()["humidity"].GetNumber();
-            var telemetryDataPoint = new TelemetryDataPoint()
+            double currentTemperature = minTemperature + rand.NextDouble() * 15;
+            double currentHumidity = minHumidity + rand.NextDouble() * 20;
+            double currentPressure = 0 + rand.NextDouble() * 100;
+            //Create JSON message
+            var telemetryDataPoint = new TelemetryDataPoint
             {
-                temperature = otemperature,
-                pressure = opressure,
-                humidity = ohumidity
+                city = "",
+                pressure = (int) currentPressure,
+                temperature = (int) currentTemperature,
+                humidity = (int) currentHumidity
             };
-            var stream1 = new MemoryStream();
-            var ser = new DataContractJsonSerializer(typeof(TelemetryDataPoint));
-            ser.WriteObject(stream1, telemetryDataPoint);
-            stream1.Position = 0;
-            var sr = new StreamReader(stream1);
-            string MessageString = sr.ReadToEnd();
-;
-            return MessageString;
+            return  JsonConvert.SerializeObject(telemetryDataPoint);
         }
-
-        public static async Task<TelemetryDataPoint> GetWeatherObj()
+        public override string setval(string sensor, int val)
         {
-            string url = "http://api.openweathermap.org/data/2.5/weather?id=2158177&appid=df39100f7fe7b297c789818c5f2bb1bd";
-            string weatherjson = await GetAsync(url);
-            var obj = Windows.Data.Json.JsonObject.Parse(weatherjson);
-            var otemperature = ((int)obj["main"].GetObject()["temp"].GetNumber()) - 273;
-            var opressure = (int)obj["main"].GetObject()["pressure"].GetNumber();
-            var ohumidity = (int)obj["main"].GetObject()["humidity"].GetNumber();
-            var telemetryDataPoint = new TelemetryDataPoint()
-            {
-                temperature = otemperature,
-                pressure = opressure,
-                humidity = ohumidity
-            };
-            return telemetryDataPoint;
+            return "Sensor2: setVal() Not yet implemented";
         }
-
-
-
     }
 
+    public class Weather2 : Sensors
+    {
+        public static string ClassName = "Sensor2";
+        public Weather2()
+        {
+            
+        }
+
+        ~Weather2()
+        {
+
+        }
+        public override string getval(string val)
+        {
+            return "XYZ"; // Weather_FromCities.GetWeather().GetAwaiter().GetResult();
+        }
+        public override string setval(string sensor, int val)
+        {
+            return "Sensor2: setVal() Not yet implemented";
+        }
+    }
 
     public class Sensor2 : Sensors
     {

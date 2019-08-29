@@ -17,6 +17,7 @@ using Azure_IoTHub_DeviceStreaming;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI;
+using System.Text;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -38,8 +39,8 @@ namespace Azure_IoTHub_Toolbox_App
             this.InitializeComponent();
             IsFirstTime = true;
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
+  
         }
-
 
         private bool IsFirstTime = false;
         private void Page_Loaded(object sender, RoutedEventArgs e)

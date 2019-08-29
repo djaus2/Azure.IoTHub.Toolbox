@@ -141,6 +141,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureIoTHubDeviceStreaming\AzureIoTHubDeviceStreaming.csproj">
+      <Project>{0B1E9318-4A7C-4F51-9C22-3D347B5EFECA}</Project>
+      <Name>AzureIoTHubDeviceStreaming</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AzureIoTHubModules\AzureIoTHubModules.csproj">
       <Project>{f6b57a33-866e-4189-b93d-0fa270e156e5}</Project>
       <Name>AzureIoTHubModules</Name>
@@ -148,6 +152,10 @@
     <ProjectReference Include="..\AzureIoTHubConnections\AzureIoTHubConnections.csproj">
       <Project>{02549731-8979-48bb-bd26-d313828c3aac}</Project>
       <Name>AzureIoTHubConnections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AzureIoTHubSimSensors\AzureIoTHubSimSensors.csproj">
+      <Project>{577794ca-0ceb-49fc-833d-2468a3757a68}</Project>
+      <Name>AzureIoTHubSimSensors</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
