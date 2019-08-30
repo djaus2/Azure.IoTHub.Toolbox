@@ -12,10 +12,10 @@ namespace Azure_IoTHub_Sensors
     public class TelemetryDataPoint
     {
         public const string Prefix = "TELEM";
-        public string city { get; set; }
-        public int temperature { get; set; }
-        public int pressure { get; set; }
-        public int humidity { get; set; }
+        public string city { get; set; } = "";
+        public int temperature { get; set; } = -123456; //Use these initialisers to indicate no value supplied
+        public int pressure { get; set; } = -1;
+        public int humidity { get; set; } = -1;
         public static int WeatherIndex { get; set; }
 
         public TelemetryDataPoint()

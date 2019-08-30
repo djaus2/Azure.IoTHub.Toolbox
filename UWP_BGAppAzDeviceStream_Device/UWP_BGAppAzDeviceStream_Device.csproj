@@ -143,9 +143,9 @@
       <Project>{0b1e9318-4a7c-4f51-9c22-3d347b5efeca}</Project>
       <Name>AzureIoTHubDeviceStreaming</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AzureIoTHubModules\AzureIoTHubModules.csproj">
+    <ProjectReference Include="..\AzureIoTHubModules\AzureIoTHubTelemetry.csproj">
       <Project>{F6B57A33-866E-4189-B93D-0FA270E156E5}</Project>
-      <Name>AzureIoTHubModules</Name>
+      <Name>AzureIoTHubTelemetry</Name>
     </ProjectReference>
     <ProjectReference Include="..\AzureIoTHubConnections\AzureIoTHubConnections.csproj">
       <Project>{02549731-8979-48bb-bd26-d313828c3aac}</Project>

@@ -219,6 +219,7 @@ namespace Azure_IoTHub_Toolbox_App
         private void ButtonCanceLDevice_Click(object sender, RoutedEventArgs e)
         {
             DeviceStream_Device.deviceStream_Device?.Cancel();
+            Azure_IoTHub_Telemetry.SimulatedDevice.ContinueLoop = false;
         }
 
         public bool DeviceBasicMode { get; set; } = false;

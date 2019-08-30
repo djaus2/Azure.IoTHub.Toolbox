@@ -15,7 +15,11 @@ namespace Azure_IoTHub_Telemetry
 {
     public class ReadDeviceToCloudMessages
     {
-    
+        public static void Cancel()
+        {
+            cts?.Cancel();
+        }
+        public static CancellationTokenSource cts = null;
         public delegate void ActionReceivedText(string recvTxt);
         // Event Hub-compatible endpoint
         // az iot hub show --query properties.eventHubEndpoints.events.endpoint --name {your IoT Hub name}
@@ -54,9 +58,8 @@ namespace Azure_IoTHub_Telemetry
                     string data = Encoding.UTF8.GetString(eventData.Body.Array);
                     System.Diagnostics.Debug.WriteLine("Message received on partition {0}:", partition);
                     System.Diagnostics.Debug.WriteLine("  {0}:", data);
+
                     System.Diagnostics.Debug.WriteLine("Application properties (set by device):");
-
-
                     foreach (var prop in eventData.Properties)
                     {
                         System.Diagnostics.Debug.WriteLine("  {0}: {1}", prop.Key, prop.Value);
@@ -129,7 +132,7 @@ namespace Azure_IoTHub_Telemetry
             // Create a PartitionReciever for each partition on the hub.
             var runtimeInfo = await s_eventHubClient.GetRuntimeInformationAsync();
             var d2cPartitions = runtimeInfo.PartitionIds;
-            CancellationTokenSource cts = new CancellationTokenSource();
+            cts = new CancellationTokenSource();
 
             //System.Diagnostics.Debug.CancelKeyPress += (s, e) =>
             //{
@@ -146,6 +149,7 @@ namespace Azure_IoTHub_Telemetry
 
             // Wait for all the PartitionReceivers to finsih.
             Task.WaitAll(tasks.ToArray());
+            OnDeviceStatusUpdateD?.Invoke("Telemetry threads all done.");
         }
     }
 }

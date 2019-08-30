@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWP_BGAppAzDeviceStream_Dev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWP_Console_DeviceApp", "UWP_Console_DeviceApp\UWP_Console_DeviceApp.csproj", "{6BE9E64C-76C5-4B4F-9BE4-3450D08D25D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureIoTHubModules", "AzureIoTHubModules\AzureIoTHubModules.csproj", "{F6B57A33-866E-4189-B93D-0FA270E156E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureIoTHubTelemetry", "AzureIoTHubModules\AzureIoTHubTelemetry.csproj", "{F6B57A33-866E-4189-B93D-0FA270E156E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureIoTHubToolbox", "AzureIoTHubToolbox\AzureIoTHubToolbox.csproj", "{54396A12-9EB5-4CA1-A82C-2A3970088520}"
 EndProject

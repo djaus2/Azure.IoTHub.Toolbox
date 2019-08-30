@@ -142,20 +142,39 @@ namespace Azure_IoTHub_Telemetry
                 string data = "";
                 if (eventData.Body != null)
                     data = Encoding.UTF8.GetString(eventData.Body.Array);
-                response += string.Format("Message received on partition {0}:", 0);
-                response += string.Format("\r\n  {0}:", data);
-                response += string.Format("\r\nApplication properties (set by device):");
+                response += string.Format("Message received on partition {0}:\r\n", 0);
+                //response += string.Format("\r\n  {0}:", data);
+                Azure_IoTHub_Sensors.TelemetryDataPoint telemetryDataPoint =
+                    Azure_IoTHub_Sensors.TelemetryDataPoint.Deserialize(data);
+                if (!string.IsNullOrEmpty(telemetryDataPoint.city))
+                    response += string.Format("City:  {0}", telemetryDataPoint.city);
+                if (telemetryDataPoint.temperature != -123456)
+                    response += string.Format("\r\nTemperature:  {0} C", telemetryDataPoint.temperature);
+                if (!(telemetryDataPoint.humidity <0))
+                    response += string.Format("\r\nHumidity:  {0}%", telemetryDataPoint.humidity);
+                if (!(telemetryDataPoint.pressure<0))
+                    response += string.Format("\r\nPressure:  {0}", telemetryDataPoint.pressure);
+
+
                 if (eventData.Properties != null)
+                    if (eventData.Properties.Count != 0)
+                    {
+                    response += string.Format("\r\nApplication properties (set by device):");
                     foreach (var prop in eventData.Properties)
                     {
                         response += string.Format("\r\n  {0}: {1}", prop.Key, prop.Value);
                     }
-                response += string.Format("\r\nSystem properties (set by IoT Hub):");
+                }
+
                 if (eventData.SystemProperties != null)
+                    if (eventData.SystemProperties.Count != 0)
+                    {
+                    response += string.Format("\r\nSystem properties (set by IoT Hub):");
                     foreach (var prop in eventData.SystemProperties)
                     {
                         response += string.Format("\r\n  {0}: {1}", prop.Key, prop.Value);
                     }
+                }
                 
             }
             return response;

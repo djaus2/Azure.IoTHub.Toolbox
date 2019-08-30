@@ -227,6 +227,12 @@
                         TextAlignment="Right" BorderBrush="Blue"
                 Text="mqtt:" Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue" />
 
+                    <TextBlock x:Name="lblTelemetryDelay" RelativePanel.RightOf="tbTransport"  Margin="20,20,0,0"  FontStyle="Italic"
+                        TextAlignment="Right" Text="Telemetry Delay (sec):" />
+                    <TextBox x:Name="tbTelemetryDelay" RelativePanel.RightOf="lblTelemetryDelay" 
+                        TextAlignment="Right" BorderBrush="Blue" LostFocus="TbTelemetryDelay_LostFocus"
+                Text="{Binding }" Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue" />
+
                     <TextBox x:Name="tbDeviceMsgOut" RelativePanel.RightOf="lblDeviceSend" RelativePanel.AlignTopWith="lblDeviceSend" RelativePanel.AlignLeftWith="tbDeviceMsgIn"
                      AcceptsReturn="True" TextWrapping="Wrap"
                      Height="84" Margin="20,20,0,20" Text="Dev Out" VerticalAlignment="Top" MinWidth="200" IsReadOnly="True" />

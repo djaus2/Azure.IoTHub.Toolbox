@@ -39,8 +39,12 @@ namespace Azure_IoTHub_Telemetry
             ContinueLoop = true;
             while (ContinueLoop)
             {
-
-                var telemetryDataPoint =  Azure_IoTHub_Sensors.Weather.CurrentWeather.GetWeather();
+                Azure_IoTHub_Sensors.TelemetryDataPoint telemetryDataPoint;
+                Azure_IoTHub_Sensors.Weather_FromCities wer = (Azure_IoTHub_Sensors.Weather_FromCities)(Azure_IoTHub_Sensors.Weather.CurrentWeather);
+                if (wer != null)
+                    telemetryDataPoint =  await wer.GetWeatherAsync();
+                else
+                    telemetryDataPoint =  Azure_IoTHub_Sensors.Weather.CurrentWeather.GetWeather();
 
                 MessageString = JsonConvert.SerializeObject(telemetryDataPoint);
                 
@@ -61,7 +65,10 @@ namespace Azure_IoTHub_Telemetry
                 if (!IsDeviceStreaming)
                 {
                     await s_deviceClient.SendEventAsync(Message);
+                    Delay = 1000* Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
                     await Task.Delay(Delay);
+                    if (!ContinueLoop)
+                        OnDeviceStatusUpdateD?.Invoke("Cancelled Telemetry - Device end");
                 }
                 else
                 {
@@ -71,7 +78,8 @@ namespace Azure_IoTHub_Telemetry
             }
         }
 
-        private static int Delay = 10000;
+        private static int Delay = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
+
         private static bool IsDeviceStreaming = false;
 
         public static bool IsConfigured { get; set; } = false;

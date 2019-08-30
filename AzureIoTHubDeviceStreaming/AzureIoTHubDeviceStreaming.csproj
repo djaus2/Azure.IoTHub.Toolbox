@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AzureIoTHubModules\AzureIoTHubModules.csproj" />
+    <ProjectReference Include="..\AzureIoTHubModules\AzureIoTHubTelemetry.csproj" />
   </ItemGroup>
 
 </Project>

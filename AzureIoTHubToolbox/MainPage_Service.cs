@@ -28,7 +28,7 @@ namespace Azure_IoTHub_Toolbox_App
             });
         }
 
-        private void OnDeviceSvcUpdate(string msgIn)
+        private void OnSvcStatusUpdate(string msgIn)
         {
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -40,6 +40,8 @@ namespace Azure_IoTHub_Toolbox_App
         private void ButtonCanceLSvc_Click(object sender, RoutedEventArgs e)
         {
             DeviceStream_Svc.deviceStream_Svc?.Cancel();
+            Azure_IoTHub_Telemetry.ReadDeviceToCloudMessages.Cancel();
+            OnSvcStatusUpdate("Telemetry cancelling - Svc end");
         }
 
         public bool svcCustomClassMode { get; set; } = false;
@@ -77,10 +79,10 @@ namespace Azure_IoTHub_Toolbox_App
                         if(svcBasicMode)
                             DeviceStream_Svc.RunSvc(service_cs, device_id, msgOut, OnSvcRecvText).GetAwaiter().GetResult();
                         else if (!svcCustomClassMode)
-                            DeviceStream_Svc.RunSvc(service_cs, device_id, msgOut, OnSvcRecvText, devKeepListening, devAutoStart, OnDeviceSvcUpdate, keepAlive, responseExpected).GetAwaiter().GetResult();
+                            DeviceStream_Svc.RunSvc(service_cs, device_id, msgOut, OnSvcRecvText, devKeepListening, devAutoStart, OnSvcStatusUpdate, keepAlive, responseExpected).GetAwaiter().GetResult();
 
                         else
-                            DeviceStream_Svc.RunSvc(service_cs, device_id, msgOut, OnSvcRecvText, devKeepListening, devAutoStart, OnDeviceSvcUpdate, keepAlive, responseExpected, new DeviceSvcCurrentSettings_Example()).GetAwaiter().GetResult();
+                            DeviceStream_Svc.RunSvc(service_cs, device_id, msgOut, OnSvcRecvText, devKeepListening, devAutoStart, OnSvcStatusUpdate, keepAlive, responseExpected, new DeviceSvcCurrentSettings_Example()).GetAwaiter().GetResult();
                     }
                     catch (TaskCanceledException)
                     {

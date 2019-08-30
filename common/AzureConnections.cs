@@ -11,6 +11,7 @@ namespace Azure_IoTHub_Connections
 {
     public static partial class MyConnections
     {
+        public static int TelemetryDelayBtwReadings { get; set; } = 10; //Seconds
         public static int WaitAtEndOfConsoleAppSecs { get; set; } = 5; //Secs
         public static int Timeout { get; set; } = 30000; //30 secs
 

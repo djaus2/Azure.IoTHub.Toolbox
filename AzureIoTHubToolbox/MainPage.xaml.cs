@@ -61,7 +61,7 @@ namespace Azure_IoTHub_Toolbox_App
                 ListviewTransports2.ItemsSource = ListEnum;
                 ListviewTransports2.SelectedItem = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType;
                 ListviewTransports2.ScrollIntoView(ListviewTransports2.SelectedItem);
-                Azure_IoTHub_Connections.MyConnections.OnStatusUpdateD = OnDeviceSvcUpdate;
+                Azure_IoTHub_Connections.MyConnections.OnStatusUpdateD = OnSvcStatusUpdate;
                 LstDeviceAction.ItemsSource = ListEnum2;
                 LstDeviceAction.SelectedItem = ListEnum2[1];
                 LstDeviceAction.ScrollIntoView(ListEnum2[1]);
@@ -71,6 +71,7 @@ namespace Azure_IoTHub_Toolbox_App
                 }
             }
             IsFirstTime = false;
+            tbTelemetryDelay.DataContext = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
         }
 
 
@@ -711,6 +712,14 @@ namespace Azure_IoTHub_Toolbox_App
             tbSvcMsgIn.Text = "";
             tbDeviceMsgIn.Text = "";
             tbDeviceMsgOut.Text = "";
+        }
+
+        private void TbTelemetryDelay_LostFocus(object sender, RoutedEventArgs e)
+        {          
+            if (int.TryParse(tbTelemetryDelay.Text, out int delay))
+            {
+                Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings = delay;
+            }
         }
     }
 }
