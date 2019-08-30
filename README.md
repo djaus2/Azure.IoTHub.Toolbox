@@ -8,7 +8,7 @@ This repository is an expansion of the Azure IoT Hub functionality of the [djaus
 ## IOT Hub Summary Features
 - Device Streaming
 - Simulated Telemetry
-- Control a Device via IOT Hub (Coming next)
+- Control a Device via IoT Hub (Coming next)
 - etc (See Roadmap)
 
 ---
