@@ -7,3 +7,6 @@ This repository is an expansion of the Azure IoT Hub functionality of the [djaus
 
 ---
 > Nb: The name "Azure IoT Hub Workbench" was initailly considered as the name for this repository but that was too close to [Azure IoT Devices Workbench](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.vscode-iot-workbench)
+
+
+![The roadmap](https://github.com/djaus2/Azure-IoT-Hub-Workbench/blob/master/media/400toolbox.jpg)
