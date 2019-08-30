@@ -5,7 +5,10 @@ A broad collection of Azure IoT Hub functions that can be actioned in without mu
 This repository is an expansion of the Azure IoT Hub functionality of the [djaus2/AzDeviceStreaming](https://github.com/djaus2/AzDeviceStreaming) GitHub repository which was focused just upon the DeviceStreaming functionality. Check out the functionality imported to this repository and the envisgaed additional Azure IOT Hub features that may be demonstrated in the Wiki: 
 [Roadmap for this Repository](https://github.com/djaus2/Azure.IoTHub.Toolbox/wiki)
 
-## IOT Hub Summary Features
+## MS Store
+(Coming) A prebuilt version of the toolbox in The Store.
+
+## IoT Hub Summary Features in Toolbox
 - Device Streaming
 - Simulated Telemetry
 - Control a Device via IoT Hub (Coming next)
