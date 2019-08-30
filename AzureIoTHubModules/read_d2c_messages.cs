@@ -17,9 +17,12 @@ namespace Azure_IoTHub_Telemetry
     {
         public static void Cancel()
         {
+            OnSvcStatusUpdate?.Invoke("Telemetry - Cancelling");
             cts?.Cancel();
+            ContinueLooping = false;
         }
         public static CancellationTokenSource cts = null;
+        public static bool ContinueLooping = true;
         public delegate void ActionReceivedText(string recvTxt);
         // Event Hub-compatible endpoint
         // az iot hub show --query properties.eventHubEndpoints.events.endpoint --name {your IoT Hub name}
@@ -38,15 +41,19 @@ namespace Azure_IoTHub_Telemetry
         // reading any messages sent from the simulated client.
         private static async Task ReceiveMessagesFromDeviceAsync(string partition, CancellationToken ct)
         {
+            ContinueLooping = true;
             // Create the receiver using the default consumer group.
             // For the purposes of this sample, read only messages sent since 
             // the time the receiver is created. Typically, you don't want to skip any messages.
             var eventHubReceiver = s_eventHubClient.CreateReceiver("$Default", partition, EventPosition.FromEnqueuedTime(DateTime.Now));
-            System.Diagnostics.Debug.WriteLine("Create receiver on partition: " + partition);
-            while (true)
+            System.Diagnostics.Debug.WriteLine("Telemetry: Create receiver on partition: " + partition);
+            OnSvcStatusUpdate?.Invoke("Telemetry: Create receiver on partition: " + partition);
+
+            while (ContinueLooping)
             {
                 if (ct.IsCancellationRequested) break;
-                System.Diagnostics.Debug.WriteLine("Listening for messages on: " + partition);
+                System.Diagnostics.Debug.WriteLine("Telemetry: Listening for messages on: " + partition);
+                OnSvcStatusUpdate?.Invoke("Telemetry: Listening for messages on: " + partition);
                 // Check for EventData - this methods times out if there is nothing to retrieve.
                 var events = await eventHubReceiver.ReceiveAsync(100);
 
@@ -70,12 +77,14 @@ namespace Azure_IoTHub_Telemetry
                         System.Diagnostics.Debug.WriteLine("  {0}: {1}", prop.Key, prop.Value);
                     }
 
-                    OnDeviceStatusUpdateD?.Invoke(Azure_IoTHub_Telemetry.SyntheticIoTMessage.EventData_ToString(eventData));
+                    OnSvcRecvText?.Invoke(Azure_IoTHub_Telemetry.SyntheticIoTMessage.EventData_ToString(eventData));
                 }
             }
+            OnSvcStatusUpdate?.Invoke("Telemetry: Exiting - Wait for \"All Threads Done\"");
         }
 
-        private static ActionReceivedText OnDeviceStatusUpdateD = null;
+        private static ActionReceivedText OnSvcStatusUpdate = null;
+        private static ActionReceivedText OnSvcRecvText = null;
 
         public static string GetSasKey(string ioTHubConnectionString)
         {
@@ -99,12 +108,13 @@ namespace Azure_IoTHub_Telemetry
             return saskey;
         }
 
-        public static async Task Run( ActionReceivedText onDeviceStatusUpdateD = null)
+        public static async Task Run( ActionReceivedText OnSvcStatusUpdateD = null, ActionReceivedText OnSvcRecvTextD = null)
         {
-            OnDeviceStatusUpdateD = onDeviceStatusUpdateD;
-            
-            System.Diagnostics.Debug.WriteLine("IoT Hub Quickstarts - Read device to cloud messages.\n");
+            OnSvcStatusUpdate = OnSvcStatusUpdateD;
+            OnSvcRecvText = OnSvcRecvTextD;
 
+            System.Diagnostics.Debug.WriteLine("IoT Hub Telemetry - Read device to cloud messages.");
+            OnSvcStatusUpdate?.Invoke("IoT Hub Telemetry - Read device to cloud messages.");
             // Create an EventHubClient instance to connect to the
             // IoT Hub Event Hubs-compatible endpoint.
             //var connectionString1 = new EventHubsConnectionStringBuilder(new Uri(s_eventHubsCompatibleEndpoint), s_eventHubsCompatiblePath, s_iotHubSasKeyName, s_iotHubSasKey);
@@ -149,7 +159,7 @@ namespace Azure_IoTHub_Telemetry
 
             // Wait for all the PartitionReceivers to finsih.
             Task.WaitAll(tasks.ToArray());
-            OnDeviceStatusUpdateD?.Invoke("Telemetry threads all done.");
+            OnSvcStatusUpdate?.Invoke("Telemetry: All Threads Done.");
         }
     }
 }

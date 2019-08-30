@@ -523,14 +523,14 @@ namespace Azure_IoTHub_Toolbox_App
         //    }
         //}
 
-        TimeSpan DeviceTimeout { get; set; } = TimeSpan.FromMilliseconds(10000);
+        TimeSpan DeviceTimeout { get; set; } = TimeSpan.FromSeconds(30);
         private void TbDeviceTimeout_TextChanged(object sender, TextChangedEventArgs e)
         {
 
             if (double.TryParse(tbDeviceTimeout.Text, out double timeout))
             {
                 
-                DeviceTimeout = TimeSpan.FromMilliseconds( timeout);
+                DeviceTimeout = TimeSpan.FromSeconds( timeout);
                 DeviceStreamingCommon.DeviceTimeout = DeviceTimeout;
                 Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 if (localSettings.Values.Keys.Contains("DeviceTimeout"))
@@ -545,12 +545,12 @@ namespace Azure_IoTHub_Toolbox_App
             }
         }
 
-        TimeSpan SvcTimeout { get; set; } = TimeSpan.FromMilliseconds(10000);
+        TimeSpan SvcTimeout { get; set; } = TimeSpan.FromSeconds(30);
         private void TbSvcTimeout_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (double.TryParse(tbSvcTimeout.Text, out double timeout))
             {
-               SvcTimeout = TimeSpan.FromMilliseconds(timeout);
+               SvcTimeout = TimeSpan.FromSeconds(timeout);
                 DeviceStreamingCommon.SvcTimeout = SvcTimeout;
                 Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                 if (localSettings.Values.Keys.Contains("SvcTimeout"))
@@ -661,8 +661,8 @@ namespace Azure_IoTHub_Toolbox_App
                 return;
             }
             IsRunningTelem = true;
-            Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, false, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, true, TelemMsg);
-            string msg  = await Azure_IoTHub_Telemetry.SimulatedDevice.Run();
+            Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, false, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, true);
+            string msg  = await Azure_IoTHub_Telemetry.SimulatedDevice.Run(OnDeviceStatusUpdate,TelemMsg);
 
         }
          
@@ -680,7 +680,7 @@ namespace Azure_IoTHub_Toolbox_App
         {
             await Task.Run(async () =>
             { 
-                await Azure_IoTHub_Telemetry.ReadDeviceToCloudMessages.Run(OnSvcRecvText);
+                await Azure_IoTHub_Telemetry.ReadDeviceToCloudMessages.Run(OnSvcStatusUpdate, OnSvcRecvText);
             });
 
     

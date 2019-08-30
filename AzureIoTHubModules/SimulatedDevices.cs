@@ -37,14 +37,14 @@ namespace Azure_IoTHub_Telemetry
         private static async Task SendDeviceToCloudMessagesAsync()
         {
             ContinueLoop = true;
+            OnDeviceStatusUpdate?.Invoke("Telemetry - Device sending messages.");
             while (ContinueLoop)
             {
                 Azure_IoTHub_Sensors.TelemetryDataPoint telemetryDataPoint;
-                Azure_IoTHub_Sensors.Weather_FromCities wer = (Azure_IoTHub_Sensors.Weather_FromCities)(Azure_IoTHub_Sensors.Weather.CurrentWeather);
-                if (wer != null)
-                    telemetryDataPoint =  await wer.GetWeatherAsync();
+                if (Azure_IoTHub_Sensors.Weather.CurrentWeather.DoAsync)
+                    telemetryDataPoint = await Azure_IoTHub_Sensors.Weather.CurrentWeather.GetWeatherAsync();
                 else
-                    telemetryDataPoint =  Azure_IoTHub_Sensors.Weather.CurrentWeather.GetWeather();
+                    telemetryDataPoint = Azure_IoTHub_Sensors.Weather.CurrentWeather.GetWeather();
 
                 MessageString = JsonConvert.SerializeObject(telemetryDataPoint);
                 
@@ -59,8 +59,8 @@ namespace Azure_IoTHub_Telemetry
                 
 
                 System.Diagnostics.Debug.WriteLine("{0} > Sending message: {1}", DateTime.Now, MessageString);
-                OnDeviceStatusUpdateD?.Invoke(string.Format("{0} > Sending message: {1}", DateTime.Now, MessageString));
-
+                SetDeviceSentMsg?.Invoke(string.Format("{0} > Sending message: {1}", DateTime.Now, MessageString));
+                
                 // Send the telemetry message
                 if (!IsDeviceStreaming)
                 {
@@ -68,7 +68,7 @@ namespace Azure_IoTHub_Telemetry
                     Delay = 1000* Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
                     await Task.Delay(Delay);
                     if (!ContinueLoop)
-                        OnDeviceStatusUpdateD?.Invoke("Cancelled Telemetry - Device end");
+                        OnDeviceStatusUpdate?.Invoke("Cancelled Telemetry - Device end");
                 }
                 else
                 {
@@ -84,13 +84,13 @@ namespace Azure_IoTHub_Telemetry
 
         public static bool IsConfigured { get; set; } = false;
 
-        private static ActionReceivedText OnDeviceStatusUpdateD;
+        private static ActionReceivedText SetDeviceSentMsg;
+        private static ActionReceivedText OnDeviceStatusUpdate;
 
 
-        public static void Configure(string device_cs, bool isDeviceStreaming, TransportType transportType, bool loop, ActionReceivedText onDeviceStatusUpdateD = null, int delay=1000)
+        public static void Configure(string device_cs, bool isDeviceStreaming, TransportType transportType, bool loop=true)
         {
-            Delay = delay;
-            OnDeviceStatusUpdateD = onDeviceStatusUpdateD;
+
             IsDeviceStreaming = isDeviceStreaming;
 
             s_connectionString = device_cs;
@@ -99,22 +99,27 @@ namespace Azure_IoTHub_Telemetry
             {
                 s_deviceClient = DeviceClient.CreateFromConnectionString(s_connectionString, transportType);
             }
-            ContinueLoop = true;
+            ContinueLoop = loop;
         }
 
         
-        public static async Task<string>  Run()
+        public static async Task<string>  Run(ActionReceivedText onDeviceStatusUpdateD  = null, ActionReceivedText setDeviceSentMsg = null)
         {
+            SetDeviceSentMsg = setDeviceSentMsg;
+            OnDeviceStatusUpdate = onDeviceStatusUpdateD;
+
             if (Azure_IoTHub_Sensors.Weather.CurrentWeather == null)
                 Azure_IoTHub_Sensors.Weather.CurrentWeather = new Azure_IoTHub_Sensors.Weather_Random();
              MessageString = "";
-            System.Diagnostics.Debug.WriteLine("IoT Hub Quickstarts #1 - Simulated device started.");
+            System.Diagnostics.Debug.WriteLine("IoT Hub Telemetry - Simulated device started.");
+            OnDeviceStatusUpdate?.Invoke("IoT Hub Telemetry - Simulated device started.");
             // Connect to the IoT hub using the MQTT protocol
-           
+
             await SendDeviceToCloudMessagesAsync();
             if (!IsDeviceStreaming)
             {
-                System.Diagnostics.Debug.WriteLine("Simulated Device Done");
+                System.Diagnostics.Debug.WriteLine("Telemetry - Device done");
+                OnDeviceStatusUpdate?.Invoke("Telemetry - Device done");
                 await s_deviceClient.CloseAsync();
                 MessageString = "";
             }

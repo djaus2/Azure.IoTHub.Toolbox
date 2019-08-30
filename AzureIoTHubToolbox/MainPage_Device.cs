@@ -183,6 +183,16 @@ namespace Azure_IoTHub_Toolbox_App
             return msgOut;
         }
 
+        private void UpdateDeviceOutputText(string msgOut)
+        {
+            Task.Run(async () => {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    tbDeviceMsgOut.Text = msgOut;
+                });
+            });
+        }
+
         private void OnDeviceStatusUpdate(string msgIn)
         {
             Task.Run(async () => {

@@ -54,6 +54,9 @@ namespace Azure_IoTHub_Sensors
         public static Weather CurrentWeather { get; set; } = null;
         public abstract TelemetryDataPoint GetWeather();
 
+        public abstract  Task<TelemetryDataPoint> GetWeatherAsync();
+
+        public bool DoAsync { get; set; } = false;
 
         public override string ToString()
         {
@@ -81,6 +84,11 @@ namespace Azure_IoTHub_Sensors
 
             return telemetryDataPoint;
         }
+
+        public override Task<TelemetryDataPoint> GetWeatherAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
     public  class Weather_Random: Weather
     {
@@ -103,6 +111,11 @@ namespace Azure_IoTHub_Sensors
             };
 
             return telemetryDataPoint;
+        }
+
+        public override Task<TelemetryDataPoint> GetWeatherAsync()
+        {
+            throw new NotImplementedException();
         }
     }
     public  class Weather_FromCities: Weather
@@ -165,7 +178,7 @@ namespace Azure_IoTHub_Sensors
             return GetWeatherAsync().GetAwaiter().GetResult();
         }
 
-        public  async Task<TelemetryDataPoint> GetWeatherAsync()
+        public override async Task<TelemetryDataPoint> GetWeatherAsync()
         {
             if (CurrentCityIndex == -1)
                 ReadCities();
@@ -192,6 +205,11 @@ namespace Azure_IoTHub_Sensors
             return telemetryDataPoint;
         }
 
+        public Weather_FromCities():base()
+        {
+            DoAsync = true;
+        }
+
     }
     public  class Weather_FromHardware: Weather
     {
@@ -211,6 +229,11 @@ namespace Azure_IoTHub_Sensors
             };
 
             return telemetryDataPoint;
+        }
+
+        public override Task<TelemetryDataPoint> GetWeatherAsync()
+        {
+            throw new NotImplementedException();
         }
 
     }

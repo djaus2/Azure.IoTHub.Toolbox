@@ -83,7 +83,8 @@ namespace DeviceDNCoreApp
                     }
                     break;
                 case 3:
-                    Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, true, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, false);
+                    Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, true, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, false,
+                        null,OnDeviceStatusUpdate);
                     msgOut = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeviceInSimuatedDeviceModeStrn + Azure_IoTHub_Telemetry.SimulatedDevice.Run().GetAwaiter().GetResult();
                     message = SimulatedDevice.Message;
                     break;
@@ -107,6 +108,7 @@ namespace DeviceDNCoreApp
             Console.WriteLine(recvTxt);
         }
 
+
         private static void ActionCommand(bool flag, string msg, int al, int cmd)
         {
             switch (cmd)
@@ -125,7 +127,7 @@ namespace DeviceDNCoreApp
 
         private static void RunDevice(string device_cs, double ts)
         {
-            DeviceStreamingCommon.DeviceTimeout = TimeSpan.FromMilliseconds(ts);
+            DeviceStreamingCommon.DeviceTimeout = TimeSpan.FromSeconds(ts);
  
             try
             {
