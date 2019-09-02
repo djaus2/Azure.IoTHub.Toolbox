@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Azure_IoTHub_Toolbox_App.MainPage"
+    x:Class="Azure_IoTHub_Toolbox_App.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Azure_IoTHub_Toolbox_App"
@@ -22,7 +22,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel x:Name="Page" Grid.Row="0"  Orientation="Horizontal" VerticalAlignment="Top">
-                <TextBlock Text="Sportronics: Azure IoT Hub Toolbox" Foreground="Blue" FontSize="32" Margin="100,0,0,0" FontWeight="Bold"/>
+                <TextBlock Text="Sportronics: Azure IoT Hub Toolbox: Device Streaming" Foreground="Blue" FontSize="32" Margin="100,0,0,0" FontWeight="Bold"/>
             </StackPanel>
         <ScrollViewer x:Name="PageBody"  Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
             <StackPanel>
@@ -75,8 +75,7 @@
                     <Button x:Name="btnCancelSvc" Content="Cancel Svc" RelativePanel.Below="btnSend" RelativePanel.AlignRightWith="btnSend" Background="Red" Foreground="AntiqueWhite"
                     Margin="20,10,0,0" Height="60" Width="139" Click="ButtonCanceLSvc_Click"/>
 
-                    <Button x:Name="btnTelemSvc" Content="Get Telemetry from Hub" RelativePanel.Below="lblRecv" RelativePanel.AlignRightWith="lblRecv" Height="60" Width="180" Click="BtnTelemSvc_Click_1" Margin="0,10,0,0" Background="Blue" Foreground="AntiqueWhite"/>
-                    <Button x:Name="btnClrRecvdText" Content="Clear Rcv'd Text" RelativePanel.Below="btnTelemSvc" RelativePanel.AlignRightWith="lblRecv" Height="60" Width="180" Click="BtnClrRecvdText_Click"  Margin="0,10,0,0" Background="Purple" Foreground="AntiqueWhite"/>
+                    <Button x:Name="btnClrRecvdText" Content="Clear Rcv'd Text" RelativePanel.Below="lblRecv" RelativePanel.AlignRightWith="lblRecv" Height="60" Width="180" Click="BtnClrRecvdText_Click"  Margin="0,10,0,0" Background="Purple" Foreground="AntiqueWhite"/>
 
                     <TextBlock x:Name="lblSvcTimeout" RelativePanel.RightOf="btnSend" Width="210" TextAlignment="Right"
                 Margin="20,20,0,0"  ><Run Text="Service-Timeout (sec):"/></TextBlock>
@@ -238,19 +237,11 @@
                         TextAlignment="Right" BorderBrush="Blue"
                 Text="mqtt:" Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue" />
 
-                    <TextBlock x:Name="lblTelemetryDelay" RelativePanel.RightOf="tbTransport"  Margin="20,20,0,0"  FontStyle="Italic"
-                        TextAlignment="Right" Text="Telemetry Delay (sec):" />
-                    <TextBox x:Name="tbTelemetryDelay" RelativePanel.RightOf="lblTelemetryDelay" 
-                        TextAlignment="Right" BorderBrush="Blue" Text="{Binding Path=TelemetryDelay,Mode=TwoWay}"
-                            Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue"  />
-
                     <TextBox x:Name="tbDeviceMsgOut" RelativePanel.RightOf="lblDeviceSend" RelativePanel.AlignTopWith="lblDeviceSend" RelativePanel.AlignLeftWith="tbDeviceMsgIn"
                      AcceptsReturn="True" TextWrapping="Wrap"
                      Height="84" Margin="20,20,0,20" Text="Dev Out" VerticalAlignment="Top" MinWidth="200" IsReadOnly="True" />
 
                     <Button x:Name="btnCancelDevice" Content="Cancel Device" RelativePanel.Below="btnListen" RelativePanel.AlignRightWith="btnListen" Height="60" Width="139" Click="ButtonCanceLDevice_Click" Background="Red" Foreground="AntiqueWhite" Margin="0,10,0,0"/>
-
-                    <Button x:Name="btnTelemDevice" Content="Send Telemetry to Hub" RelativePanel.Below="lblDeviceSend" RelativePanel.AlignRightWith="lblDeviceSend" Height="60" Width="180" Click="BtnTelemDevice_Click" Margin="0,10,0,0" Background="Blue" Foreground="AntiqueWhite"/>
 
                 </RelativePanel>
 

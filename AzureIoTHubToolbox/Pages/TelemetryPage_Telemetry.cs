@@ -19,10 +19,10 @@ using Windows.UI.Core;
 using Windows.UI;
 using System.Text;
 
-namespace Azure_IoTHub_Toolbox_App
+namespace Azure_IoTHub_Toolbox_App.Pages
 {
 
-    public sealed partial class MainPage : Page
+    public sealed partial class TelemetryPage : Page
     {
         bool IsRunningTelem = false;
         private async void BtnTelemDevice_Click(object sender, RoutedEventArgs e)

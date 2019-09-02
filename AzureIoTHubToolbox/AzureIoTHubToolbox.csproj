@@ -127,22 +127,42 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppSettingsValues.cs" />
     <Compile Include="EnumToStringConverter.cs" />
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Pages\TelemetryPage.xaml.cs">
+      <DependentUpon>TelemetryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TelemetryPage_Device.cs">
+      <DependentUpon>TelemetryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TelemetryPage_Service.cs">
+      <DependentUpon>TelemetryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TelemetryPage_Telemetry.cs">
+      <DependentUpon>TelemetryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage_Device.cs">
+    <Compile Include="Pages\MainPage_Device.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage_DeviceSvcCurrentSettingsExample.cs" />
-    <Compile Include="MainPage_Service.cs">
+    <Compile Include="Pages\MainPage_Service.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage_Telemetry.cs" />
-    <Compile Include="NewHubElement.xaml.cs">
+    <Compile Include="Pages\MainPage_Telemetry.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NavigationPage.xaml.cs">
+      <DependentUpon>NavigationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewHubElement.xaml.cs">
       <DependentUpon>NewHubElement.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewHubPage.xaml.cs">
+    <Compile Include="Pages\NewHubPage.xaml.cs">
       <DependentUpon>NewHubPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -206,15 +226,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Pages\TelemetryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NewHubElement.xaml">
+    <Page Include="Pages\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\NavigationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\NewHubElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NewHubPage.xaml">
+    <Page Include="Pages\NewHubPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

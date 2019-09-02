@@ -25,7 +25,7 @@ namespace Azure_IoTHub_Toolbox_App
                 if (composite != null)
                 {
                     //Ref: https://stackoverflow.com/questions/9404523/set-property-value-using-property-name
-                    Type type = typeof(IoTHubConnectionDetails); // IoTHubConnectionDetails is static class with public static properties
+                    Type type = typeof(Pages.IoTHubConnectionDetails); // IoTHubConnectionDetails is static class with public static properties
                     foreach (var property in type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
                     {
                         string propertyName = property.Name;
@@ -53,7 +53,7 @@ namespace Azure_IoTHub_Toolbox_App
             Windows.Storage.ApplicationDataCompositeValue composite = new Windows.Storage.ApplicationDataCompositeValue();
 
             //Ref: https://stackoverflow.com/questions/12480279/iterate-through-properties-of-static-class-to-populate-list
-            Type type = typeof(IoTHubConnectionDetails); // IoTHubConnectionDetails is static class with public static properties
+            Type type = typeof(Pages.IoTHubConnectionDetails); // IoTHubConnectionDetails is static class with public static properties
             foreach (var property in type.GetProperties()) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
             {
                 string propertyName = property.Name;

@@ -19,7 +19,7 @@ using Windows.UI.Core;
 using Windows.UI;
 using System.Text;
 
-namespace Azure_IoTHub_Toolbox_App
+namespace Azure_IoTHub_Toolbox_App.Pages
 {
 
     public sealed partial class MainPage : Page
