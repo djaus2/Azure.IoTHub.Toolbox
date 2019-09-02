@@ -9,7 +9,7 @@ namespace Azure_IoTHub_Toolbox_App
     // Class to save and load an app's settings that are public properties an sttaic class to the app's LocalSettings.
     // The static class is IoTHubConnectionDetails.
     // The class properties are saved as name-value pairs in a ApplicationDataCompositeValue instance called ComSettings
-    public static class AppSettings
+    public static class ApplicationSettings
     {
 
         // Load the ComDetails object from the application's local settings as an ApplicationDataCompositeValue instance.
@@ -63,6 +63,11 @@ namespace Azure_IoTHub_Toolbox_App
                 composite[propertyName] = val;
             }
             localSettings.Values.Add("ConDetail", composite);
+
+            if (localSettings.Values.Keys.Contains("AppSettingsValues"))
+            {
+                localSettings.Values.Remove("AppSettingsValues");
+            }
         }
 
     }

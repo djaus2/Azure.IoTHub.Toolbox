@@ -59,11 +59,19 @@
                 Content="Send using Service" Height="120" Width="340" Click="Button_Click_Svc" Margin="0,10,0,0" Background="Brown" FontWeight="Bold"
                     Foreground="Yellow"/>
                     <CheckBox x:Name="chkKeepAlive" Content="Keep connection alive."
-                      RelativePanel.Below="btnSend" Margin="20,10,0,0"
+                      RelativePanel.Below="btnSend" Margin="20,10,0,0" IsChecked="{Binding Path=KeepAliveSvc,Mode=TwoWay}"
                       />
-                    <CheckBox x:Name="chkExpectResponse" Content="Expect response." IsChecked="True" 
+                    <CheckBox x:Name="chkExpectResponse" Content="Expect response." IsChecked="{Binding Path=ExpectResponse,Mode=TwoWay}"
                       RelativePanel.Below="chkKeepAlive" Margin="20,10,0,0"
                       />
+                    <CheckBox x:Name="chkAutostartSvc" Content="Autostart Service." IsChecked="{Binding Path=AutoStartSvc,Mode=TwoWay}"
+                      RelativePanel.Below="chkExpectResponse" Margin="20,10,0,0"
+                      />
+
+
+                    <Ellipse x:Name="SvcIsRunningLED"  RelativePanel.Below="chkAutostartSvc" Width="40" Height="40" Margin="10" Fill="Red" Stroke="Black"  StrokeThickness="2" />
+                    <TextBlock RelativePanel.RightOf="SvcIsRunningLED" RelativePanel.AlignVerticalCenterWith="SvcIsRunningLED" Text="Svc Running"  />
+                    
                     <Button x:Name="btnCancelSvc" Content="Cancel Svc" RelativePanel.Below="btnSend" RelativePanel.AlignRightWith="btnSend" Background="Red" Foreground="AntiqueWhite"
                     Margin="20,10,0,0" Height="60" Width="139" Click="ButtonCanceLSvc_Click"/>
 
@@ -75,7 +83,7 @@
 
                     <TextBox x:Name="tbSvcTimeout" RelativePanel.RightOf="lblSvcTimeout" RelativePanel.AlignTopWith="lblSvcTimeout"
                 BorderBrush="Blue"  FontWeight="Bold" Foreground="Blue" 
-                             Margin="20,20,0,0"  Text="30" Width="100" TextChanged="TbSvcTimeout_TextChanged" />
+                             Margin="20,20,0,0"   Width="100" Text="{Binding Path=SvcTimeout,Mode=TwoWay}" />
                     <TextBlock x:Name="lblSend" RelativePanel.RightOf="btnSend" RelativePanel.Below="tbSvcTimeout" RelativePanel.AlignRightWith="lblSvcTimeout"
                         TextAlignment="Right"
                 Text="Service-Message Out:" Margin="20,20,0,0"  />
@@ -193,20 +201,21 @@
 
                     <Button x:Name="btnListen" FontWeight="Bold"
                 Content="Start Listening as Device"  Height="120" Width="340" Click="Button_Click_Device" Background="DarkCyan" Foreground="Yellow" />
-                    <TextBlock x:Name="lblNb" RelativePanel.Below="btnListen" RelativePanel.AlignLeftWith="btnListen" FontStyle="Italic" FontWeight="Bold"
-                Text="Nb:Device only active for one recvd msg if NOT KeepAlive in Device Streaming mode" Margin="20,20,0,0"   />
-
+      
                     <CheckBox x:Name="chKeepDeviceListening" Content="Keep device listening" 
-                      RelativePanel.Below="lblNb" Margin="20,10,0,0" Checked="ChKeepDeviceListening_Checked" Unchecked="ChKeepDeviceListening_Checked"
+                      RelativePanel.Below="btnListen" Margin="20,10,0,0" IsChecked="{Binding Path=KeepDeviceListening,Mode=TwoWay}"
                       />
                     <CheckBox x:Name="chkAutoStart" Content="Auto start Device" 
-                      RelativePanel.Below="chKeepDeviceListening" Margin="20,10,0,0" Checked="ChAutoStart_Checked" Unchecked="ChAutoStart_Checked" IsChecked="True"
+                      RelativePanel.Below="chKeepDeviceListening" Margin="20,10,0,0"  IsChecked="{Binding Path=AutoStartDevice,Mode=TwoWay}"
                       />
+                    <Ellipse x:Name="DeviceIsRunningLED" RelativePanel.Below="chkAutoStart" Width="40" Height="40" Margin="10" Fill="Red" Stroke="Black"  StrokeThickness="2"/>
+                    <TextBlock RelativePanel.RightOf="DeviceIsRunningLED" RelativePanel.AlignVerticalCenterWith="DeviceIsRunningLED" Text="Device Running"  />
+                    
                     <TextBlock x:Name="lblDeviceTimeout" RelativePanel.RightOf="btnListen" Width="210" TextAlignment="Right" 
                 Text="Device-Timeout (sec):" Margin="20,20,0,0"  />
                     <TextBox x:Name="tbDeviceTimeout" RelativePanel.RightOf="lblDeviceTimeout" RelativePanel.AlignTopWith="lblDeviceTimeout"
                              BorderBrush="Blue"  FontWeight="Bold" Foreground="Blue" 
-                     HorizontalAlignment="Left"  Margin="20,20,0,0" Text="30" VerticalAlignment="Top" Width="100" TextChanged="TbDeviceTimeout_TextChanged"/>
+                     HorizontalAlignment="Left"  Margin="20,20,0,0"  VerticalAlignment="Top" Width="100" Text="{Binding Path=DeviceTimeout,Mode=TwoWay}"/>
                     <TextBlock x:Name="lblDeviceRecv" RelativePanel.RightOf="btnListen" RelativePanel.Below="tbDeviceTimeout" RelativePanel.AlignRightWith="lblDeviceTimeout"
                         TextAlignment="Right"
                 Text="Device-Message Received:" Margin="20,20,0,0"  />
@@ -214,7 +223,7 @@
                     <TextBox x:Name="tbDeviceMsgIn"  RelativePanel.RightOf="lblDeviceRecv" RelativePanel.AlignTopWith="lblDeviceRecv"
                      AcceptsReturn="True"
                      HorizontalAlignment="Left" Height="84" Margin="20,20,0,0" Text="Dev In" VerticalAlignment="Top" MinWidth="200" IsReadOnly="True"/>
-                    <TextBlock x:Name="lblDeviceSend" RelativePanel.RightOf="btnListen" RelativePanel.Below="lblNb" RelativePanel.AlignRightWith="lblDeviceTimeout"
+                    <TextBlock x:Name="lblDeviceSend" RelativePanel.RightOf="btnListen" RelativePanel.Below="chKeepDeviceListening" RelativePanel.AlignRightWith="lblDeviceTimeout"
                         TextAlignment="Right"
                 Text="Device-Message Returned:" Margin="10,20,0,0"  />
                     <TextBlock x:Name="lblDevMode" RelativePanel.RightOf="tbDeviceTimeout"  Margin="20,20,0,0"  FontStyle="Italic"
@@ -232,14 +241,14 @@
                     <TextBlock x:Name="lblTelemetryDelay" RelativePanel.RightOf="tbTransport"  Margin="20,20,0,0"  FontStyle="Italic"
                         TextAlignment="Right" Text="Telemetry Delay (sec):" />
                     <TextBox x:Name="tbTelemetryDelay" RelativePanel.RightOf="lblTelemetryDelay" 
-                        TextAlignment="Right" BorderBrush="Blue" LostFocus="TbTelemetryDelay_LostFocus"
-                Text="{Binding }" Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue" />
+                        TextAlignment="Right" BorderBrush="Blue" Text="{Binding Path=TelemetryDelay,Mode=TwoWay}"
+                            Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue"  />
 
                     <TextBox x:Name="tbDeviceMsgOut" RelativePanel.RightOf="lblDeviceSend" RelativePanel.AlignTopWith="lblDeviceSend" RelativePanel.AlignLeftWith="tbDeviceMsgIn"
                      AcceptsReturn="True" TextWrapping="Wrap"
                      Height="84" Margin="20,20,0,20" Text="Dev Out" VerticalAlignment="Top" MinWidth="200" IsReadOnly="True" />
 
-                    <Button x:Name="btnCancelDevice" Content="Cancel Device" RelativePanel.Below="lblNb" RelativePanel.AlignRightWith="btnListen" Height="60" Width="139" Click="ButtonCanceLDevice_Click" Background="Red" Foreground="AntiqueWhite" Margin="0,10,0,0"/>
+                    <Button x:Name="btnCancelDevice" Content="Cancel Device" RelativePanel.Below="btnListen" RelativePanel.AlignRightWith="btnListen" Height="60" Width="139" Click="ButtonCanceLDevice_Click" Background="Red" Foreground="AntiqueWhite" Margin="0,10,0,0"/>
 
                     <Button x:Name="btnTelemDevice" Content="Send Telemetry to Hub" RelativePanel.Below="lblDeviceSend" RelativePanel.AlignRightWith="lblDeviceSend" Height="60" Width="180" Click="BtnTelemDevice_Click" Margin="0,10,0,0" Background="Blue" Foreground="AntiqueWhite"/>
 

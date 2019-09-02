@@ -125,6 +125,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="AppSettingsValues.cs" />
     <Compile Include="EnumToStringConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -136,6 +137,7 @@
     <Compile Include="MainPage_Service.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainPage_Telemetry.cs" />
     <Compile Include="NewHubElement.xaml.cs">
       <DependentUpon>NewHubElement.xaml</DependentUpon>
     </Compile>

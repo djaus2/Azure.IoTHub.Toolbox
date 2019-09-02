@@ -69,7 +69,14 @@ namespace Azure_IoTHub_Toolbox_App
                 }
                 else if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning)
                 {
-                    AppSettings.LoadConSettings();
+                    ApplicationSettings.LoadConSettings();
+                    var val = AppSettingsValues.Settings.AutoStartDevice;
+                    AppSettingsValues.Settings.AutoStartDevice = true;
+                    var val2 = AppSettingsValues.Settings.AutoStartDevice;
+                    AppSettingsValues.Settings.AutoStartDevice = false;
+                    var val3 = AppSettingsValues.Settings.AutoStartDevice;
+                    AppSettingsValues.Settings.AutoStartDevice = false;
+                    var val4 = AppSettingsValues.Settings.AutoStartDevice;
                 }
 
                 // Place the frame in the current Window

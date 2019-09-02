@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Azure_IoTHub_Toolbox_App
 {
@@ -34,6 +36,10 @@ namespace Azure_IoTHub_Toolbox_App
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     tbSvcStat.Text = msgIn;
+                    if (msgIn.ToLower().Contains("starting"))
+                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
+                    else if (msgIn.ToLower().Contains("socket closed"))
+                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
                 });
             });
         }
@@ -65,9 +71,10 @@ namespace Azure_IoTHub_Toolbox_App
             ClearAllToggles();
 
             //These values are passed if true with each connection. If not passed then the device clears them.
-            bool keepAlive = (chkKeepAlive.IsChecked == true);
-            bool responseExpected = (chkExpectResponse.IsChecked == true);
-            
+            bool keepAlive = AppSettingsValues.Settings.KeepAliveSvc;
+            bool responseExpected = AppSettingsValues.Settings.ExpectResponse;
+
+
 
 
             if (!DeviceStream_Svc.SignalSendMsgOut(msgOut, keepAlive, responseExpected))

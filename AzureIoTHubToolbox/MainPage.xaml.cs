@@ -19,8 +19,6 @@ using Windows.UI.Core;
 using Windows.UI;
 using System.Text;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace Azure_IoTHub_Toolbox_App
 {
 
@@ -65,13 +63,20 @@ namespace Azure_IoTHub_Toolbox_App
                 LstDeviceAction.ItemsSource = ListEnum2;
                 LstDeviceAction.SelectedItem = ListEnum2[1];
                 LstDeviceAction.ScrollIntoView(ListEnum2[1]);
-                if (autoStartDevice)
+                if (Azure_IoTHub_Toolbox_App.AppSettingsValues.Settings.AutoStartDevice)
                 {
                     Button_Click_Device(null, null);
                 }
+
+                if (Azure_IoTHub_Toolbox_App.AppSettingsValues.Settings.AutoStartSvc)
+                {
+                    Button_Click_Svc(null, null);
+
+                }
+                IsFirstTime = false;
+                //tbTelemetryDelay.DataContext = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
+                this.DataContext = Azure_IoTHub_Toolbox_App.AppSettingsValues.Settings;
             }
-            IsFirstTime = false;
-            tbTelemetryDelay.DataContext = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
         }
 
 
@@ -96,44 +101,7 @@ namespace Azure_IoTHub_Toolbox_App
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             Control cntrl = (Control)sender;
-            //if ("1" == (string)cntrl.Tag)
-            //{
-            //    conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
-            //    Popup_SetConnectionDetails.DataContext = conDetail;
-            //    Popup_SetConnectionDetails.IsOpen = false;
-            //    Popup_SetConnectionDetails.IsOpen = true;
-            //}
-            //else if ("2" == (string)cntrl.Tag)
-            //{
-            //    conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
-            //    Popup_GetConnectionDetails.DataContext = conDetail;
-            //    Popup_GetConnectionDetails.IsOpen = false;
-            //    Popup_GetConnectionDetails.IsOpen = true;
-            //}
-            //else if ("3" == (string)cntrl.Tag)
-            //{
-            //    conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
-            //    Popup_CreateDeviceDetails.DataContext = conDetail;
-            //    Popup_CreateDeviceDetails.IsOpen = false;
-            //    Popup_CreateDeviceDetails.IsOpen = true;
-            //}
-            //else if ("4" == (string)cntrl.Tag)
-            //{
-            //    conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
-            //    Popup_Delete.DataContext = conDetail;
-            //    Popup_Delete.IsOpen = false;
-            //    Popup_Delete.IsOpen = true;
-            //}//Popup_NewIoTHub
-            //else 
 
-            //if ("5" == (string)cntrl.Tag)
-            //{
-            //    this.Frame.Navigate(typeof(NewHub), null);
-            //}
-            //else if ("6" == (string)cntrl.Tag)
-            //{
-            //    SaveSettingsToAppData();
-            //}
             bool issvcMode = false;
             bool isDeviceMode = false;
             bool isSvc2ndMenu = false;
@@ -273,419 +241,22 @@ namespace Azure_IoTHub_Toolbox_App
             SvcCommands2.IsOpen = false;
         }
 
-        //public class ConDetail
-        //{
-        //    public string IoTHubConnectionString { get; set; }
-        //    public string DeviceConnectionString { get; set; }
-        //    public string DeviceId { get; set; }
-        //    public ConDetail(string a, string b, string c)
-        //    {
-        //        IoTHubConnectionString = a;
-        //        DeviceConnectionString = b;
-        //        DeviceId = c;
-        //    }
-
-        //    public ConDetail()
-        //    {
-        //    }
-
-        //}
-
-        //private ConDetail conDetail =null;
-
         private void LoadConSettings()
         {
-            AppSettings.LoadConSettings();
-
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (localSettings.Values.Keys.Contains("AutoStartDevice"))
-            {
-                chkAutoStart.IsChecked = (bool)localSettings.Values["AutoStartDevice"];
-            }
-            if (localSettings.Values.Keys.Contains("KeepDeviceListening"))
-            {
-                chKeepDeviceListening.IsChecked = (bool)localSettings.Values["KeepDeviceListening"];
-            }
-
-            if (localSettings.Values.Keys.Contains("DeviceTimeout"))
-            {
-                if (localSettings.Values["DeviceTimeout"] is double d)
-                {
-                    //double _deviceTimeout = (double)localSettings.Values["DeviceTimeout"];
-                    tbDeviceTimeout.Text = d.ToString();
-                }
-                else
-                    tbDeviceTimeout.Text = DeviceStreamingCommon.DeviceTimeoutDef.ToString();
-            }
-            else
-                tbDeviceTimeout.Text = DeviceStreamingCommon.DeviceTimeoutDef.ToString();
-            if (localSettings.Values.Keys.Contains("SvcTimeout"))
-            {
-                if (localSettings.Values["SvcTimeout"] is double d)
-                {
-                    tbSvcTimeout.Text = d.ToString();
-                }
-                //if (localSettings.Values["SvcTimeout"] is double)
-                //{
-                //    double _svcTimeout = (double)localSettings.Values["SvcTimeout"];
-                //    tbSvcTimeout.Text = _svcTimeout.ToString();
-                //}
-                else
-                    tbSvcTimeout.Text = DeviceStreamingCommon.SvcTimeoutDef.ToString();
-            }
-            else
-                tbSvcTimeout.Text = DeviceStreamingCommon.SvcTimeoutDef.ToString();
+            ApplicationSettings.LoadConSettings();
         }
-        //    Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        //    if (localSettings.Values.Keys.Contains("ConDetail"))
-        //    {
-        //        Windows.Storage.ApplicationDataCompositeValue composite =
-        //                (Windows.Storage.ApplicationDataCompositeValue)localSettings.Values["ConDetail"];
-        //        if (composite != null)
-        //        {
-        //            //Ref: https://stackoverflow.com/questions/9404523/set-property-value-using-property-name
-        //            Type type = typeof(IoTHubConnectionDetails); // IoTHubConnectionDetails is static class with public static properties
-        //            foreach (var property in type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
-        //            {
-        //                string propertyName = property.Name;
-        //                if (composite.Keys.Contains(propertyName))
-        //                {
-        //                    //Want to implement Cons.propertyName = composite[propertyName];
-        //                    var propertyInfo = type.GetProperty(propertyName); //, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-        //                    propertyInfo.SetValue(type, composite[propertyName], null);
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    if (localSettings.Values.Keys.Contains("AutoStartDevice"))
-        //    {
-        //        chkAutoStart.IsChecked = (bool) localSettings.Values["AutoStartDevice"];
-        //    }
-        //    if (localSettings.Values.Keys.Contains("KeepDeviceListening"))
-        //    {
-        //        chKeepDeviceListening.IsChecked = (bool)localSettings.Values["KeepDeviceListening"];
-        //    }
-
-        //    if (localSettings.Values.Keys.Contains("DeviceTimeout"))
-        //    {
-        //        if (localSettings.Values["DeviceTimeout"] is double)
-        //        {
-        //            double _deviceTimeout = (double)localSettings.Values["DeviceTimeout"];
-        //            tbDeviceTimeout.Text = _deviceTimeout.ToString();
-        //        }
-        //        else
-        //            tbDeviceTimeout.Text = DeviceStreamingCommon.DeviceTimeoutDef.ToString();
-        //    }
-        //    else
-        //        tbDeviceTimeout.Text = DeviceStreamingCommon.DeviceTimeoutDef.ToString();
-        //    if (localSettings.Values.Keys.Contains("SvcTimeout"))
-        //    {
-        //        if (localSettings.Values["SvcTimeout"] is double)
-        //        {
-        //            double _svcTimeout = (double)localSettings.Values["SvcTimeout"];
-        //            tbSvcTimeout.Text = _svcTimeout.ToString();
-        //        }
-        //        else
-        //            tbSvcTimeout.Text = DeviceStreamingCommon.SvcTimeoutDef.ToString();
-        //    }
-        //    else
-        //        tbSvcTimeout.Text = DeviceStreamingCommon.SvcTimeoutDef.ToString();
-        //}
-
-        //private void SaveConnectionSettingsToAzure_IoTHub_Connections(ConDetail ccondetail)
-        //{
-        //    conDetail = ccondetail;
-        //    Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString = ccondetail.IoTHubConnectionString;
-        //    Azure_IoTHub_Connections.MyConnections.DeviceConnectionString = ccondetail.DeviceConnectionString;
-        //    Azure_IoTHub_Connections.MyConnections.DeviceId = ccondetail.DeviceId;
-        //    service_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
-        //    device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
-        //    device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
-        //}
-        //private void DoneSetConnectionDetails_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (Popup_SetConnectionDetails.IsOpen)
-        //    {
-        //        SaveConnectionSettingsToAzure_IoTHub_Connections(conDetail);
-        //        Popup_SetConnectionDetails.IsOpen = false;
-        //    }
-        //    else if (Popup_GetConnectionDetails.IsOpen)
-        //    {
-        //        conDetail.DevString = Azure_IoTHub_Connections.MyConnections.GetDeviceCSAsync(conDetail.ConString, conDetail.DevId);
-        //        Popup_GetConnectionDetails.IsOpen = false;
-        //    }
-        //    else if (Popup_CreateDeviceDetails.IsOpen)
-        //    {
-        //        conDetail.DevString = Azure_IoTHub_Connections.MyConnections.AddDeviceAsync(conDetail.ConString, conDetail.DevId);
-        //        Popup_CreateDeviceDetails.IsOpen = false;
-        //    }
-        //    else if (Popup_Delete.IsOpen)
-        //    {
-        //        conDetail = new ConDetail(Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, Azure_IoTHub_Connections.MyConnections.DeviceId);
-        //        conDetail.DevString = Azure_IoTHub_Connections.MyConnections.RemoveDeviceAsync(conDetail.ConString, conDetail.DevId);
-        //        Popup_Delete.IsOpen = false;
-        //        conDetail.DevId = "";
-        //        conDetail.DevString = "";
-        //    }
-        //    SaveSettingsToAppData();
-        //}
 
         public static void SaveSettingsToAppData()
         {
-            AppSettings.SaveSettingsToAppData();
+            ApplicationSettings.SaveSettingsToAppData();
         }
-        //    Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        //    if (localSettings.Values.Keys.Contains("ConDetail"))
-        //    {
-        //        localSettings.Values.Remove("ConDetail");
-        //    }
-        //    Windows.Storage.ApplicationDataCompositeValue composite = new Windows.Storage.ApplicationDataCompositeValue();
-
-        //    //Ref: https://stackoverflow.com/questions/12480279/iterate-through-properties-of-static-class-to-populate-list
-        //    Type type = typeof(IoTHubConnectionDetails); // IoTHubConnectionDetails is static class with public static properties
-        //    foreach (var property in type.GetProperties()) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
-        //    {
-        //        string propertyName = property.Name;
-        //        var val = property.GetValue(null); // static classes cannot be instanced, so use null...
-            
-        //        System.Diagnostics.Debug.WriteLine(string.Format("{0} {1}",propertyName,val));
-        //        composite[propertyName] = val;
-        //    }
-        //    localSettings.Values.Add("ConDetail", composite);
-
-        //}
-
-        //private void CancelSetConnectionDetails_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Popup_SetConnectionDetails.IsOpen = false;
-        //    Popup_GetConnectionDetails.IsOpen = false;
-        //    Popup_CreateDeviceDetails.IsOpen = false;
-        //    Popup_Delete.IsOpen = false;
-        //}
-
-
-
-        //private async void Button_RemoveDBLQuotes_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Button butt = (Button)sender;
-        //    if (butt != null)
-        //    { 
-        //        var dataPackageView = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
-        //        if (dataPackageView.Contains(Windows.ApplicationModel.DataTransfer.StandardDataFormats.Text))
-        //        {
-        //            string strn = await dataPackageView.GetTextAsync();
-        //            if (!string.IsNullOrEmpty(strn))
-        //            {
-        //                if (strn[0] == '\"')
-        //                    strn = strn.Substring(1);
-        //                if (strn != "")
-        //                {
-        //                    if (strn[strn.Length - 1] == ';')
-        //                        strn = strn.Substring(0, strn.Length - 1);
-        //                    if (strn != "")
-        //                    {
-        //                        if (strn[strn.Length - 1] == '\"')
-        //                            strn = strn.Substring(0, strn.Length - 1);
-        //                    }
-        //                }
-        //            }
-        //            string tag = (string)butt.Tag;
-        //            switch (tag)
-        //            {
-        //                case "0":
-        //                    conDetail.ConString = strn;
-        //                    break;
-        //                case "1":
-        //                    conDetail.DevString = strn;
-        //                    break;
-        //                case "2":
-        //                    conDetail.DevId = strn;
-        //                    break;
-        //            }
-
-        //        }
-        //        //if (Popup_SetConnectionDetails.IsOpen)
-        //        //{
-        //        //    Popup_SetConnectionDetails.DataContext = null;
-        //        //    Popup_SetConnectionDetails.DataContext = conDetail;
-        //        //}
-        //        //else if (Popup_GetConnectionDetails.IsOpen)
-        //        //{
-        //        //    Popup_GetConnectionDetails.DataContext = null;
-        //        //    Popup_GetConnectionDetails.DataContext = conDetail;
-        //        //}
-        //        //else if (Popup_CreateDeviceDetails.IsOpen)
-        //        //{
-        //        //    Popup_CreateDeviceDetails.DataContext = null;
-        //        //    Popup_CreateDeviceDetails.DataContext = conDetail;
-        //        //}
-        //    }
-        //}
-
-        TimeSpan DeviceTimeout { get; set; } = TimeSpan.FromSeconds(30);
-        private void TbDeviceTimeout_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-            if (double.TryParse(tbDeviceTimeout.Text, out double timeout))
-            {
-                
-                DeviceTimeout = TimeSpan.FromSeconds( timeout);
-                DeviceStreamingCommon.DeviceTimeout = DeviceTimeout;
-                Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                if (localSettings.Values.Keys.Contains("DeviceTimeout"))
-                {
-                    if (localSettings.Values["DeviceTimeout"] is double)
-                        localSettings.Values["DeviceTimeout"] = timeout;
-                    else
-                        localSettings.Values.Remove("DeviceTimeout");
-                }
-                if (!localSettings.Values.Keys.Contains("DeviceTimeout"))
-                    localSettings.Values.Add("DeviceTimeout", timeout);
-            }
-        }
-
-        TimeSpan SvcTimeout { get; set; } = TimeSpan.FromSeconds(30);
-        private void TbSvcTimeout_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (double.TryParse(tbSvcTimeout.Text, out double timeout))
-            {
-               SvcTimeout = TimeSpan.FromSeconds(timeout);
-                DeviceStreamingCommon.SvcTimeout = SvcTimeout;
-                Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                if (localSettings.Values.Keys.Contains("SvcTimeout"))
-                {
-                    if (localSettings.Values["SvcTimeout"] is double)
-                        localSettings.Values["SvcTimeout"] = timeout;
-                    else
-                        localSettings.Values.Remove("SvcTimeout");
-                }
-                if (!localSettings.Values.Keys.Contains("SvcTimeout"))
-                    localSettings.Values.Add("SvcTimeout", timeout);
-            }
-        }
-
-        //private async void PasteAllConnectionDetails_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var dataPackageView = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
-        //    if (dataPackageView.Contains(Windows.ApplicationModel.DataTransfer.StandardDataFormats.Text))
-        //    {
-        //        string strn = await dataPackageView.GetTextAsync();
-        //        string[] lines = strn.Split(new char[] { '\r', '\n' });
-        //        conDetail = new ConDetail();
-        //        foreach (string _line in lines)
-        //        {
-        //            var line =_line.Trim();
-        //            if (!string.IsNullOrEmpty(line))
-        //            {
-        //                string[] parts = line.Split(new char[] { '=' },2,StringSplitOptions.RemoveEmptyEntries);
-        //                if (parts.Length == 2)
-        //                {
-        //                    string propName = parts[0].Trim();
-        //                    string propValue = parts[1].Trim();
-        //                    if (propValue == null)
-        //                        propValue = "";
-        //                    if (!string.IsNullOrEmpty(propName))
-        //                    {
-        //                        if (!string.IsNullOrEmpty(propValue))
-        //                        {
-        //                            if (propValue[0] == '\"')
-        //                                propValue = propValue.Substring(1);
-        //                            if (propValue != "")
-        //                            {
-        //                                if (propValue[propValue.Length - 1] == ';')
-        //                                    propValue = propValue.Substring(0, propValue.Length - 1);
-        //                                if (propValue != "")
-        //                                {
-        //                                    if (propValue[propValue.Length - 1] == '\"')
-        //                                        propValue = propValue.Substring(0, propValue.Length - 1);
-        //                                }
-        //                            }
-                                    
-        //                            switch (propName.ToLower())
-        //                            {
-        //                                case "iothubconnectionstring":
-        //                                    conDetail.ConString = propValue;
-        //                                    break;
-        //                                case "deviceconnectionstring":
-        //                                    conDetail.DevString = propValue;
-        //                                    break;
-        //                                case "deviceid":
-        //                                    conDetail.DevId = propValue;
-        //                                    break;
-        //                            }
-        //                            //Popup_SetConnectionDetails.DataContext = null;
-        //                            //Popup_SetConnectionDetails.DataContext = conDetail;
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-
-        //private void ClearSetConnectionDetails_Click(object sender, RoutedEventArgs e)
-        //{
-           
-        //    if (Popup_SetConnectionDetails.IsOpen)
-        //    {
-        //        tbSvcConString.Text = ""; //This only needs to be Service Connection String
-        //        tbDeviceConString.Text = "";
-        //        tbDeviceId.Text = "";
-        //    }
-        //    else if (Popup_GetConnectionDetails.IsOpen)
-        //    {
-        //        tbIoTHubOwnerConString.Text = "";  //Needs to be Owner Connection string
-        //        tbDeviceId2.Text = "";
-        //    }
-        //    else if (Popup_CreateDeviceDetails.IsOpen)
-        //    {
-        //        tbIoTHubOwnerConString3.Text = ""; //Needs to be Owner Connection string.
-        //        tbDeviceId3.Text = "";
-        //    }
-        //}
 
         private void DeviceProcessingModeCommands_Opening(object sender, object e)
         {
 
         }
 
-        bool IsRunningTelem = false;
-        private async void BtnTelemDevice_Click(object sender, RoutedEventArgs e)
-        {
-            if(IsRunningTelem)
-            {
-                IsRunningTelem = false;
-                Azure_IoTHub_Telemetry.SimulatedDevice.ContinueLoop = false;
-                return;
-            }
-            IsRunningTelem = true;
-            Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, false, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, true);
-            string msg  = await Azure_IoTHub_Telemetry.SimulatedDevice.Run(OnDeviceStatusUpdate,TelemMsg);
 
-        }
-         
-        private void TelemMsg(string msg)
-        {
-            Task.Run(async () => {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    tbDeviceMsgOut.Text = msg;
-                });
-            });
-        }
-
-        private async void BtnTelemSvc_Click_1(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            { 
-                await Azure_IoTHub_Telemetry.ReadDeviceToCloudMessages.Run(OnSvcStatusUpdate, OnSvcRecvText);
-            });
-
-    
-            
-        }
 
         private void CommandBar_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -714,12 +285,8 @@ namespace Azure_IoTHub_Toolbox_App
             tbDeviceMsgOut.Text = "";
         }
 
-        private void TbTelemetryDelay_LostFocus(object sender, RoutedEventArgs e)
-        {          
-            if (int.TryParse(tbTelemetryDelay.Text, out int delay))
-            {
-                Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings = delay;
-            }
-        }
+
+
+
     }
 }

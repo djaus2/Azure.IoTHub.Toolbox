@@ -122,7 +122,7 @@ namespace Azure_IoTHub_Toolbox_App
             if (!string.IsNullOrEmpty(EventHubsSasKey))
                 IoTHubConnectionDetails.EventHubsSasKey = EventHubsSasKey;
             IoTHubConnectionDetails.EHMethod1 = EHMethod1;
-            AppSettings.SaveSettingsToAppData();
+            ApplicationSettings.SaveSettingsToAppData();
         }
 
         private bool eHMethod1 = true;
