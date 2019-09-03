@@ -164,10 +164,15 @@ namespace Azure_IoTHub_DeviceStreaming
 
         public void Cancel()
         {
-            if (cancellationTokenSourceTimeout==null)
-                cancellationTokenSourceManual?.Cancel();
+            if (cancellationTokenSourceTimeout == null)
+            {
+                if (cancellationTokenSourceManual != null)
+                    if (!cancellationTokenSourceManual.IsCancellationRequested)
+                    cancellationTokenSourceManual?.Cancel();
+            }
             else
-                cancellationTokenSourceTimeout?.Cancel();
+                if (cancellationTokenSourceTimeout.IsCancellationRequested)
+                    cancellationTokenSourceTimeout?.Cancel();
         }
 
         private CancellationTokenSource cancellationTokenSourceManual= null;

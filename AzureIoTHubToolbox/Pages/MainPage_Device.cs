@@ -186,6 +186,9 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             return msgOut;
         }
 
+        enum deviceStates { stopped, listening }
+        deviceStates DeviceState = deviceStates.stopped;
+        deviceStates SvcState = deviceStates.stopped;
         internal  void Stopping()
         {
             Task.Run(async () => {
@@ -214,22 +217,67 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             });
         }
 
-        enum deviceStates { stopped, listening}
-        deviceStates DeviceState = deviceStates.stopped; 
+
         private void OnDeviceStatusUpdate(string msgIn)
         {
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    if (msgIn.ToLower().Contains("starting"))
+                    /*
+                     Device: Starting Device Stream Request. GREEN
+Device: Device got a connection. AQUA
+Device: Device got stream: Name=TestStream. Socket open. BLUE
+Device: Device is connected and listening PURPLE
+Device: Device Received stream data: ~01-Msg Out. BROWN
+Device: Device Sent stream data: MSG OUT YELLOW
+Device: Closing Device Socket Normally.  PINK
+Device: Socket closed Normally: ORANGE
+Device: Not listening  RED
+                     */
+                    if (msgIn.ToLower().Contains("Starting Device Stream Request".ToLower()))
                     {
                         DeviceState = deviceStates.listening;
-                        DeviceIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
+                        DeviceIsRunningLED.Fill = Cols[0];
                     }
-                    else if (msgIn.ToLower().Contains("not listening"))
+                    else if (msgIn.ToLower().Contains("Device got connection".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = Cols[1];
+                    }
+                    else if (msgIn.ToLower().Contains("Device got stream".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = Cols[2];
+                    }
+                    else if (msgIn.ToLower().Contains("Device is connected and listening".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = Cols[3];
+                    }
+                    else if (msgIn.ToLower().Contains("Device Received stream data:".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = Cols[4];
+                    }
+                    else if (msgIn.ToLower().Contains("Device Sent stream data".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = Cols[5];
+                    }
+                    else if (msgIn.ToLower().Contains("Closing Device Socket Normally".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = Cols[6];
+                    }
+                    else if (msgIn.ToLower().Contains("Socket closed Normally".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = Cols[7];
+                    }
+                    else if (msgIn.ToLower().Contains("Not listening".ToLower()))
                     {
                         DeviceState = deviceStates.stopped;
-                        DeviceIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
+                        DeviceIsRunningLED.Fill = Cols[Cols.Count()-1];
                     }
                         tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
                     tbDeviceStatus.Text = msgIn;

@@ -14,11 +14,12 @@
                        
                         >
         <NavigationView.MenuItems>
-            <NavigationViewItemHeader Content="Section A" />
+            <NavigationViewItemHeader Content="Azure IoT Hub Activities" />
             <NavigationViewItem Icon="Home"  Content="Home" Tag="1" />
-            <NavigationViewItem Icon="Street"  Content="Device Streaming" Tag="2" />
-            <NavigationViewItem Icon="AllApps"  Content="Telemetry" Tag="3" />
-            <NavigationViewItem Icon="AttachCamera"  Content="Cotrol device" Tag="4" />
+            <NavigationViewItem Icon="Share"  Content="Device Streaming" Tag="2" />
+            <NavigationViewItem Icon="Send"  Content="Telemetry" Tag="3" />
+            <NavigationViewItem Icon="Shuffle"  Content="Control device" Tag="4" />
+            <NavigationViewItem Icon="World"  Content="Links" Tag="5" />
         </NavigationView.MenuItems>
 
             <Frame x:Name="NavigationFrame" />

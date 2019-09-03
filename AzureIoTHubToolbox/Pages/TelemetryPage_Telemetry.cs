@@ -66,14 +66,17 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             }
         }
 
+        enum deviceStates { stopped, listening }
+        deviceStates DeviceState = deviceStates.stopped;
+        deviceStates SvcState = deviceStates.stopped;
         internal void Stopping()
         {
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    if (SvcIsRunningLED.Fill == new SolidColorBrush(Colors.Green))
+                    if (SvcState == deviceStates.listening)
                         ButtonCanceLSvc_Click(null, null);
-                    if(DeviceIsRunningLED.Fill == new SolidColorBrush(Colors.Green))
+                    if (DeviceState == deviceStates.listening)
                         ButtonCanceLDevice_Click(null, null);
                 });
             });

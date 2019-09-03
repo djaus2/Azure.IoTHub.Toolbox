@@ -127,6 +127,9 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppSettingsValues.cs" />
     <Compile Include="EnumToStringConverter.cs" />
+    <Compile Include="Pages\LinksPage.xaml.cs">
+      <DependentUpon>LinksPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TelemetryPage.xaml.cs">
       <DependentUpon>TelemetryPage.xaml</DependentUpon>
     </Compile>
@@ -223,6 +226,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Pages\LinksPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TelemetryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

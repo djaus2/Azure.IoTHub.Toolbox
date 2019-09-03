@@ -283,10 +283,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private void BtnClrRecvdText_Click(object sender, RoutedEventArgs e)
         {
             tbDeviceMsgOut.Text = "";
+            tbSvcMsgIn.Text = "";
         }
-
-
-
-
     }
 }

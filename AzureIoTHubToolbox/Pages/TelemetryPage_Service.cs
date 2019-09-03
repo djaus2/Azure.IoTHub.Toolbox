@@ -35,14 +35,21 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     tbSvcStat.Text = msgIn;
+
                     if (msgIn.ToLower().Contains("listening"))
-                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
+                    {
+                        SvcState = deviceStates.listening;
+                        SvcIsRunningLED.Fill = MainPage.Cols[0]; ;
+                    }
                     else if (msgIn.ToLower().Contains("cancelling"))
-                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Orange);
+                        SvcIsRunningLED.Fill = MainPage.Cols[1];
                     else if (msgIn.ToLower().Contains("exiting"))
-                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Pink);
+                        SvcIsRunningLED.Fill = MainPage.Cols[2];
                     else
-                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
+                    {
+                        SvcState = deviceStates.stopped;
+                        SvcIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 1];
+                    }
                 });
             });
         }

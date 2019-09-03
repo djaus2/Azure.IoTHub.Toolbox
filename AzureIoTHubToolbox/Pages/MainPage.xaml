@@ -75,7 +75,7 @@
                     <Button x:Name="btnCancelSvc" Content="Cancel Svc" RelativePanel.Below="btnSend" RelativePanel.AlignRightWith="btnSend" Background="Red" Foreground="AntiqueWhite"
                     Margin="20,10,0,0" Height="60" Width="139" Click="ButtonCanceLSvc_Click"/>
 
-                    <Button x:Name="btnClrRecvdText" Content="Clear Rcv'd Text" RelativePanel.Below="lblRecv" RelativePanel.AlignRightWith="lblRecv" Height="60" Width="180" Click="BtnClrRecvdText_Click"  Margin="0,10,0,0" Background="Purple" Foreground="AntiqueWhite"/>
+                    <Button x:Name="btnClrRecvdText" Content="Clear Rcv'd Text" RelativePanel.Below="btnCancelSvc" RelativePanel.AlignRightWith="lblRecv" Height="60" Width="180" Click="BtnClrRecvdText_Click"  Margin="0,10,0,0" Background="Purple" Foreground="AntiqueWhite"/>
 
                     <TextBlock x:Name="lblSvcTimeout" RelativePanel.RightOf="btnSend" Width="210" TextAlignment="Right"
                 Margin="20,20,0,0"  ><Run Text="Service-Timeout (sec):"/></TextBlock>

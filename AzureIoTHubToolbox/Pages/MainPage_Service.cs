@@ -29,23 +29,65 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 });
             });
         }
-        deviceStates SvcState = deviceStates.stopped;
+        
         private void OnSvcStatusUpdate(string msgIn)
-        {
+        {/*
+Service: Socket closed Normally:  Cancelled
+Service: Starting Svc TestStream
+Service: Svc Stream response received: Name=TestStream IsAccepted=True
+Service: Stream is open.
+Service: Stream is open. Waiting for msg to send.
+Service: Sending msg.
+Service: Sent msg.
+Service: Svc Received stream data: MSG OUT
+Service: Closing Svc Socket
+Service: Socket closed Normally: 
+            */
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     tbSvcStat.Text = msgIn;
-                    if (msgIn.ToLower().Contains("starting"))
+                    if (msgIn.ToLower().Contains("Starting Svc".ToLower()))
                     {
                         SvcState = deviceStates.listening;
-                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
+                        SvcIsRunningLED.Fill = Cols[0];
                     }
-                    else if (msgIn.ToLower().Contains("socket closed"))
+                    else if (msgIn.ToLower().Contains("Svc Stream response received".ToLower()))
                     {
-                        SvcState = deviceStates.stopped;
-                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
+                        //DeviceState = deviceStates.listening;
+                        SvcIsRunningLED.Fill = Cols[1];
                     }
+                    else if (msgIn.ToLower().Contains("Stream is open".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = Cols[2];
+                    }
+                    else if (msgIn.ToLower().Contains("Sending msg".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        SvcIsRunningLED.Fill = Cols[3];
+                    }
+                    else if (msgIn.ToLower().Contains("Sent msg".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        SvcIsRunningLED.Fill = Cols[4];
+                    }
+                    else if (msgIn.ToLower().Contains("Svc Received stream data".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        SvcIsRunningLED.Fill = Cols[5];
+                    }
+                    else if (msgIn.ToLower().Contains("Closing Svc Socket".ToLower()))
+                    {
+                        //DeviceState = deviceStates.listening;
+                        SvcIsRunningLED.Fill = Cols[6];
+                    }
+                    else if (msgIn.ToLower().Contains("Socket closed Normally".ToLower()))
+                    {
+                        DeviceState = deviceStates.stopped;
+                        SvcIsRunningLED.Fill = Cols[Cols.Count() - 1];
+                    }
+
                 });
             });
         }

@@ -29,6 +29,24 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         string device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
         string device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
 
+        public static List<Brush> Cols = new List<Brush>()
+        {
+            new SolidColorBrush(Colors.Green),
+            new SolidColorBrush(Colors.LightGreen),
+            new SolidColorBrush(Colors.LightBlue),
+            new SolidColorBrush(Colors.Blue),
+            new SolidColorBrush(Colors.Yellow),
+            new SolidColorBrush(Colors.Orange),
+            new SolidColorBrush(Colors.Pink),
+            new SolidColorBrush(Colors.Purple),
+            new SolidColorBrush(Colors.Red)
+
+        };
+            
+            
+        //    = new List<Brush>
+        //{
+        //};
 
         public  List<Microsoft.Azure.Devices.Client.TransportType> ListEnum { get { return typeof(Microsoft.Azure.Devices.Client.TransportType).GetEnumValues().Cast<Microsoft.Azure.Devices.Client.TransportType>().ToList(); } }
         public List<string> ListEnum2 = new List<string> { "Echo", "Uppercase", "Sim Environ", "Sim Telemetry","IoT Hardware" };

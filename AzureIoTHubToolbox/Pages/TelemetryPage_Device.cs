@@ -200,10 +200,21 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    if (msgIn.ToLower().Contains("sending"))
-                        DeviceIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
-                    else if (msgIn.ToLower().Contains("done"))
-                        DeviceIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
+                    if (msgIn.ToLower().Contains("Simulated Device Started".ToLower()))
+                    {
+                        DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = MainPage.Cols[1];
+                    }
+                    else if (msgIn.ToLower().Contains("Device Sending Messages".ToLower()))
+                    {
+                        DeviceState = deviceStates.listening;
+                        DeviceIsRunningLED.Fill = MainPage.Cols[0];
+                    }
+                    else if (msgIn.ToLower().Contains("Device end".ToLower()))
+                    {
+                        DeviceState = deviceStates.stopped;
+                        DeviceIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 1];
+                    }
                     tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
                     tbDeviceStatus.Text = msgIn;
                 });
