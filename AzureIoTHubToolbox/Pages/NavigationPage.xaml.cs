@@ -20,6 +20,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
     /// </summary>
     public sealed partial class NavigationPage : Page
     {
+        private int currentPage  =-1;
         public NavigationPage()
         {
             this.InitializeComponent();
@@ -33,21 +34,41 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             }
             else
             {
-                var eventargs = (NavigationViewSelectionChangedEventArgs)args;
-                switch (((string)(
-                    (Control)eventargs.SelectedItem).Tag))
+                switch (currentPage)
                 {
-                    case "1":
-                        NavigationFrame.Navigate(typeof(Pages.HomePage), null);
+                    case 1:
+                        HomePage.Stop();
                         break;
-                    case "2":
-                        NavigationFrame.Navigate(typeof(Pages.MainPage), null);
+                    case 2:
+                        MainPage.Stop();
                         break;
-                    case "3":
-                        NavigationFrame.Navigate(typeof(Pages.TelemetryPage), null);
+                    case 3:
+                        TelemetryPage.Stop();
                         break;
-                    case "4":
+                    case 4:
                         break;
+                }
+                var eventargs = (NavigationViewSelectionChangedEventArgs)args;
+                if (int.TryParse( (string)((Control)eventargs.SelectedItem).Tag, out int newPage))
+                {
+                    if ((new List<int>() { 1, 2, 3, 4 }).Contains(newPage))
+                    {
+                        currentPage = newPage;
+                        switch (currentPage)
+                        {
+                            case 1:
+                                NavigationFrame.Navigate(typeof(Pages.HomePage), null);
+                                break;
+                            case 2:
+                                NavigationFrame.Navigate(typeof(Pages.MainPage), null);
+                                break;
+                            case 3:
+                                NavigationFrame.Navigate(typeof(Pages.TelemetryPage), null);
+                                break;
+                            case 4:
+                                break;
+                        }
+                    }
                 }
             }
            

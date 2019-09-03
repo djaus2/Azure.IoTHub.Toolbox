@@ -29,7 +29,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 });
             });
         }
-
+        deviceStates SvcState = deviceStates.stopped;
         private void OnSvcStatusUpdate(string msgIn)
         {
             Task.Run(async () => {
@@ -37,9 +37,15 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 {
                     tbSvcStat.Text = msgIn;
                     if (msgIn.ToLower().Contains("starting"))
+                    {
+                        SvcState = deviceStates.listening;
                         SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
+                    }
                     else if (msgIn.ToLower().Contains("socket closed"))
+                    {
+                        SvcState = deviceStates.stopped;
                         SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
+                    }
                 });
             });
         }

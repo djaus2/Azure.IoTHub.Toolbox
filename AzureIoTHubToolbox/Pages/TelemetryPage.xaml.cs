@@ -24,6 +24,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
     public sealed partial class TelemetryPage : Page
     {
+        internal static TelemetryPage telemetryPage;
         string service_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
         string device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
         string device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
@@ -40,9 +41,12 @@ namespace Azure_IoTHub_Toolbox_App.Pages
   
         }
 
+    
+
         private bool IsFirstTime = false;
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            telemetryPage = this;
             if (IsFirstTime)
                 LoadConSettings();
             

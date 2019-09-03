@@ -24,6 +24,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
     public sealed partial class TelemetryPage : Page
     {
+
         bool IsRunningTelem = false;
         private async void BtnTelemDevice_Click(object sender, RoutedEventArgs e)
         {
@@ -63,6 +64,24 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             {
                 Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings = delay;
             }
+        }
+
+        internal void Stopping()
+        {
+            Task.Run(async () => {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (SvcIsRunningLED.Fill == new SolidColorBrush(Colors.Green))
+                        ButtonCanceLSvc_Click(null, null);
+                    if(DeviceIsRunningLED.Fill == new SolidColorBrush(Colors.Green))
+                        ButtonCanceLDevice_Click(null, null);
+                });
+            });
+        }
+
+        internal static void Stop()
+        {
+            telemetryPage?.Stopping();
         }
     }
 }

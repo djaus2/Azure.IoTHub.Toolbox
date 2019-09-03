@@ -24,6 +24,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
     public sealed partial class MainPage : Page
     {
+        internal static MainPage mainPage;
         string service_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
         string device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
         string device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
@@ -43,6 +44,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private bool IsFirstTime = false;
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            mainPage = this;
             if (IsFirstTime)
                 LoadConSettings();
             

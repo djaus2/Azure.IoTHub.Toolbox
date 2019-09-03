@@ -26,5 +26,10 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         {
             this.InitializeComponent();
         }
+
+        internal static void Stop()
+        {
+            
+        }
     }
 }

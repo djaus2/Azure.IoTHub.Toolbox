@@ -16,6 +16,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
     {
         int state = -1;
         bool toggle = false;
+        
 
         private string OnDeviceRecvTextIO(string msgIn, out Microsoft.Azure.Devices.Client.Message message )
         {
@@ -185,6 +186,24 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             return msgOut;
         }
 
+        internal  void Stopping()
+        {
+            Task.Run(async () => {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (SvcState == deviceStates.listening )
+                        ButtonCanceLSvc_Click(null, null);
+                    if (DeviceState == deviceStates.listening)
+                        ButtonCanceLDevice_Click(null, null);
+                });
+            });
+        }
+
+        internal static void Stop()
+        {
+            mainPage?.Stopping();
+        }
+
         private void UpdateDeviceOutputText(string msgOut)
         {
             Task.Run(async () => {
@@ -195,16 +214,24 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             });
         }
 
+        enum deviceStates { stopped, listening}
+        deviceStates DeviceState = deviceStates.stopped; 
         private void OnDeviceStatusUpdate(string msgIn)
         {
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     if (msgIn.ToLower().Contains("starting"))
+                    {
+                        DeviceState = deviceStates.listening;
                         DeviceIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
-                    else if(msgIn.ToLower().Contains("not listening"))
+                    }
+                    else if (msgIn.ToLower().Contains("not listening"))
+                    {
+                        DeviceState = deviceStates.stopped;
                         DeviceIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
-                    tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
+                    }
+                        tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
                     tbDeviceStatus.Text = msgIn;
                 });
             });
