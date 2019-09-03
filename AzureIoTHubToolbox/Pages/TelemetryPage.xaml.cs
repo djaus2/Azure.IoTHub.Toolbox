@@ -83,16 +83,14 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            GeneralTransform gt = tbSvcMsgOut.TransformToVisual(this);
+            GeneralTransform gt = tbSvcMsgIn.TransformToVisual(this);
             Point offset = gt.TransformPoint(new Point(0, 0));
             //double controlTop = offset.Y;
             double controlLeft = offset.X;
             double newWidth =  e.NewSize.Width - controlLeft - 20;
-            if (newWidth > tbSvcMsgOut.MinWidth)
+            if (newWidth > tbSvcMsgIn.MinWidth)
             {
-                tbSvcMsgOut.Width = newWidth;
-                tbDeviceMsgIn.Width = newWidth;
-                tbSvcMsgIn.Width = newWidth;
+                tbSvcMsgIn.Width = newWidth;    
                 tbDeviceMsgOut.Width = newWidth;
             }
         }
@@ -280,8 +278,6 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private void BtnClrRecvdText_Click(object sender, RoutedEventArgs e)
         {
-            tbSvcMsgIn.Text = "";
-            tbDeviceMsgIn.Text = "";
             tbDeviceMsgOut.Text = "";
         }
 

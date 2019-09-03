@@ -178,7 +178,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    tbDeviceMsgIn.Text = msgIn;
+             
                     tbDeviceMsgOut.Text = msgOut;
                 });
             });
@@ -200,9 +200,9 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    if (msgIn.ToLower().Contains("starting"))
+                    if (msgIn.ToLower().Contains("sending"))
                         DeviceIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
-                    else if(msgIn.ToLower().Contains("not listening"))
+                    else if (msgIn.ToLower().Contains("done"))
                         DeviceIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
                     tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
                     tbDeviceStatus.Text = msgIn;
@@ -222,8 +222,8 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                                 chkAutoStart.IsChecked = isChecked;
                             break;
                         case 1:
-                            if (chKeepDeviceListening.IsChecked != isChecked)
-                                chKeepDeviceListening.IsChecked = isChecked;
+                            //if (chKeepDeviceListening.IsChecked != isChecked)
+                            //    chKeepDeviceListening.IsChecked = isChecked;
                             break;
                     }
                     
@@ -280,7 +280,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 Task.Run(async () => {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        chKeepDeviceListening.IsChecked = true;
+                        //chKeepDeviceListening.IsChecked = true;
                     });
                 });           
         }

@@ -25,7 +25,6 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     tbSvcMsgIn.Text = recvdMsg;
-                   
                 });
             });
         }
@@ -36,9 +35,13 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     tbSvcStat.Text = msgIn;
-                    if (msgIn.ToLower().Contains("starting"))
+                    if (msgIn.ToLower().Contains("listening"))
                         SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Green);
-                    else if (msgIn.ToLower().Contains("socket closed"))
+                    else if (msgIn.ToLower().Contains("cancelling"))
+                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Orange);
+                    else if (msgIn.ToLower().Contains("exiting"))
+                        SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Pink);
+                    else
                         SvcIsRunningLED.Fill = new SolidColorBrush(Colors.Red);
                 });
             });
@@ -58,7 +61,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private async void Button_Click_Svc(object sender, RoutedEventArgs e)
         {
-            string msgOut = tbSvcMsgOut.Text;
+            string msgOut = tbSvcMsgIn.Text;
 
             
 
