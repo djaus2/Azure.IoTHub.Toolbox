@@ -20,6 +20,7 @@ namespace Azure_IoTHub_Telemetry
         public delegate void ActionReceivedText(string recvTxt);
 
         private static DeviceClient s_deviceClient;
+        public static bool ControlDeviceMode { get; set; } = false;
 
         // The device connection string to authenticate the device with your IoT hub.
         // Using the Azure CLI:
@@ -65,7 +66,8 @@ namespace Azure_IoTHub_Telemetry
                 if (!IsDeviceStreaming)
                 {
                     await s_deviceClient.SendEventAsync(Message);
-                    Delay = 1000* Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
+                    Delay = 1000 * Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
+                  
                     await Task.Delay(Delay);
                     if (!ContinueLoop)
                         OnDeviceStatusUpdate?.Invoke("Cancelled Telemetry - Device end");
@@ -102,7 +104,34 @@ namespace Azure_IoTHub_Telemetry
             ContinueLoop = loop;
         }
 
-        
+        private static int s_telemetryInterval = 1; // Seconds
+
+        // Handle the direct method call
+        public static Task<MethodResponse> SetTelemetryInterval(MethodRequest methodRequest, object userContext)
+        {
+            var data = Encoding.UTF8.GetString(methodRequest.Data);
+
+            // Check the payload is a single integer value
+            if (Int32.TryParse(data, out s_telemetryInterval))
+            {
+                Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings = s_telemetryInterval;
+                //Console.ForegroundColor = ConsoleColor.Green;
+                System.Diagnostics.Debug.WriteLine("Telemetry interval set to {0} seconds", data);
+                //Console.ResetColor();
+
+                // Acknowlege the direct method call with a 200 success message
+                string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+            }
+            else
+            {
+                // Acknowlege the direct method call with a 400 error message
+                string result = "{\"result\":\"Invalid parameter\"}";
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+            }
+        }
+
+
         public static async Task<string>  Run(ActionReceivedText onDeviceStatusUpdateD  = null, ActionReceivedText setDeviceSentMsg = null)
         {
             SetDeviceSentMsg = setDeviceSentMsg;
@@ -114,7 +143,17 @@ namespace Azure_IoTHub_Telemetry
             System.Diagnostics.Debug.WriteLine("IoT Hub Telemetry - Simulated device started.");
             OnDeviceStatusUpdate?.Invoke("IoT Hub Telemetry - Simulated device started.");
             // Connect to the IoT hub using the MQTT protocol
+            if (ControlDeviceMode)
+            {
+                // Create a handler for the direct method call
+                try
+                {
+                    s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval", SetTelemetryInterval, null).Wait();
+                } catch (Exception ex)
+                {
 
+                }
+            }
             await SendDeviceToCloudMessagesAsync();
             if (!IsDeviceStreaming)
             {

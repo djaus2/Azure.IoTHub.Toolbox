@@ -130,6 +130,18 @@
     <Compile Include="Pages\LinksPage.xaml.cs">
       <DependentUpon>LinksPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ControlDeviceTelemetryPage.xaml.cs">
+      <DependentUpon>ControlDeviceTelemetryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ControlDeviceTelemetryPage.xaml_Device.cs">
+      <DependentUpon>ControlDeviceTelemetryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ControlDeviceTelemetryPage.xaml_Service.cs">
+      <DependentUpon>ControlDeviceTelemetryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ControlDeviceTelemetryPage.xaml_Telemetry.cs">
+      <DependentUpon>ControlDeviceTelemetryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TelemetryPage.xaml.cs">
       <DependentUpon>TelemetryPage.xaml</DependentUpon>
     </Compile>
@@ -230,6 +242,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ControlDeviceTelemetryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\TelemetryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -263,7 +279,7 @@
       <Version>1.29.0-preview-002</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.8</Version>
+      <Version>6.2.9</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

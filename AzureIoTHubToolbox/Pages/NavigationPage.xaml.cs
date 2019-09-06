@@ -46,6 +46,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                         TelemetryPage.Stop();
                         break;
                     case 4:
+                        ControlDeviceTelemetryPage.Stop();
                         break;
                     case 5:
                         break;
@@ -68,7 +69,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                                 NavigationFrame.Navigate(typeof(Pages.TelemetryPage), null);
                                 break;
                             case 4:
-                                NavigationFrame.Navigate(typeof(Pages.TelemetryPage), null);
+                                NavigationFrame.Navigate(typeof(Pages.ControlDeviceTelemetryPage), null);
                                 break;
                             case 5:
                                 NavigationFrame.Navigate(typeof(Pages.LinksPage), null);
