@@ -26,20 +26,20 @@ namespace Azure_IoTHub_Toolbox_App.Pages
     {
 
         bool IsRunningTelem = false;
-        private async void BtnTelemDevice_Click(object sender, RoutedEventArgs e)
+        private  async void BtnTelemDevice_Click(object sender, RoutedEventArgs e)
         {
-            if (IsRunningTelem)
-            {
-                Azure_IoTHub_Telemetry.SimulatedDevice.ControlDeviceMode = false;
-                IsRunningTelem = false;
-                Azure_IoTHub_Telemetry.SimulatedDevice.ContinueLoop = false;
-                return;
-            }
-            IsRunningTelem = true;
-            Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, false, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, true);
-            Azure_IoTHub_Telemetry.SimulatedDevice.ControlDeviceMode = true;
-            string msg = await Azure_IoTHub_Telemetry.SimulatedDevice.Run(OnDeviceStatusUpdate, TelemMsg);
-
+            //if (IsRunningTelem)
+            //{
+            //    Azure_IoTHub_Telemetry.SimulatedDevice.ControlDeviceMode = false;
+            //    IsRunningTelem = false;
+            //    Azure_IoTHub_Telemetry.SimulatedDevice.ContinueLoop = false;
+            //    return;
+            //}
+            //IsRunningTelem = true;
+            //Azure_IoTHub_Telemetry.SimulatedDevice.Configure(Azure_IoTHub_Connections.MyConnections.DeviceConnectionString, false, Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType, true);
+            //Azure_IoTHub_Telemetry.SimulatedDevice.ControlDeviceMode = true;
+            //string msg = await Azure_IoTHub_Telemetry.SimulatedDevice.Run(OnDeviceStatusUpdate, TelemMsg);
+            await Azure_IoTHub_Telemetry.SimulatedDevice_2.Run(10, 01, 1, TelemMsg, OnDeviceStatusUpdate);
         }
 
         private void TelemMsg(string msg)

@@ -30,18 +30,18 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         string device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
 
 
-        public  List<Microsoft.Azure.Devices.Client.TransportType> ListEnum { get { return typeof(Microsoft.Azure.Devices.Client.TransportType).GetEnumValues().Cast<Microsoft.Azure.Devices.Client.TransportType>().ToList(); } }
-        public List<string> ListEnum2 = new List<string> { "Echo", "Uppercase", "Sim Environ", "Sim Telemetry","IoT Hardware" };
+        public List<Microsoft.Azure.Devices.Client.TransportType> ListEnum { get { return typeof(Microsoft.Azure.Devices.Client.TransportType).GetEnumValues().Cast<Microsoft.Azure.Devices.Client.TransportType>().ToList(); } }
+        public List<string> ListEnum2 = new List<string> { "Echo", "Uppercase", "Sim Environ", "Sim Telemetry", "IoT Hardware" };
 
         public ControlDeviceTelemetryPage()
         {
             this.InitializeComponent();
             IsFirstTime = true;
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
-  
+
         }
 
-    
+
 
         private bool IsFirstTime = false;
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -49,7 +49,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             telemetryPage = this;
             if (IsFirstTime)
                 LoadConSettings();
-            
+
             service_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
             device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
             device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
@@ -91,10 +91,10 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             Point offset = gt.TransformPoint(new Point(0, 0));
             //double controlTop = offset.Y;
             double controlLeft = offset.X;
-            double newWidth =  e.NewSize.Width - controlLeft - 20;
+            double newWidth = e.NewSize.Width - controlLeft - 20;
             if (newWidth > tbSvcMsgIn.MinWidth)
             {
-                tbSvcMsgIn.Width = newWidth;    
+                tbSvcMsgIn.Width = newWidth;
                 tbDeviceMsgOut.Width = newWidth;
             }
         }
@@ -108,7 +108,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             bool isDeviceMode = false;
             bool isSvc2ndMenu = false;
             bool isDevice2ndMenu = false;
-            switch((string)cntrl.Tag)
+            switch ((string)cntrl.Tag)
             {
                 case "0":
                     this.Frame.Navigate(typeof(NewHub), null);
@@ -219,11 +219,11 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
             }
 
-            if( issvcMode )
+            if (issvcMode)
             {
 
             }
-            if( isDeviceMode)
+            if (isDeviceMode)
             {
 
             }
@@ -263,14 +263,14 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private void CommandBar_Tapped(object sender, TappedRoutedEventArgs e)
         {
             CommandBar cb = (sender is CommandBar) ? (CommandBar)sender : null;
-            if(cb != null)
+            if (cb != null)
             {
                 BtnSettings.IsCompact = !BtnSettings.IsCompact;
                 BtnBasicMode.IsCompact = BtnSettings.IsCompact;
                 BtnFeatureMode.IsCompact = BtnSettings.IsCompact;
                 BtnExtendedMode.IsCompact = BtnSettings.IsCompact;
             }
-            
+
         }
 
         private void DeviceProcessingModeCommands_Tapped(object sender, TappedRoutedEventArgs e)
@@ -288,11 +288,18 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private async void BtnBackend_Click(object sender, RoutedEventArgs e)
         {
-            if (int.TryParse(tbSvcTimeout.Text, out int timeout))
-            {
-                if (int.TryParse(tbSvcTimeout2.Text, out int delay))
+            string strnTag = (string)((Control)sender).Tag;
+            if (!string.IsNullOrEmpty(strnTag))
+            { 
+                if (int.TryParse(strnTag, out int tag))
                 {
-                    await Azure_IoTHub_Telemetry.BackEndApplication.Run(delay,timeout, OnSvcStatusUpdate);
+                    if (int.TryParse(tbSvcTimeout.Text, out int timeout))
+                    {
+                        if (int.TryParse(tbSvcTimeout2.Text, out int delay))
+                        {
+                            await Azure_IoTHub_Telemetry.BackEndApplication.Run(delay, timeout,timeout, tag, OnSvcStatusUpdate);
+                        }
+                    }
                 }
             }
         }

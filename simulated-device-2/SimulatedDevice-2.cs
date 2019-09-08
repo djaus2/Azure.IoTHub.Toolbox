@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace simulated_device
 {
-    class SimulatedDevice
+    class SimulatedDevice_2
     {
         private static DeviceClient s_deviceClient;
 
@@ -22,7 +22,7 @@ namespace simulated_device
         private readonly static string s_connectionString =
         "HostName=MyNewHub2.azure-devices.net;DeviceId=MyNewDevice2;SharedAccessKey=uIPA9ftcG4F5aPI/WTD3CDUDt7BuT0AEYCW0aMAIn2o=";
         //"HostName=MyNewHub2.azure-devices.net;DeviceId=MyNewDevice2;SharedAccessKey=uIPA9ftcG4F5aPI/WTD3CDUDt7BuT0AEYCW0aMAIn2o=";
-         //"{Your device connection string here}";
+        //"{Your device connection string here}";
 
         private static int s_telemetryInterval = 1; // Seconds
 
@@ -31,13 +31,31 @@ namespace simulated_device
         {
             var data = Encoding.UTF8.GetString(methodRequest.Data);
 
-            // Check the payload is a single integer value
-            if (Int32.TryParse(data, out s_telemetryInterval))
+            if (methodRequest.Name == "SetTelemetryInterval")
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Telemetry interval set to {0} seconds", data);
-                Console.ResetColor();
+                // Check the payload is a single integer value
+                if (Int32.TryParse(data, out s_telemetryInterval))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Telemetry interval set to {0} seconds", data);
+                    Console.ResetColor();
 
+                    // Acknowlege the direct method call with a 200 success message
+                    string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
+                    return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+                }
+                else
+                {
+                    // Acknowlege the direct method call with a 400 error message
+                    string result = "{\"result\":\"Invalid parameter\"}";
+                    return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+                }
+            }
+            else if (methodRequest.Name == "ToggleLED")
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("LEd Toggle {0} seconds", data);
+                Console.ResetColor();
                 // Acknowlege the direct method call with a 200 success message
                 string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
                 return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
@@ -45,9 +63,11 @@ namespace simulated_device
             else
             {
                 // Acknowlege the direct method call with a 400 error message
-                string result = "{\"result\":\"Invalid parameter\"}";
+                string result = "{\"result\":\"Invalid method request\"}";
                 return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
             }
+
+
         }
 
         // Async method to send simulated telemetry
@@ -87,17 +107,12 @@ namespace simulated_device
         {
             Console.WriteLine("IoT Hub Quickstarts #2 - Simulated device. Ctrl-C to exit.\n");
 
-            //Azure_IoTHub_Telemetry.SimulatedDevice.Configure()
-
             // Connect to the IoT hub using the MQTT protocol
-            string dev_connectionString = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
-            var trans = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.device_transportType;
-            s_deviceClient = DeviceClient.CreateFromConnectionString(dev_connectionString, trans);
-            //    s_connectionString, TransportType.Mqtt);
+            s_deviceClient = DeviceClient.CreateFromConnectionString(s_connectionString, TransportType.Mqtt);
 
             // Create a handler for the direct method call
-            s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval", Azure_IoTHub_Telemetry.SimulatedDevice.SetTelemetryInterval, null).Wait();
-            
+            s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval", SetTelemetryInterval, null).Wait();
+            s_deviceClient.SetMethodHandlerAsync("ToggleLED", SetTelemetryInterval, null).Wait();
             SendDeviceToCloudMessagesAsync();
             Console.ReadLine();
         }

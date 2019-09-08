@@ -148,7 +148,7 @@ namespace Azure_IoTHub_Telemetry
                 // Create a handler for the direct method call
                 try
                 {
-                    s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval", SetTelemetryInterval, null).Wait();
+                    await s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval", SetTelemetryInterval, null);//.Wait();
                 } catch (Exception ex)
                 {
 

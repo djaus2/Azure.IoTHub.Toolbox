@@ -72,10 +72,12 @@
                             Background="Red" Foreground="AntiqueWhite"
                     Margin="20,10,0,0" Height="60" Width="139" Click="ButtonCanceLSvc_Click"/>
 
-                    <Button x:Name="btnBackend" Content="Set Telemetry Delay" Margin="0,10,0,0"  RelativePanel.AlignLeftWith="btnClrRecvdText" RelativePanel.AlignTopWith="btnCancelSvc"  Height="60" Width="180" Click="BtnBackend_Click"  Background="Orange" Foreground="AntiqueWhite" />
+                    <Button x:Name="btnBackend" Tag="1" Content="Set Telemetry Delay" Margin="0,10,0,0"  RelativePanel.Below="lblSvcRecv" RelativePanel.AlignRightWith="lblSvcTimeout"  Height="60" Width="180" Click="BtnBackend_Click"  Background="Orange" Foreground="AntiqueWhite" />
+
+                    <Button x:Name="btnBackend2" Tag="2" Content="Toggle LED" Margin="0,10,0,0"  RelativePanel.Below="btnBackend" RelativePanel.AlignRightWith="lblSvcTimeout"  Height="60" Width="180" Click="BtnBackend_Click"  Background="#FFFF00E6" Foreground="AntiqueWhite" />
 
 
-                    <Button x:Name="btnClrRecvdText" Content="Clear Rcv'd Text" RelativePanel.Below="btnCancelSvc" RelativePanel.AlignRightWith="lblSvcRecv" Height="60" Width="180" Click="BtnClrRecvdText_Click"  Margin="0,10,0,0" Background="Purple" Foreground="AntiqueWhite"/>
+                    <Button x:Name="btnClrRecvdText" Content="Clear Rcv'd Text" RelativePanel.Below="btnBackend2" RelativePanel.AlignRightWith="lblSvcTimeout" Height="60" Width="180" Click="BtnClrRecvdText_Click"  Margin="0,10,0,0" Background="Purple" Foreground="AntiqueWhite"/>
 
                     <TextBlock x:Name="lblSvcTimeout" RelativePanel.RightOf="btnSend" Width="210" TextAlignment="Right"
                 Margin="20,20,0,0"  ><Run Text="Service-Timeout (sec):"/></TextBlock>
@@ -237,7 +239,7 @@
                     <TextBlock x:Name="lblDeviceSend" 
                                RelativePanel.RightOf="btnListen" RelativePanel.Below="tbDeviceTimeout" RelativePanel.AlignRightWith="lblDeviceTimeout"
                         TextAlignment="Right"
-                Text="Device-Message Returned:" Margin="10,20,0,0"  />
+                Text="Device-Message Sent:" Margin="10,20,0,0"  />
 
                     <TextBox x:Name="tbDeviceMsgOut" RelativePanel.RightOf="lblDeviceSend" RelativePanel.AlignTopWith="lblDeviceSend" RelativePanel.AlignLeftWith="tbDeviceTimeout"
                      AcceptsReturn="True" TextWrapping="Wrap"

@@ -25,24 +25,45 @@ namespace Azure_IoTHub_Telemetry
         //"{Your service connection string here}";
 
         // Invoke the direct method on the device, passing the payload
-        private static async Task InvokeMethod(int delay, int timeout)
+        private static async Task InvokeMethod(int DelayBetweenTelemetryReadings, int ConnectionTimeout, int MethodTimeout, int MethodTag)
         {
-            var methodInvocation = new CloudToDeviceMethod("SetTelemetryInterval") { ResponseTimeout = TimeSpan.FromSeconds(299) };
-            methodInvocation.ConnectionTimeout = TimeSpan.FromSeconds(timeout);
-            methodInvocation.SetPayloadJson(string.Format("{0}",delay));
+            CloudToDeviceMethod methodInvocation= null;
+            switch (MethodTag)
+            {
+                case 1:
+                    methodInvocation = new CloudToDeviceMethod("SetTelemetryInterval") {};
+                    //Method timeout
+                    methodInvocation.ResponseTimeout = TimeSpan.FromSeconds(MethodTimeout);
+                    //Timeout for device to come online
+                    methodInvocation.ConnectionTimeout = TimeSpan.FromSeconds(ConnectionTimeout);
+                    methodInvocation.SetPayloadJson(string.Format("{0}", DelayBetweenTelemetryReadings));
+                    break;
+                case 2:
+                    methodInvocation = new CloudToDeviceMethod("SetTelemetryInterval2") {};
+                    //Method timeout
+                    methodInvocation.ResponseTimeout = TimeSpan.FromSeconds(MethodTimeout);
+                    //Timeout for device to come online
+                    methodInvocation.ConnectionTimeout = TimeSpan.FromSeconds(ConnectionTimeout);
+                    methodInvocation.SetPayloadJson(string.Format("{0}", DelayBetweenTelemetryReadings));
+                    break;
+                default:
+                    break;
+            }
+            if (methodInvocation != null)
+            {
+                System.Diagnostics.Debug.WriteLine(" s_serviceClient.InvokeDeviceMethodAsync");
+                // Invoke the direct method asynchronously and get the response from the simulated device.
+                var response = await s_serviceClient.InvokeDeviceMethodAsync(Azure_IoTHub_Connections.MyConnections.DeviceId, methodInvocation);
 
- System.Diagnostics.Debug.WriteLine(" s_serviceClient.InvokeDeviceMethodAsync");
-            // Invoke the direct method asynchronously and get the response from the simulated device.
-            var response = await s_serviceClient.InvokeDeviceMethodAsync(Azure_IoTHub_Connections.MyConnections.DeviceId, methodInvocation);
-
-            OnDeviceStatusUpdateD?.Invoke(string.Format("Response status: {0}, payload:", response.Status));
-            System.Diagnostics.Debug.WriteLine("Response status: {0}, payload:", response.Status);
-            string resp = response.GetPayloadAsJson();
-            System.Diagnostics.Debug.WriteLine(resp);
-            OnDeviceStatusUpdateD?.Invoke(resp);
+                OnDeviceStatusUpdateD?.Invoke(string.Format("Svc Control Set Response status: {0}, payload:", response.Status));
+                System.Diagnostics.Debug.WriteLine("Svc Control Set Response status: {0}, payload:", response.Status);
+                string resp = response.GetPayloadAsJson();
+                System.Diagnostics.Debug.WriteLine(string.Format("Svc Control Set Response: {0}",resp));
+                OnDeviceStatusUpdateD?.Invoke(string.Format("Svc Control SetResponse: {0}", resp));
+            }
         }
 
-        public static async  Task  Run(int delay, int timeout, ActionReceivedText OnSvcStatusUpdate)
+        public static async  Task  Run(int DelayBetweenTelemetryReadings, int ConnectionTimeout, int MethodTimeout, int MethodTag , ActionReceivedText OnSvcStatusUpdate)
         {
             OnDeviceStatusUpdateD = OnSvcStatusUpdate;
             Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString =
@@ -54,7 +75,7 @@ namespace Azure_IoTHub_Telemetry
             //System.Diagnostics.Debug.ReadLine();
             // Create a ServiceClient to communicate with service-facing endpoint on your hub.
             s_serviceClient = ServiceClient.CreateFromConnectionString(s_connectionString);
-            await InvokeMethod(delay, timeout);//.GetAwaiter().GetResult();
+            await InvokeMethod(DelayBetweenTelemetryReadings,  ConnectionTimeout,  MethodTimeout, MethodTag);//.GetAwaiter().GetResult();
             OnDeviceStatusUpdateD?.Invoke("Backend Done");
             System.Diagnostics.Debug.WriteLine("Press Enter to exit.");
             //System.Diagnostics.Debug.ReadLine();
