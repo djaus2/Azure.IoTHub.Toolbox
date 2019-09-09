@@ -62,6 +62,7 @@ namespace Azure_IoTHub_Toolbox_App
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
                 rootFrame.Navigated += RootFrame_Navigated;
+                ApplicationSettings.LoadMyConnections();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -77,6 +78,8 @@ namespace Azure_IoTHub_Toolbox_App
                     var val3 = AppSettingsValues.Settings.AutoStartDevice;
                     AppSettingsValues.Settings.AutoStartDevice = false;
                     var val4 = AppSettingsValues.Settings.AutoStartDevice;
+
+                    
                 }
 
                 // Place the frame in the current Window
@@ -152,6 +155,7 @@ namespace Azure_IoTHub_Toolbox_App
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            ApplicationSettings.SaveMyConnections();
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();

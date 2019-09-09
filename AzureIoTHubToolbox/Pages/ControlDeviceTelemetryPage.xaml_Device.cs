@@ -195,12 +195,27 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             });
         }
 
+        int LEDCol = 0;
         private void OnDeviceStatusUpdate(string msgIn)
         {
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    if (msgIn.ToLower().Contains("Simulated Device Started".ToLower()))
+                    if (msgIn.ToLower().Contains("Telemetry interval set".ToLower()))
+                    {
+                        AppSettingsValues.Settings.TelemetryDelayBtwReadings = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
+                    }
+                    else if (msgIn.ToLower().Contains("LED".ToLower()))
+                    {
+                        LEDCol++;
+                        if (LEDCol == 2)
+                            LEDCol = 0;
+                        int colr = 0;
+                        if (LEDCol > 0)
+                            colr = MainPage.Cols.Count() - 1;
+                        DeviceIsRunningLED.Fill = MainPage.Cols[colr];
+                    }
+                    else if (msgIn.ToLower().Contains("Simulated Device Started".ToLower()))
                     {
                         DeviceState = deviceStates.listening;
                         DeviceIsRunningLED.Fill = MainPage.Cols[1];

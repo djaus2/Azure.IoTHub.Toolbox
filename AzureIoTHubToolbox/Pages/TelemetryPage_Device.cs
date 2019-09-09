@@ -195,6 +195,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             });
         }
 
+
         private void OnDeviceStatusUpdate(string msgIn)
         {
             Task.Run(async () => {

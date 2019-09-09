@@ -18,7 +18,7 @@ namespace Azure_IoTHub_Telemetry
 
         // Connection string for your IoT Hub
         // az iot hub show-connection-string --hub-name {your iot hub name}
-        private readonly static string s_connectionString =
+        private  static string s_connectionString =
             Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
         //"HostName=MyNewHub2.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=BuPhIaEYb7S/FK9ojoDqxi8jyUhCttokrcXDTJGwoNI=";
         //"HostName=MyNewHub2.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=7KZtl2QDsaiS7of40G56f7Ib27SQ5gx3XAmQkAN0Kks=";
@@ -65,16 +65,20 @@ namespace Azure_IoTHub_Telemetry
 
         public static async  Task  Run(int DelayBetweenTelemetryReadings, int ConnectionTimeout, int MethodTimeout, int MethodTag , ActionReceivedText OnSvcStatusUpdate)
         {
+            System.Diagnostics.Debug.WriteLine("1");
             OnDeviceStatusUpdateD = OnSvcStatusUpdate;
-            Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString =
-                    "HostName=MyNewHub2.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=BuPhIaEYb7S/FK9ojoDqxi8jyUhCttokrcXDTJGwoNI=";
+            //Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString =
+            //        "HostName=MyNewHub2.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=BuPhIaEYb7S/FK9ojoDqxi8jyUhCttokrcXDTJGwoNI=";
              Azure_IoTHub_Connections.MyConnections.DeviceId = "MyNewDevice2";
             System.Diagnostics.Debug.WriteLine("IoT Hub Quickstarts #2 - Back-end application.\n");
             OnDeviceStatusUpdateD?.Invoke("IoT Hub Quickstarts #2 - Back-end application.");
-            System.Diagnostics.Debug.WriteLine("Press Enter to continue.");
             //System.Diagnostics.Debug.ReadLine();
             // Create a ServiceClient to communicate with service-facing endpoint on your hub.
+            System.Diagnostics.Debug.WriteLine("2");
+            s_connectionString =
+                Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
             s_serviceClient = ServiceClient.CreateFromConnectionString(s_connectionString);
+            System.Diagnostics.Debug.WriteLine("3");
             await InvokeMethod(DelayBetweenTelemetryReadings,  ConnectionTimeout,  MethodTimeout, MethodTag);//.GetAwaiter().GetResult();
             OnDeviceStatusUpdateD?.Invoke("Backend Done");
             System.Diagnostics.Debug.WriteLine("Press Enter to exit.");

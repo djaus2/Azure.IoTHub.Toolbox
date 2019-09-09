@@ -93,20 +93,37 @@ namespace Azure_IoTHub_Toolbox_App
             }
         }
 
-
-        private int? telemetryDelay = null;
-        public int TelemetryDelay
+        private int? svcTelemetryDelayBtwReadingsToSend = null;
+        public int SvcTelemetryDelayBtwReadingsToSend
         {
             get
             {
-                GetProperty(ref telemetryDelay);
-                int val = telemetryDelay.GetValueOrDefault();
+                GetProperty(ref svcTelemetryDelayBtwReadingsToSend);
+                int val = svcTelemetryDelayBtwReadingsToSend.GetValueOrDefault();
+                return val;
+            }
+            set
+            {
+                Azure_IoTHub_Connections.MyConnections.SvcTelemetryDelayBtwReadingsToSend = value;
+                if (svcTelemetryDelayBtwReadingsToSend != value) { svcTelemetryDelayBtwReadingsToSend = value; OnPropertyChanged(value); }
+            }
+        }
+
+        
+
+        private int? telemetryDelayBtwReadings = null;
+        public int TelemetryDelayBtwReadings
+        {
+            get
+            {
+                GetProperty(ref telemetryDelayBtwReadings);
+                int val = telemetryDelayBtwReadings.GetValueOrDefault();
                 return val;
             }
             set
             {
                 Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings = value;
-                if (telemetryDelay != value) { telemetryDelay = value; OnPropertyChanged(value); }
+                if (telemetryDelayBtwReadings != value) { telemetryDelayBtwReadings = value; OnPropertyChanged(value); }
             }
         }
 

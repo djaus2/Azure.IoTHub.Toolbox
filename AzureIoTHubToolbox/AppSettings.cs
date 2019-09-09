@@ -40,6 +40,59 @@ namespace Azure_IoTHub_Toolbox_App
             }
         }
 
+        public static void LoadMyConnections()
+        {
+
+            Type type = typeof(AppSettingsValues); // IoTHubConnectionDetails is static class with public static properties
+            foreach (var property in type.GetProperties()) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
+            {
+                string propertyName = property.Name;
+                if (propertyName == "Settings")
+                    continue;
+                var val = property.GetValue(AppSettingsValues.Settings); // static classes cannot be instanced, so use null...
+
+                Type type2 = typeof(Azure_IoTHub_Connections.MyConnections); // IoTHubConnectionDetails is static class with public static properties
+                foreach (var property2 in type2.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
+                {
+                    string propertyName2 = property2.Name;
+                    if (propertyName2 == propertyName)
+                    {
+                       
+                        var propertyInfo = type2.GetProperty(propertyName2); //, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                        var info = propertyInfo.GetValue(type2, null);
+                        propertyInfo.SetValue(type2, val, null);
+                    }
+                }
+            }
+        }
+
+        public static void SaveMyConnections()
+        {
+
+            Type type2 = typeof(Azure_IoTHub_Connections.MyConnections); // IoTHubConnectionDetails is static class with public static properties
+            foreach (var property2 in type2.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
+            {
+                string propertyName2 = property2.Name;
+                var propertyInfo = type2.GetProperty(propertyName2); //, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                var info = propertyInfo.GetValue(type2, null);
+
+                Type type = typeof(AppSettingsValues); // IoTHubConnectionDetails is static class with public static properties
+                foreach (var property in type.GetProperties()) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
+                {
+                    string propertyName = property.Name;
+                    if (propertyName == "Settings")
+                        continue;
+                    if (propertyName2 == propertyName)
+                    {
+
+                        var propertyInfo2 = type.GetProperty(propertyName); //, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                        var info2 = propertyInfo2.GetValue(AppSettingsValues.Settings);
+                        propertyInfo2.SetValue(AppSettingsValues.Settings,info);
+                    }
+                }
+            }
+        }
+
         // Create a new instance of ApplicationDataCompositeValue object as ComDetail
         // Iterate through the properties of a static class and store each name value pair in a ComDetail
         // Save that to the application's local settings, replacing the existing object if it exists.

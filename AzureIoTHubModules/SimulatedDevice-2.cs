@@ -40,6 +40,7 @@ namespace Azure_IoTHub_Telemetry
                 // Check the payload is a single integer value
                 if (Int32.TryParse(data, out s_telemetryInterval))
                 {
+                    Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings = s_telemetryInterval;
                     System.Diagnostics.Debug.WriteLine("Telemetry interval set to {0} seconds", data);
                     OnDeviceStatusUpdateD?.Invoke(string.Format("Telemetry interval set to {0} seconds", data));
 
@@ -58,7 +59,7 @@ namespace Azure_IoTHub_Telemetry
             {
                 System.Diagnostics.Debug.WriteLine("Toggle");
                 System.Diagnostics.Debug.WriteLine("SetTelemetryInterval2 {0} seconds", data);
-                OnDeviceStatusUpdateD?.Invoke(string.Format("LEd Toggle {0} seconds", data));
+                OnDeviceStatusUpdateD?.Invoke(string.Format("LED Toggle {0} seconds", data));
                 // Acknowlege the direct method call with a 200 success message
                 string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
                 return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
@@ -74,51 +75,51 @@ namespace Azure_IoTHub_Telemetry
 
         }
 
-        private static Task<MethodResponse> SetTelemetryInterval2(MethodRequest methodRequest, object userContext)
-        {
-            System.Diagnostics.Debug.WriteLine("1");
-            System.Diagnostics.Debug.WriteLine(methodRequest.Name);
-            var data = Encoding.UTF8.GetString(methodRequest.Data);
-            System.Diagnostics.Debug.WriteLine(data);
-            if (methodRequest.Name == "SetTelemetryInterval")
-            {
-                System.Diagnostics.Debug.WriteLine("Interval");
-                // Check the payload is a single integer value
-                if (Int32.TryParse(data, out s_telemetryInterval))
-                {
-                    System.Diagnostics.Debug.WriteLine("Telemetry interval set to {0} seconds", data);
-                    OnDeviceStatusUpdateD?.Invoke(string.Format("Telemetry interval set to {0} seconds", data));
+        //private static Task<MethodResponse> SetTelemetryInterval2(MethodRequest methodRequest, object userContext)
+        //{
+        //    System.Diagnostics.Debug.WriteLine("1");
+        //    System.Diagnostics.Debug.WriteLine(methodRequest.Name);
+        //    var data = Encoding.UTF8.GetString(methodRequest.Data);
+        //    System.Diagnostics.Debug.WriteLine(data);
+        //    if (methodRequest.Name == "SetTelemetryInterval")
+        //    {
+        //        System.Diagnostics.Debug.WriteLine("Interval");
+        //        // Check the payload is a single integer value
+        //        if (Int32.TryParse(data, out s_telemetryInterval))
+        //        {
+        //            System.Diagnostics.Debug.WriteLine("Telemetry interval set to {0} seconds", data);
+        //            OnDeviceStatusUpdateD?.Invoke(string.Format("Telemetry interval set to {0} seconds", data));
 
-                    // Acknowlege the direct method call with a 200 success message
-                    string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
-                    return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
-                }
-                else
-                {
-                    // Acknowlege the direct method call with a 400 error message
-                    string result = "{\"result\":\"Invalid parameter\"}";
-                    return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
-                }
-            }
-            else if (methodRequest.Name == "SetTelemetryInterval2")
-            {
-                System.Diagnostics.Debug.WriteLine("Toggle");
-                System.Diagnostics.Debug.WriteLine("SetTelemetryInterval2 {0} seconds", data);
-                OnDeviceStatusUpdateD?.Invoke(string.Format("LEd Toggle {0} seconds", data));
-                // Acknowlege the direct method call with a 200 success message
-                string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
-                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Other");
-                // Acknowlege the direct method call with a 400 error message
-                string result = "{\"result\":\"Invalid method request\"}";
-                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
-            }
+        //            // Acknowlege the direct method call with a 200 success message
+        //            string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
+        //            return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+        //        }
+        //        else
+        //        {
+        //            // Acknowlege the direct method call with a 400 error message
+        //            string result = "{\"result\":\"Invalid parameter\"}";
+        //            return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+        //        }
+        //    }
+        //    else if (methodRequest.Name == "SetTelemetryInterval2")
+        //    {
+        //        System.Diagnostics.Debug.WriteLine("Toggle");
+        //        System.Diagnostics.Debug.WriteLine("SetTelemetryInterval2 {0} seconds", data);
+        //        OnDeviceStatusUpdateD?.Invoke(string.Format("LED Toggle {0} seconds", data));
+        //        // Acknowlege the direct method call with a 200 success message
+        //        string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
+        //        return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+        //    }
+        //    else
+        //    {
+        //        System.Diagnostics.Debug.WriteLine("Other");
+        //        // Acknowlege the direct method call with a 400 error message
+        //        string result = "{\"result\":\"Invalid method request\"}";
+        //        return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+        //    }
 
 
-        }
+        //}
 
 
 
@@ -153,6 +154,7 @@ namespace Azure_IoTHub_Telemetry
                 System.Diagnostics.Debug.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
                 SentMsgD?.Invoke(string.Format("{0} > Sending message: {1}", DateTime.Now, messageString));
 
+                s_telemetryInterval = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
                 await Task.Delay(s_telemetryInterval * 1000);
             }
         }
@@ -160,7 +162,7 @@ namespace Azure_IoTHub_Telemetry
         private static ActionReceivedText SentMsgD = null;
         private static ActionReceivedText OnDeviceStatusUpdateD = null;
         public static async Task Run(int delay, int timeout, int tag, ActionReceivedText SentMsg, ActionReceivedText OnDeviceStatusUpdate)
-        {
+        { 
             SentMsgD = SentMsg;
             OnDeviceStatusUpdateD = OnDeviceStatusUpdate;
             System.Diagnostics.Debug.WriteLine("IoT Hub Quickstarts #2 - Simulated device. Ctrl-C to exit.\n");
@@ -170,7 +172,7 @@ namespace Azure_IoTHub_Telemetry
 
             // Create a handler for the direct method call
             await s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval", SetTelemetryInterval, null);//.Wait();
-            await s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval2", SetTelemetryInterval2, null);//.Wait();
+            await s_deviceClient.SetMethodHandlerAsync("SetTelemetryInterval2", SetTelemetryInterval, null);//.Wait();
             await SendDeviceToCloudMessagesAsync();
             //System.Diagnostics.Debug.ReadLine();
             System.Diagnostics.Debug.WriteLine("IoT Hub Quickstarts #2 - Simulated device: Done.\n");
