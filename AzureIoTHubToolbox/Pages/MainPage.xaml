@@ -46,7 +46,7 @@
                         <AppBarToggleButton x:Name="AppBarToggle4" Icon="Shuffle" Label="Send to Device: Auto Start" Click="AppBarButton_Click" Tag="4"/>
                         <AppBarToggleButton x:Name="AppBarToggle5"  Icon="Shuffle" Label="Send to Device No Auto Start" Click="AppBarButton_Click" Tag="5"/>
                         <AppBarSeparator/>
-                        <AppBarToggleButton x:Name="AppBarToggle6"  Icon="Shuffle" Label="Send to Device: Keep Listening" Click="AppBarButton_Click" Tag="6"/>
+                        <AppBarToggleButton x:Name="AppBarToggle6"  Icon="Shuffle" Label="Send to Device: Keep Listening" Click="AppBarButton_Click" Tag="6" />
                         <AppBarToggleButton x:Name="AppBarToggle7"  Icon="Shuffle" Label="Send to Device: No  Keep Listening" Click="AppBarButton_Click" Tag="7"/>
                     </CommandBar.SecondaryCommands>
 
@@ -200,8 +200,8 @@
 
                     <Button x:Name="btnListen" FontWeight="Bold"
                 Content="Start Listening as Device"  Height="120" Width="340" Click="Button_Click_Device" Background="DarkCyan" Foreground="Yellow" />
-      
-                    <CheckBox x:Name="chKeepDeviceListening" Content="Keep device listening" 
+
+                    <CheckBox x:Name="chKeepDeviceListening" Content="Keep device listening"  Checked="ChKeepDeviceListening_Checked" Unchecked="ChKeepDeviceListening_Checked" 
                       RelativePanel.Below="btnListen" Margin="20,10,0,0" IsChecked="{Binding Path=KeepDeviceListening,Mode=TwoWay}"
                       />
                     <CheckBox x:Name="chkAutoStart" Content="Auto start Device" 

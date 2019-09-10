@@ -197,22 +197,27 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                     DeviceUseCustomClass = true;
                     isDeviceMode = true;
                     break;
+                    //These are in pairs, mutualy exclusive so clear its pair
                 case "4":
 
                     if (AppBarToggle5.IsChecked == true)
                         AppBarToggle5.IsChecked = false;
+                    isSvc2ndMenu = true;
                     break;
                 case "5":
                     if (AppBarToggle4.IsChecked == true)
                         AppBarToggle4.IsChecked = false;
+                    isSvc2ndMenu = true;
                     break;
                 case "6":
                     if (AppBarToggle7.IsChecked == true)
                         AppBarToggle7.IsChecked = false;
+                    isSvc2ndMenu = true;
                     break;
                 case "7":
                     if (AppBarToggle6.IsChecked == true)
                         AppBarToggle6.IsChecked = false;
+                    isSvc2ndMenu = true;
                     break;
 
             }
@@ -225,7 +230,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 else
                     DevAutoStart = 2;
 
-                if ((AppBarToggle5.IsChecked == true) && !(AppBarToggle7.IsChecked == true))
+                if ((AppBarToggle6.IsChecked == true) && !(AppBarToggle7.IsChecked == true))
                     DevKeepListening = 0;
                 else if ((AppBarToggle7.IsChecked == true) && (!(AppBarToggle6.IsChecked == true)))
                     DevKeepListening = 1;
@@ -305,8 +310,11 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             tbDeviceMsgOut.Text = "";
         }
 
-
-
-
+        private void ChKeepDeviceListening_Checked(object sender, RoutedEventArgs e)
+        {
+            if (DeviceStream_Device.deviceStream_Device != null)
+                if (DeviceStream_Device.deviceStream_Device.DeviceCurrentSettings != null)
+                    DeviceStream_Device.deviceStream_Device.DeviceCurrentSettings.KeepDeviceListening = AppSettingsValues.Settings.KeepDeviceListening;
+        }
     }
 }

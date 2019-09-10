@@ -9,14 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel>
-     
-            <local:NewHubElement DisplayMode="comment"   Code="For Device Streaming you need an Azure Resource Group, an IOT Hub in that group and an associated IoT Hub Device."/>
-            <local:NewHubElement DisplayMode="comment"   Code="You can create the Group, Hub and Device here, and/or enter info for existing entities here."/>
-
-            <local:NewHubElement DisplayMode="comment"   Code="To run Device Streaming you only need the last 3 items with an asterix below. You can paste them directly from Azure Portal."/>
-            <local:NewHubElement DisplayMode="comment"   Code="The first two info items are only required if you are generating the named new resource here."/>
-            <local:NewHubElement DisplayMode="comment"   Code="The Device Connection String, IoTHub Name and Resource Group Name can be determined from the first two asterixed infos if the required resources already exist."/>
-            <local:NewHubElement DisplayMode="comment"   Code="Start by entering the text for resources that you already have, if not already showing from app settings."/>
+        <StackPanel x:Name="Page" Grid.Row="0"  Orientation="Horizontal" VerticalAlignment="Top">
+            <TextBlock Text="Sportronics: Azure IoT Hub Toolbox: Links" Foreground="Blue" FontSize="32" Margin="100,0,0,0" FontWeight="Bold"/>
+        </StackPanel>
         <local:NewHubElement DisplayMode="seperator" Color="Red"   />
         <local:NewHubElement x:Name="hTelemetry" DisplayMode="sectionHeading"   Code="Telemetry" HorizontalAlignment="Left" />
 
@@ -43,6 +38,11 @@
                                  Url="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest" UrlText="Install Az Cli"/>
             <local:NewHubElement DisplayMode="link"   Code="Find out more about theese Az Cli commands"
                                  Url="https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-create-using-cli" UrlText="Reference for these commands. (You'll find a link to other methods here)"/>
+        <local:NewHubElement DisplayMode="seperator" Color="Purple"   />
 
+        <local:NewHubElement DisplayMode="link"   Code="My Blog:"
+                                 Url="http://www.sportronics.com.au/" UrlText="http://www.sportronics.com.au/"/>
+        <local:NewHubElement DisplayMode="link"   Code="This app on GitHub:"
+                                 Url="https://github.com/djaus2/Azure.IoTHub.Toolbox/" UrlText="djaus2/Azure.IoTHub.Toolbox/"/>
     </StackPanel>
 </Page>

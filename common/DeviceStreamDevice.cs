@@ -77,6 +77,7 @@ namespace Azure_IoTHub_DeviceStreaming
                         }
 
                         deviceStream_Device = new DeviceStream_Device(deviceClient, onRecvdTextD, actionCommandD, onDeviceStatusUpdateD,  keepDeviceListening, deviceCurrentSettings);
+    
                         if (deviceStream_Device == null)
                         {
                             System.Diagnostics.Debug.WriteLine("Failed to create DeviceStreamClient!");

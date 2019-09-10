@@ -209,7 +209,10 @@
                       />
                     <Ellipse x:Name="DeviceIsRunningLED" RelativePanel.Below="chkAutoStart" Width="40" Height="40" Margin="10" Fill="Red" Stroke="Black"  StrokeThickness="2"/>
                     <TextBlock RelativePanel.RightOf="DeviceIsRunningLED" RelativePanel.AlignVerticalCenterWith="DeviceIsRunningLED" Text="Device Running"  />
-                    
+
+                    <Rectangle x:Name="DeviceControlLED" RelativePanel.RightOf="btnCancelDevice" RelativePanel.AlignVerticalCenterWith="btnCancelDevice" Width="50" Height="50" Margin="40,10,0,0" Fill="White" Stroke="Black"  StrokeThickness="2"/>
+                    <TextBlock RelativePanel.RightOf="DeviceControlLED" RelativePanel.AlignVerticalCenterWith="DeviceControlLED" Text="Control LED" Margin="10"  />
+
                     <TextBlock x:Name="lblDeviceTimeout" RelativePanel.RightOf="btnListen" Width="210" TextAlignment="Right" 
                 Text="Device-Timeout (sec):" Margin="20,20,0,0"  />
                     <TextBox x:Name="tbDeviceTimeout" RelativePanel.RightOf="lblDeviceTimeout" RelativePanel.AlignTopWith="lblDeviceTimeout"

@@ -198,6 +198,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         int LEDCol = 0;
         private void OnDeviceStatusUpdate(string msgIn)
         {
+            System.Diagnostics.Debug.WriteLine(msgIn);
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -205,15 +206,21 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                     {
                         AppSettingsValues.Settings.TelemetryDelayBtwReadings = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
                     }
-                    else if (msgIn.ToLower().Contains("LED".ToLower()))
+                    else if (msgIn.ToLower().Contains("LED Toggle".ToLower()))
                     {
                         LEDCol++;
-                        if (LEDCol == 2)
+                        if (LEDCol >1)
                             LEDCol = 0;
-                        int colr = 0;
+ 
+
                         if (LEDCol > 0)
-                            colr = MainPage.Cols.Count() - 1;
-                        DeviceIsRunningLED.Fill = MainPage.Cols[colr];
+                        {
+                            DeviceControlLED.Fill = new SolidColorBrush(Colors.Red);
+                        }
+                        else
+                        {
+                            DeviceControlLED.Fill = new SolidColorBrush(Colors.White);
+                        }
                     }
                     else if (msgIn.ToLower().Contains("Simulated Device Started".ToLower()))
                     {
@@ -228,8 +235,14 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                     else if (msgIn.ToLower().Contains("Device end".ToLower()))
                     {
                         DeviceState = deviceStates.stopped;
+                        DeviceIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 2];
+                    }
+                    else if (msgIn.ToLower().Contains("Device done".ToLower()))
+                    {
+                        DeviceState = deviceStates.stopped;
                         DeviceIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 1];
                     }
+
                     tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
                     tbDeviceStatus.Text = msgIn;
                 });
@@ -261,7 +274,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private void ButtonCanceLDevice_Click(object sender, RoutedEventArgs e)
         {
             DeviceStream_Device.deviceStream_Device?.Cancel();
-            Azure_IoTHub_Telemetry.SimulatedDevice.ContinueLoop = false;
+            Azure_IoTHub_Telemetry.SimulatedDevice_2.ContinueLoop = false;
         }
 
         public bool DeviceBasicMode { get; set; } = false;

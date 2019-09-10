@@ -88,5 +88,9 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            NavigationFrame.Navigate(typeof(Pages.HomePage), null);
+        }
     }
 }

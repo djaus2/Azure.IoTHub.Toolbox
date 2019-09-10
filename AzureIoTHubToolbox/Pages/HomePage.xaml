@@ -2,14 +2,18 @@
     x:Class="Azure_IoTHub_Toolbox_App.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Azure_IoTHub_Toolbox_App.Pages"
+    xmlns:local="using:Azure_IoTHub_Toolbox_App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <TextBlock HorizontalAlignment="Left" Height="169" Margin="188,145,0,0" Text="Home" FontSize="128" TextWrapping="Wrap" VerticalAlignment="Top" Width="861"/>
+    <StackPanel>
+        <TextBlock HorizontalAlignment="Left"  Margin="10,20,0,0" Text="Azure IoT Hub Toolbox" TextAlignment="Center" FontSize="100" Foreground="Blue" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True"  TextWrapping="WrapWholeWords"  VerticalAlignment="Top" />
+        <TextBlock x:Name="h1" Margin="50,10,0,10"  Text="Telemetry, Device Streaming, Device Control ..." HorizontalAlignment="Left" TextAlignment="Center" FontSize="36" Foreground="Purple" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True" />
+        <TextBlock x:Name="h2" Margin="50,10,0,10"  Text="A Quickstart on the Azure IOT Hub SDK Quickstarts!" HorizontalAlignment="Left" TextAlignment="Center" FontSize="24" Foreground="Green" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True" />
+        <TextBlock x:Name="h3" Margin="50,10,0,10"  Text="Hint: Go to Settings and set up your IoT Hub." HorizontalAlignment="Left" TextAlignment="Center" FontSize="24" Foreground="Green"  FontStyle="Oblique" IsColorFontEnabled="True" />
 
-    </Grid>
+        <Image Source="/Assets/400toolbox.jpg" Margin="10,50,10,10" />
+    </StackPanel>
 </Page>

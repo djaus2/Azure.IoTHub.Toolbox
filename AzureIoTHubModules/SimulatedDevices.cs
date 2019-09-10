@@ -38,7 +38,7 @@ namespace Azure_IoTHub_Telemetry
         private static async Task SendDeviceToCloudMessagesAsync()
         {
             ContinueLoop = true;
-            OnDeviceStatusUpdate?.Invoke("Telemetry - Device sending messages.");
+            OnDeviceStatusUpdate?.Invoke("IoT Hub Telemetry - Device sending messages.");
             while (ContinueLoop)
             {
                 Azure_IoTHub_Sensors.TelemetryDataPoint telemetryDataPoint;
@@ -157,8 +157,8 @@ namespace Azure_IoTHub_Telemetry
             await SendDeviceToCloudMessagesAsync();
             if (!IsDeviceStreaming)
             {
-                System.Diagnostics.Debug.WriteLine("Telemetry - Device done");
-                OnDeviceStatusUpdate?.Invoke("Telemetry - Device done");
+                System.Diagnostics.Debug.WriteLine("IoT Hub Telemetry - Device done");
+                OnDeviceStatusUpdate?.Invoke("IoT Hub Telemetry - Device done");
                 await s_deviceClient.CloseAsync();
                 MessageString = "";
             }

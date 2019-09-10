@@ -309,6 +309,9 @@ Device: Not listening  RED
 
         private void ButtonCanceLDevice_Click(object sender, RoutedEventArgs e)
         {
+            if (DeviceStream_Device.deviceStream_Device != null)
+                if (DeviceStream_Device.deviceStream_Device.DeviceCurrentSettings != null)
+                    DeviceStream_Device.deviceStream_Device.DeviceCurrentSettings.KeepDeviceListening = false;
             DeviceStream_Device.deviceStream_Device?.Cancel();
             Azure_IoTHub_Telemetry.SimulatedDevice.ContinueLoop = false;
         }
