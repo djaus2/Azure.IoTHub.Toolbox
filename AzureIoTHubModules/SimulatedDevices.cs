@@ -90,7 +90,8 @@ namespace Azure_IoTHub_Telemetry
         private static ActionReceivedText OnDeviceStatusUpdate;
 
 
-        public static void Configure(string device_cs, bool isDeviceStreaming, TransportType transportType, bool loop=true)
+        public static void Configure(string device_cs, bool isDeviceStreaming, 
+            TransportType transportType, bool loop=true)
         {
 
             IsDeviceStreaming = isDeviceStreaming;

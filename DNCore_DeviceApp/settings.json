@@ -1,0 +1,15 @@
+﻿{
+  "runMode": 1,
+  "waitAtEndOfConsoleAppSecs": 10,
+  "timeout": 100,
+  "DeviceAction": 3,
+  "basicMode": false,
+  "UseCustomClass": false,
+  "ResponseExpected": true,
+  "KeepAlive": false,
+  "service_cs": "",
+  "device_id": "MyNewDevice2",
+  "device_cs": "HostName=MyNewHub2.azure-devices.net;DeviceId=MyNewDevice2;SharedAccessKey=uIPA9ftcG4F5aPI/WTD3CDUDt7BuT0AEYCW0aMAIn2o=",
+  "KeepDeviceListening": true,
+  "AutoStartDevice": true
+}
