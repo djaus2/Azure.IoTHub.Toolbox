@@ -127,6 +127,9 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppSettingsValues.cs" />
     <Compile Include="EnumToStringConverter.cs" />
+    <Compile Include="Pages\DeployToDevice.xaml.cs">
+      <DependentUpon>DeployToDevice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LinksPage.xaml.cs">
       <DependentUpon>LinksPage.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,15 @@
     <Content Include="Assets\400toolbox.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Devices\ARM\TextFile1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Devices\x64\TextFile1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Devices\x86\TextFile1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -228,6 +240,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <None Include="AzIOTHubTb.pfx" />
+    <Content Include="Devices\Dummy.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -241,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Pages\DeployToDevice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\LinksPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -302,7 +321,12 @@
       <Project>{577794ca-0ceb-49fc-833d-2468a3757a68}</Project>
       <Name>AzureIoTHubSimSensors</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FolderTx\FolderTx.csproj">
+      <Project>{7707d9b6-6e21-42a9-967e-0a294d829fcc}</Project>
+      <Name>FolderTx</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
@@ -317,7 +341,11 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem copy "$(TargetDir)Assets"   "$(TargetDir)Appx\Assets"</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)DNCore_DeviceApp\bin\Release\netcoreapp2.2\Publish"  "$(TargetDir)Appx\Devices" /y /r /s /c</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

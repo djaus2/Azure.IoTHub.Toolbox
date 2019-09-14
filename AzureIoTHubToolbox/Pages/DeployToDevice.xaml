@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="Azure_IoTHub_Toolbox_App.Pages.DeployToDevice"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Azure_IoTHub_Toolbox_App.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel>
+        <TextBlock HorizontalAlignment="Left"  Margin="10,20,0,0" Text="Deploy To IoT" TextAlignment="Center" FontSize="100" Foreground="Blue" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True"  TextWrapping="WrapWholeWords"  VerticalAlignment="Top" />
+        <RelativePanel >
+
+            <!--<Button x:Name="btnSelectFile" 
+                Content="Select File" Height="120" Width="340" Click="BtnSelectFile_Click" Margin="0,10,0,0" Background="Brown" FontWeight="Bold"
+                    Foreground="Yellow"/>-->
+
+            <ListView   x:Name="ListviewFolders"  Height="150"  BorderBrush="Black" BorderThickness="2"
+                         ScrollViewer.IsVerticalRailEnabled="True" Width="800"
+                        Margin="0"   SelectionChanged="ListviewTransports2_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" HorizontalAlignment="Left"  Margin="10,0,0,0" Padding="0"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </RelativePanel>
+
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Choose Src Folder" Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click"/>
+                    <TextBlock Text="Src Folder: " Margin="10" Foreground="Blue" FontStyle="Italic"  FontSize="20"  VerticalAlignment="Center"/>
+                    <TextBlock x:Name="tbSrcFolder" Margin="10" Foreground="Purple" FontSize="20" Text="" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Locate Target"  Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click_1"/>
+                    <TextBlock Text="Target Folder: " Margin="10" Foreground="Blue" FontStyle="Italic" FontSize="20" VerticalAlignment="Center" />
+                    <TextBlock x:Name="tbTargetFolder" Margin="10"  Foreground="Purple" FontSize="20"  Text=""  VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Copy Src Folder To Target" Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click_2"/>
+                    <Button Content="Cancel" Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click_3"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ProgressBar x:Name="pb" Height="30" Width="319" Background="Beige" HorizontalAlignment="Left" Maximum="100" Minimum="0" Value="0" Margin="10"/>
+                    <TextBlock  VerticalAlignment="Center" Foreground="Red" FontStyle="Italic" FontSize="20" Text="File Progress (in 100s) "/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ProgressBar x:Name="pb2" Height="30" Width="319" Background="Beige" HorizontalAlignment="Left" Maximum="10" Minimum="0" Value="0" Margin="10"/>
+                    <TextBlock   VerticalAlignment="Center" Foreground="Red" FontStyle="Italic" FontSize="20" Text="Folder Progress (in 10s) "/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock  Margin="10" Foreground="Blue" FontStyle="Italic" FontSize="20" Text="No. Files: "/>
+                    <TextBlock  Margin="10" Foreground="Purple" FontSize="20" x:Name="tbNumFiles" Text="0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10" Foreground="Blue" FontStyle="Italic" FontSize="20" Text="No. Folders: "/>
+                    <TextBlock Margin="10" Foreground="Purple" FontSize="20" x:Name="tbNumFolders" Text="0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10"  Foreground="Blue" FontStyle="Italic" FontSize="20" Text="Status: "/>
+                    <TextBlock Margin="10" Foreground="Green" FontSize="20" x:Name="tbStatus" Text=""/>
+                </StackPanel>
+
+            </StackPanel>
+     
+
+
+    </StackPanel>
+</Page>
