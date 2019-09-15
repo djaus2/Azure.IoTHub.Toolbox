@@ -17,12 +17,12 @@
         
         <TextBlock Grid.Row="0" HorizontalAlignment="Left"  Margin="10,0,0,0" Text="Deploy To IoT" TextAlignment="Center" FontSize="100" Foreground="Blue" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True"  TextWrapping="WrapWholeWords"  VerticalAlignment="Top" />
 
-        <ScrollViewer x:Name="PageBody" Grid.Row="2" VerticalScrollBarVisibility="Auto" >
+        <ScrollViewer x:Name="PageBody" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
             <StackPanel>
                 <StackPanel >
                     <local:NewHubElement x:Name="h1"  DisplayMode="sectionHeading"   Code="Using this page" HorizontalAlignment="Left"  />
                     <local:NewHubElement DisplayMode="comment"   Code="Click button to expand."/>
-                    <StackPanel  Background="Beige" x:Name="Info" Visibility="Visible">
+                    <StackPanel  Background="Beige" x:Name="Info" Visibility="Collapsed">
                         <local:NewHubElement DisplayMode="comment"   Code="OK so you've used this app as both ends of the Azure IoT Hub pipe; the Device and the User Backend."/>
                         <local:NewHubElement DisplayMode="comment"   Code="With this page you can copy a prebuilt .NET Core IoT Device app to a suitable target device (IoT-Core, Raspbian or Linux), to a file share on the device."/>
                         <local:NewHubElement DisplayMode="comment"   Code="NB: The prebuilt app folders are self-contained, except Portable. That is, for those you don't need .NET Core installed on the target."/>
