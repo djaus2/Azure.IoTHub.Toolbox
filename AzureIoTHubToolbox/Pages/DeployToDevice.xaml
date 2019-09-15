@@ -22,13 +22,17 @@
                 <StackPanel >
                     <local:NewHubElement x:Name="h1"  DisplayMode="sectionHeading"   Code="Using this page" HorizontalAlignment="Left"  />
                     <local:NewHubElement DisplayMode="comment"   Code="Click button to expand."/>
-                    <StackPanel  Background="Beige" x:Name="Info" Visibility="Collapsed">
+                    <StackPanel  Background="Beige" x:Name="Info" Visibility="Visible">
                         <local:NewHubElement DisplayMode="comment"   Code="OK so you've used this app as both ends of the Azure IoT Hub pipe; the Device and the User Backend."/>
                         <local:NewHubElement DisplayMode="comment"   Code="With this page you can copy a prebuilt .NET Core IoT Device app to a suitable target device (IoT-Core, Raspbian or Linux), to a file share on the device."/>
-                        <local:NewHubElement DisplayMode="comment"   Code="NB: The prebuilt app folders are self-contained. That is, you don't need .NET Core installed on the target."/>
+                        <local:NewHubElement DisplayMode="comment"   Code="NB: The prebuilt app folders are self-contained, except Portable. That is, for those you don't need .NET Core installed on the target."/>
+                        <local:NewHubElement DisplayMode="comment"   Code="Portable: requires .Net Core 2.2, or later, to be installed. You run it by entering at the command line, dotnet yourapp.dll"/>
                         <local:NewHubElement DisplayMode="comment"   Code="Select the relevant target type (OS and CPU), or browse to another built app folder elsewhere."/>
                         <local:NewHubElement DisplayMode="comment"   Code="Select the file share on the target and deploy (copy). Once copied, you will need to edit the file settings.json for your Azure IoT Hub connection."/>
-                        <local:NewHubElement DisplayMode="comment"   Code="On the target, open a command prompt (remote [PowerShell, SSH etc] or direct on the device) to the share location and run the .exe"/>
+                        <local:NewHubElement DisplayMode="comment"   Code="On the target, open a command prompt (remote [PowerShell, SSH etc] or direct on the device) to the share location and run the .exe. On Linux the commmand is, ./yourapp"/>
+                        <local:NewHubElement DisplayMode="seperator" Color="Green"  />
+                        <local:NewHubElement DisplayMode="comment"   Code="Curremtly, the only Quickstart implemented in the app is Device Streaming"/>
+                        <local:NewHubElement DisplayMode="comment"   Code="Nb: The Quickstart mode is set by runMode (=1 for Device Streaming) in setttings.json"/>
                         <local:NewHubElement DisplayMode="seperator" Color="Red"   />
                     </StackPanel>
                 </StackPanel>
