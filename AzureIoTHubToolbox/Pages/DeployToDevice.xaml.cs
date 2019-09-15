@@ -125,6 +125,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             var lst = from f in fldrs  select f.Name;
             Folders = lst.ToList();
             ListviewFolders.ItemsSource = Folders;
+            h1.SubRegion = this.Info;
         }
 
         void UpdateProgress(int filecount, int foldercount)
@@ -167,13 +168,21 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             //src = await ChooseFolder();
-            tbSrcFolder.Text = await FolderCopy.GetSrc();
+            var resp = await FolderCopy.GetSrc();
+            if (!string.IsNullOrEmpty(resp))
+            {
+                tbSrcFolder.Text = resp;
+            }
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             //dest = await ChooseFolder();
-            tbTargetFolder.Text = await FolderCopy.GetDest();
+            var resp = await FolderCopy.GetDest();
+            if (!string.IsNullOrEmpty(resp))
+            {
+                tbTargetFolder.Text = resp;
+            }
         }
 
         private async void Button_Click_2(object sender, RoutedEventArgs e)

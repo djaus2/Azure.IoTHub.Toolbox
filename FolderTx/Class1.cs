@@ -107,13 +107,19 @@ namespace FileCopy
         public static async Task<string> GetSrc()
         {
             src = await ChooseFolder();
-            return src.Path;
+            if (src==null)
+                return "";
+            else
+                return src.Path;
         }
 
         public static async Task<string> GetDest()
         {
             dest = await ChooseFolder();
-            return dest.Path;
+            if (dest == null)
+                return "";
+            else
+                return dest.Path;
         }
 
         public static async Task CopyFolder(UpdateProgress updateProg, UpdateStatus updateStat)
