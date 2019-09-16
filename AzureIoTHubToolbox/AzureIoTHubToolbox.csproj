@@ -127,6 +127,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppSettingsValues.cs" />
     <Compile Include="EnumToStringConverter.cs" />
+    <Compile Include="IAppSettingsValues.cs" />
     <Compile Include="Pages\DeployToDevice.xaml.cs">
       <DependentUpon>DeployToDevice.xaml</DependentUpon>
     </Compile>
@@ -356,7 +357,8 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem xcopy "$(SolutionDir)DNCore_DeviceApp\bin\Release\netcoreapp2.2\Publish"  "$(TargetDir)Appx\Devices" /y /r /s /c</PostBuildEvent>
+    <PostBuildEvent>rem xcopy "$(SolutionDir)DNCore_DeviceApp\bin\Release\netcoreapp2.2\Publish"  "$(TargetDir)Appx\Devices" /y /r /s /c
+@echo Enable rem cammnd above and set the copy from  folder in it, when ever changes made to DNCore app. Disable otherwise.</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

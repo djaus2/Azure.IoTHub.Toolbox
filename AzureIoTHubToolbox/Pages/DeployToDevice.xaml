@@ -66,6 +66,8 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Copy Src Folder To Target" Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click_2"/>
+                    <Button Content="Copy Toolbox app settings to Target" Margin="10" VerticalAlignment="Top" Height="80" Width="250" Click="Button_Click_4"/>
+                    <Button Content="Just update app files only." Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click_5"/>
                     <Button Content="Cancel" Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click_3"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" >
@@ -78,10 +80,7 @@
                             <TextBlock Margin="10" Foreground="Blue" FontStyle="Italic" FontSize="20" Text="No. Folders: "/>
                             <TextBlock Margin="10" Foreground="Purple" FontSize="20" x:Name="tbNumFolders" Text="0"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="10"  Foreground="Blue" FontStyle="Italic" FontSize="20" Text="Status: "/>
-                            <TextBlock Margin="10" Foreground="Green" FontSize="20" x:Name="tbStatus" Text=""/>
-                        </StackPanel>
+                       
                     </StackPanel>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
@@ -94,7 +93,11 @@
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="10"  Foreground="Blue" FontStyle="Italic" FontSize="20" Text="Status: "/>
+                        <TextBlock Margin="10" Foreground="Green" FontSize="20" x:Name="tbStatus" Text=""/>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

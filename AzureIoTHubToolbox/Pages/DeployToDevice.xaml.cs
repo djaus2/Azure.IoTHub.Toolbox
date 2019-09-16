@@ -34,7 +34,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private List<StorageFolder> fldrs;
         List<string> Folders { get; set; }
 
-        private async void BtnSelectFile_Click(object sender, RoutedEventArgs e)
+        private  void BtnSelectFile_Click(object sender, RoutedEventArgs e)
         {
 
             //foreach (StorageFolder folder in fldrs)
@@ -69,7 +69,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             //Windows.Storage.StorageFolder fldr = await picker.PickSingleFolderAsync();
         }
 
-        private async void ListviewTransports2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private  void ListviewTransports2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index = ListviewFolders.SelectedIndex;
             if (index < fldrs.Count())
@@ -196,6 +196,21 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             FolderCopy.Cancel();
         }
 
+        private async void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            await CopyAppSettings();
+        }
 
+        private async Task CopyAppSettings()
+        {
+            string settingsStr = ApplicationSettings.SaveSettingsToConsoleDeviceAppSettings();
+            await FolderCopy.WriteSettings(UpdateStatus, settingsStr);
+        }
+
+        private static string appFileName = "DNCore_Console_DeviceApp";
+        private async void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            await FolderCopy.CopyAppFilesOnly(appFileName, UpdateStatus);
+        }
     }
 }

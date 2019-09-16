@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -121,6 +122,44 @@ namespace Azure_IoTHub_Toolbox_App
             {
                 localSettings.Values.Remove("AppSettingsValues");
             }
+        }
+
+        public static string SaveSettingsToConsoleDeviceAppSettings()
+        {
+
+            var settings = new Settings();
+
+            Type type = typeof(AppSettingsValues); // IoTHubConnectionDetails is static class with public static properties
+            foreach (var property in type.GetProperties()) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
+            {
+                string propertyName = property.Name;
+                if (propertyName == "Settings")
+                    continue;
+                var val = property.GetValue(AppSettingsValues.Settings); // static classes cannot be instanced, so use null...
+
+                
+                Type type2 = typeof(Settings); // IoTHubConnectionDetails is static class with public static properties
+                foreach (var property2 in type2.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
+                {
+                    string propertyName2 = property2.Name;
+                    if (propertyName2 == propertyName)
+                    {
+
+                        var propertyInfo2 = type.GetProperty(propertyName); //, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                        var info2 = propertyInfo2.GetValue(settings);
+                        propertyInfo2.SetValue(settings, info2);
+                    }
+                }
+                
+            }
+            settings.AutoStartDevice = true;
+            settings.KeepDeviceListening = true;
+            settings.device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
+            settings.device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
+            settings.DeviceTimeout = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeviceTimeout.Seconds;
+            settings.DeviceAction = Azure_IoTHub_Connections.MyConnections.DeviceAction;
+            string str = JsonConvert.SerializeObject(settings);
+            return str;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace Azure_IoTHub_Toolbox_App
 {
-    public  class AppSettingsValues : INotifyPropertyChanged
+    public class AppSettingsValues : INotifyPropertyChanged, IAppSettingsValues
     {
-        /// <summary>
+
+    /// <summary>
         /// Use this instance for application settings.
         /// Note auto instatiated.
         /// Also these settings are autosaved when set.
@@ -57,8 +59,11 @@ namespace Azure_IoTHub_Toolbox_App
         #region integer settings
 
         private int? deviceAction = null;
-        public int DeviceAction { get { GetProperty(ref deviceAction); return (deviceAction.GetValueOrDefault()); }
-            set { if (deviceAction != value) { deviceAction = value; OnPropertyChanged(value); } } }
+        public int DeviceAction
+        {
+            get { GetProperty(ref deviceAction); return (deviceAction.GetValueOrDefault()); }
+            set { if (deviceAction != value) { deviceAction = value; OnPropertyChanged(value); } }
+        }
 
 
         private int? svcTimeout = null;
@@ -109,7 +114,7 @@ namespace Azure_IoTHub_Toolbox_App
             }
         }
 
-        
+
 
         private int? telemetryDelayBtwReadings = null;
         public int TelemetryDelayBtwReadings
@@ -137,32 +142,57 @@ namespace Azure_IoTHub_Toolbox_App
         ///////////////////////////////////////////////////////////////////////////////////////////
         #region More bool settings
         private bool? autoStartSvc = null;
-        public bool AutoStartSvc { get { GetProperty(ref autoStartSvc); return (autoStartSvc.GetValueOrDefault()); }
-            set {
-                if (autoStartSvc != value) { autoStartSvc = value; OnPropertyChanged(value); } } }
+        public bool AutoStartSvc
+        {
+            get { GetProperty(ref autoStartSvc); return (autoStartSvc.GetValueOrDefault()); }
+            set
+            {
+                if (autoStartSvc != value) { autoStartSvc = value; OnPropertyChanged(value); }
+            }
+        }
 
 
         private bool? keepAliveingSvc = null;
-        public bool KeepAliveSvc { get { GetProperty(ref keepAliveingSvc); return (keepAliveingSvc.GetValueOrDefault()); }
-            set {
-                if (keepAliveingSvc != value) { keepAliveingSvc = value; OnPropertyChanged(value); } } }
+        public bool KeepAliveSvc
+        {
+            get { GetProperty(ref keepAliveingSvc); return (keepAliveingSvc.GetValueOrDefault()); }
+            set
+            {
+                if (keepAliveingSvc != value) { keepAliveingSvc = value; OnPropertyChanged(value); }
+            }
+        }
 
         private bool? expectResponse = null;
-        public bool ExpectResponse { get { GetProperty(ref expectResponse); return (expectResponse.GetValueOrDefault()); }
-            set {
-                if (expectResponse != value) { expectResponse = value; OnPropertyChanged(value); } } }
+        public bool ExpectResponse
+        {
+            get { GetProperty(ref expectResponse); return (expectResponse.GetValueOrDefault()); }
+            set
+            {
+                if (expectResponse != value) { expectResponse = value; OnPropertyChanged(value); }
+            }
+        }
 
 
         private bool? autoStartDevice = null;
-        public bool AutoStartDevice { get { GetProperty(ref autoStartDevice); return (autoStartDevice.GetValueOrDefault());  }
-            set {
-                if (autoStartDevice != value) { autoStartDevice = value; OnPropertyChanged(value); } } }
+        public bool AutoStartDevice
+        {
+            get { GetProperty(ref autoStartDevice); return (autoStartDevice.GetValueOrDefault()); }
+            set
+            {
+                if (autoStartDevice != value) { autoStartDevice = value; OnPropertyChanged(value); }
+            }
+        }
 
 
         private bool? keepDeviceListening = null;
-        public  bool KeepDeviceListening { get { GetProperty(ref keepDeviceListening); return (keepDeviceListening.GetValueOrDefault()); }
-            set {
-                if (keepDeviceListening != value) { keepDeviceListening = value; OnPropertyChanged(value); } } }
+        public bool KeepDeviceListening
+        {
+            get { GetProperty(ref keepDeviceListening); return (keepDeviceListening.GetValueOrDefault()); }
+            set
+            {
+                if (keepDeviceListening != value) { keepDeviceListening = value; OnPropertyChanged(value); }
+            }
+        }
 
         #endregion
         ///////////////////////////////////////////////////////////////////////////////////////////
@@ -197,9 +227,9 @@ namespace Azure_IoTHub_Toolbox_App
             }
         }
 
-        public  event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private   void OnPropertyChanged(object value,
+        private void OnPropertyChanged(object value,
         [System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
             PropertyChangedEventHandler handler = PropertyChanged;

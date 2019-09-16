@@ -15,7 +15,7 @@ namespace DeviceDNCoreApp
 
         public int runMode { get; set; }
         public  int waitAtEndOfConsoleAppSecs { get; set; } 
-        public  int timeout { get; set; }
+        public  int DeviceTimeout { get; set; }
 
         public  int DeviceAction { get; set; }
 
@@ -24,7 +24,6 @@ namespace DeviceDNCoreApp
         public  bool ResponseExpected { get; set; }
         public  bool KeepAlive { get; set; } 
 
-        public  string service_cs { get; set; } 
         public  string device_id { get; set; }
         public  string device_cs { get; set; }  
 
@@ -92,7 +91,7 @@ namespace DeviceDNCoreApp
             {
                 case 1:
                     //Device Streaming
-                    RunDevice(Settings._Settings.device_cs, Settings._Settings.timeout);
+                    RunDevice(Settings._Settings.device_cs, Settings._Settings.DeviceTimeout);
                     break;
                 case 2:
                     //Telemetry
