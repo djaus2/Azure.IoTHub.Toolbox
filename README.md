@@ -9,7 +9,7 @@ This repository is an expansion of the Azure IoT Hub functionality of the [djaus
 (Coming) A prebuilt version of the toolbox in The Store.
 
 ## IoT Hub Summary Features in Toolbox
-- Idiot's guide to setting up an IoT Hub and getting the required meta-information from it, using Azuree Cli
+- Idiot's guide to setting up an IoT Hub and getting the required meta-information from it, using Azure Cli
 - Device Streaming
 - Simulated Telemetry
 - Control a Device via IoT Hub (DONE)
