@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AzIoTHubWorkBench")]
+[assembly: AssemblyTitle("AzureIoTHubWorkBench")]
 [assembly: AssemblyDescription("A UWP Xaml appfor getting a QUICK Quickstart with Azure IoT Hub features")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Sportronics")]
-[assembly: AssemblyProduct("AzIoTHubWorkBench")]
+[assembly: AssemblyProduct("AzureIoTHubWorkBench")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
