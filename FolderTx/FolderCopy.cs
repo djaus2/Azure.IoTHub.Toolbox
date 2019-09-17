@@ -24,10 +24,21 @@ namespace FileCopy
     {
         private static UpdateProgress updateProgress;
         public static UpdateStatus updateStatus;
-        public static StorageFolder src;
-        private static StorageFolder dest;
+        public static StorageFolder src=null;
+        private static StorageFolder dest=null;
 
-
+        private static bool ready = false;
+        public  static bool Ready
+        {
+            get
+            {
+                if ( (src != null) && (dest != null))
+                {
+                        return true;
+                }
+                return false;
+            }
+        }
 
         public static async Task<StorageFolder> ChooseFolder()
         {
@@ -151,9 +162,9 @@ namespace FileCopy
             Windows.Storage.StorageFile settingsFile = await Search(settingsFilename, dest);
             if (settingsFile != null)
             {
-                updateStatus?.Invoke(FileCount, FolderCount, string.Format("Folder copy done. Copying Toolbox app settings to target. Searching for {0} at target first.", settingsFilename));
+                updateStatus?.Invoke(FileCount, FolderCount, string.Format("Copying Toolbox app settings to target. Searching for {0} at target first.", settingsFilename));
                 await Windows.Storage.FileIO.WriteTextAsync(settingsFile, settingsStr,Windows.Storage.Streams.UnicodeEncoding.Utf8);
-                updateStatus?.Invoke(FileCount, FolderCount, string.Format("Done... And copied settings to {0}", settingsFile.Path));
+                updateStatus?.Invoke(FileCount, FolderCount, string.Format("Copied settings to {0}", settingsFile.Path));
             }
             else
             {

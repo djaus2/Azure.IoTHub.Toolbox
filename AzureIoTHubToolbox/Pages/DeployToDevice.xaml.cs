@@ -80,6 +80,8 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 tbSrcFolder.Text = sdf;
                 FolderCopy.src = folder;
             }
+            this.DataContext = null;
+            this.DataContext = this;
 
         }
 
@@ -115,6 +117,15 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         //    }
         //}
 
+        public bool Ready
+        {
+            get
+            {
+                return FileCopy.FolderCopy.Ready;
+            }
+        }
+
+
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             var localizationDirectory = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync(@"Devices");
@@ -126,6 +137,8 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             Folders = lst.ToList();
             ListviewFolders.ItemsSource = Folders;
             h1.SubRegion = this.Info;
+            this.DataContext = null;
+            this.DataContext = this;
         }
 
         void UpdateProgress(int filecount, int foldercount)
@@ -173,6 +186,8 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             {
                 tbSrcFolder.Text = resp;
             }
+            this.DataContext = null;
+            this.DataContext = this;
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
@@ -183,6 +198,8 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             {
                 tbTargetFolder.Text = resp;
             }
+            this.DataContext = null;
+            this.DataContext = this; 
         }
 
         private async void Button_Click_2(object sender, RoutedEventArgs e)
