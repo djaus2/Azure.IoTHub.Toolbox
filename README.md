@@ -6,7 +6,7 @@ This repository is an expansion of the Azure IoT Hub functionality of the [djaus
 [Roadmap for this Repository](https://github.com/djaus2/Azure.IoTHub.Toolbox/wiki)
 
 ## MS Store
-(Coming) A prebuilt version of the toolbox in The Store.
+Available now: A prebuilt version of the toolbox in The Store [Link](https://www.microsoft.com/en-au/p/azureiothubtoolbox/9pmcf9clttwz?activetab=pivot:overviewtab)
 
 ## IoT Hub Summary Features in Toolbox
 - Idiot's guide to setting up an IoT Hub and getting the required meta-information from it, using Azure Cli
@@ -14,6 +14,8 @@ This repository is an expansion of the Azure IoT Hub functionality of the [djaus
 - Simulated Telemetry
 - Control a Device via IoT Hub (DONE)
 - etc (See Roadmap)
+
+See the [Roadmap](https://github.com/djaus2/Azure.IoTHub.Toolbox/wiki) for existing and envisaged features.
 
 ---
 > Nb: The name "Azure IoT Hub Workbench" was initailly considered as the name for this repository but that was too close to [Azure IoT Devices Workbench](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.vscode-iot-workbench)
