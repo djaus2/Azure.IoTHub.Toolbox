@@ -9,10 +9,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 
-        <NavigationView SelectionChanged="NavigationView_SelectionChanged"
+
+    <NavigationView SelectionChanged="NavigationView_SelectionChanged"
                         IsBackButtonVisible="Collapsed"
                         
                         >
+        
         <NavigationView.MenuItems>
             <NavigationViewItemHeader Content="Azure IoT Hub Activities" />
             <NavigationViewItem Icon="Home"  Content="Home" Tag="1" />
@@ -21,6 +23,7 @@
             <NavigationViewItem Icon="Shuffle"  Content="Control device" Tag="4" />
             <NavigationViewItem Icon="World"  Content="Deploy to IoT Device" Tag="5" />
             <NavigationViewItem Icon="World"  Content="Links" Tag="6" />
+            <NavigationViewItem Icon="ContactInfo"  Content="About" Tag="7" />
         </NavigationView.MenuItems>
 
             <Frame x:Name="NavigationFrame" />

@@ -2,13 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -125,18 +128,35 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             }
         }
 
+        private async Task LoadFolders()
+        {
+            try
+            {
+                var localizationDirectory =  await ApplicationData.Current.LocalFolder.GetFolderAsync(@"Devices");
+                //var localizationDirectory = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync(@"Devices");
+                var fldrs1 = await localizationDirectory.GetFoldersAsync();
+                var fldrs2 = from f in fldrs1 where f.Name != "Assets" select f;
+                fldrs = fldrs2.ToList<StorageFolder>();
+
+                var lst = from f in fldrs select f.Name;
+                Folders = lst.ToList();
+                ListviewFolders.ItemsSource = Folders;
+
+
+                //await UnzipFile();
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Devices folder not available or problem enumerating folders therein : " + ex.Message);
+            }
+        }
+
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var localizationDirectory = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync(@"Devices");
-            var fldrs1 = await localizationDirectory.GetFoldersAsync();
-            var fldrs2 = from f in fldrs1 where f.Name != "Assets" select f;
-            fldrs = fldrs2.ToList<StorageFolder>();
-
-            var lst = from f in fldrs  select f.Name;
-            Folders = lst.ToList();
-            ListviewFolders.ItemsSource = Folders;
             h1.SubRegion = this.Info;
+            await LoadFolders();
             this.DataContext = null;
             this.DataContext = this;
         }
@@ -228,6 +248,90 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private async void Button_Click_5(object sender, RoutedEventArgs e)
         {
             await FolderCopy.CopyAppFilesOnly(appFileName, UpdateStatus);
+        }
+
+        private async void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+
+            await UnzipFile();
+        }
+
+        private async void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+
+
+            try
+            {
+                this.IsEnabled = false;
+                //https://stackoverflow.com/questions/50856714/get-a-softwarebitmap-from-http-get-in-uwp
+                HttpClient client = new HttpClient();
+                var response = await client.GetAsync("http://www.sportronics.com.au/media/Devices.zip");
+                var stream = await response.Content.ReadAsStreamAsync();
+                //IRandomAccessStream randomAccessStream = stream.AsRandomAccessStream();
+               //Windows.Storage.Streams.Buffer buff = new Windows.Storage.Streams.Buffer((uint)stream.Length);
+                //var zipo = await randomAccessStream.ReadAsync(buff, 0, InputStreamOptions.None);
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, (int)stream.Length);
+
+                var buff = Windows.Security.Cryptography.CryptographicBuffer.CreateFromByteArray(buffer);
+
+                Windows.Storage.StorageFolder storageFolder =
+                    Windows.Storage.ApplicationData.Current.LocalFolder;
+                Windows.Storage.StorageFile zipFile =
+                    await storageFolder.CreateFileAsync("Devices.zip",
+                        Windows.Storage.CreationCollisionOption.ReplaceExisting);
+                //var stream2 = await zipFile.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite);
+                //buff = new Windows.Storage.Streams.Buffer(buffer);
+                //await stream2.WriteAsync(buff);
+                await Windows.Storage.FileIO.WriteBufferAsync(zipFile, buff);
+                this.IsEnabled = true;
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Download of Devices.zip failed: " + ex.Message);
+                this.IsEnabled = true;
+            }
+        }
+
+        private async Task UnzipFile()
+        {
+            try
+            {
+                this.IsEnabled = false;
+                //var localizationDirectory = Windows.ApplicationModel.Package.Current.InstalledLocation;
+                var localFolder = ApplicationData.Current.LocalFolder;
+                var archive = await localFolder.GetFileAsync("Devices.zip");
+                ZipFile.ExtractToDirectory(archive.Path, localFolder.Path,true); //Overwrite existing
+                this.IsEnabled = true;
+                await LoadFolders();
+                this.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Unzip of Devices.zip failed: " + ex.Message);
+                this.IsEnabled = true;
+            }
+        }
+
+        private async Task UnzipFileFromInstall()
+        {
+            try
+            {
+                this.IsEnabled = false;
+                var localizationDirectory =  Windows.ApplicationModel.Package.Current.InstalledLocation; ;
+                var localFolder = ApplicationData.Current.LocalFolder;
+                var archive = await localizationDirectory.GetFileAsync("Devices.zip");
+                ZipFile.ExtractToDirectory(archive.Path, localFolder.Path, true); //Overwrite existing
+                this.IsEnabled = true;
+                await LoadFolders();
+                this.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Unzip of Devices.zip failed: " + ex.Message);
+                this.IsEnabled = true;
+            }
         }
     }
 }

@@ -31,5 +31,33 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         {
             
         }
+
+        private  void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        protected  override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter != null)
+            {
+                bool? sho = (bool)e.Parameter;
+                if (sho != null)
+                {
+                    if (sho == true)
+                         Popup_SetConnectionDetails.IsOpen = true;
+                }
+            }
+
+            // parameters.Name
+            // parameters.Text
+            // ...
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Popup_SetConnectionDetails.IsOpen = false;
+        }
     }
 }

@@ -293,6 +293,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
     /// </summary>
     public sealed partial class NewHub : Page
     {
+        public static NewHub newHub = null;
         public void CreateNewEntity(string g)
         {
             System.Diagnostics.Debug.WriteLine("CreateNewEntity " + g);
@@ -354,6 +355,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         public NewHub()
         {
+            newHub = this;
             //NGCode.DataContext = Data1.NewGroupCode;
             //this.DataContext = Data1;
 
@@ -605,6 +607,11 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private void RbEHMethod1_Checked(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public static void Stop()
+        {
+            newHub.Data1.Commit();
         }
     }
 }

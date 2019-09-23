@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -63,6 +66,7 @@ namespace Azure_IoTHub_Toolbox_App
                 rootFrame.NavigationFailed += OnNavigationFailed;
                 rootFrame.Navigated += RootFrame_Navigated;
                 ApplicationSettings.LoadMyConnections();
+                ApplicationSettings.LoadConSettings();
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -70,17 +74,19 @@ namespace Azure_IoTHub_Toolbox_App
                 }
                 else if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning)
                 {
-                    ApplicationSettings.LoadConSettings();
-                    var val = AppSettingsValues.Settings.AutoStartDevice;
-                    AppSettingsValues.Settings.AutoStartDevice = true;
-                    var val2 = AppSettingsValues.Settings.AutoStartDevice;
-                    AppSettingsValues.Settings.AutoStartDevice = false;
-                    var val3 = AppSettingsValues.Settings.AutoStartDevice;
-                    AppSettingsValues.Settings.AutoStartDevice = false;
-                    var val4 = AppSettingsValues.Settings.AutoStartDevice;
-
+                    //ApplicationSettings.LoadConSettings();
+                    ////////var val = AppSettingsValues.Settings.AutoStartDevice;
+                    ////////AppSettingsValues.Settings.AutoStartDevice = true;
+                    ////////var val2 = AppSettingsValues.Settings.AutoStartDevice;
+                    ////////AppSettingsValues.Settings.AutoStartDevice = false;
+                    ////////var val3 = AppSettingsValues.Settings.AutoStartDevice;
+                    ////////AppSettingsValues.Settings.AutoStartDevice = false;
+                    ////////var val4 = AppSettingsValues.Settings.AutoStartDevice;
                     
+
+
                 }
+
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
@@ -160,5 +166,7 @@ namespace Azure_IoTHub_Toolbox_App
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+    
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -26,7 +28,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             this.InitializeComponent();
         }
 
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private  void  NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected)
             {
@@ -36,6 +38,9 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             {
                 switch (currentPage)
                 {
+                    case 0:
+                        NewHub.Stop();
+                        break;
                     case 1:
                         HomePage.Stop();
                         break;
@@ -54,13 +59,14 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 var eventargs = (NavigationViewSelectionChangedEventArgs)args;
                 if (int.TryParse( (string)((Control)eventargs.SelectedItem).Tag, out int newPage))
                 {
-                    if ((new List<int>() { 1, 2, 3, 4, 5,6 }).Contains(newPage))
+                    if ((new List<int>() { 1, 2, 3, 4, 5,6,7}).Contains(newPage))
                     {
                         currentPage = newPage;
+                           
                         switch (currentPage)
                         {
                             case 1:
-                                NavigationFrame.Navigate(typeof(Pages.HomePage), null);
+                                NavigationFrame.Navigate(typeof(Pages.HomePage), false);
                                 break;
                             case 2:
                                 NavigationFrame.Navigate(typeof(Pages.MainPage), null);
@@ -77,6 +83,10 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                             case 6:
                                 NavigationFrame.Navigate(typeof(Pages.LinksPage), null);
                                 break;
+                            case 7:
+                                    currentPage = 1;
+                                    NavigationFrame.Navigate(typeof(Pages.HomePage),true);
+                                break;
                         }
                     }
                 }
@@ -86,6 +96,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private void DoSettings()
         {
+            currentPage = 0;
             NavigationFrame.Navigate(typeof(Pages.NewHub), null);
 
         }
@@ -94,5 +105,40 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         {
             NavigationFrame.Navigate(typeof(Pages.HomePage), null);
         }
+
+        //private async void Button1_Click(object sender, RoutedEventArgs e)
+        //{
+        //    // Show the content dialog
+        //    await DiaplyContentDialog();
+        //}
+
+        //// Custom method to create and diaplay a content dialog
+        //private async Task DiaplyContentDialog()
+        //{
+        //    Package package = Package.Current;
+        //    PackageId packageId = package.Id;
+        //    PackageVersion version = packageId.Version;
+        //    Windows.UI.Xaml.Controls.r
+        //    string info1 = package.Description;
+        //    string info2 = "Publisher: " +package.PublisherDisplayName;
+
+        //    StackPanel sp = new StackPanel();
+        //    sp.Children.Add(new TextBlock());
+            
+
+        //    string info = string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
+            
+        //        ContentDialog dialog = new ContentDialog()
+        //    {
+        //        Title = package.DisplayName,
+        //        Content = "sp;
+        //        PrimaryButtonText = "Ok",
+           
+                 
+        //    };
+
+        //    // Finally, show the dialog
+        //    await dialog.ShowAsync();
+        //}
     }
 }

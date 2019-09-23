@@ -27,6 +27,7 @@
                         <local:NewHubElement DisplayMode="comment"   Code="With this page you can copy a prebuilt .NET Core IoT Device app to a suitable target device (IoT-Core, Raspbian or Linux), to a file share on the device."/>
                         <local:NewHubElement DisplayMode="comment"   Code="NB: The prebuilt app folders are self-contained, except Portable. That is, for those you don't need .NET Core installed on the target."/>
                         <local:NewHubElement DisplayMode="comment"   Code="Portable: requires .Net Core 2.2, or later, to be installed. You run it by entering at the command line, dotnet yourapp.dll"/>
+                        <local:NewHubElement DisplayMode="comment"   Code="Firstly, download and install the Device App folders."/>
                         <local:NewHubElement DisplayMode="comment"   Code="Select the relevant target type (OS and CPU), or browse to another built app folder elsewhere."/>
                         <local:NewHubElement DisplayMode="comment"   Code="Select the file share on the target and deploy (copy). Note that the selected folder gets deleted and recreated so create a subfolder of a share to select, first. (2Do: Simplify this.)"/>
                         <local:NewHubElement DisplayMode="comment"   Code="Then copy the Toolbox app settings (create suitable IoT Hub connections first in the Toolbox) to the target or edit settings.json there.."/>
@@ -38,8 +39,11 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" >
+                    <Button Content="Download Device Apps" Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click_7"/>
 
-                <ListView   x:Name="ListviewFolders"  Height="120"  BorderBrush="Black" BorderThickness="2"
+                    <Button Content="Install Device Apps" Margin="10" VerticalAlignment="Top" Height="80" Width="180" Click="Button_Click_6"/>
+
+                    <ListView   x:Name="ListviewFolders"  Height="120"  BorderBrush="Black" BorderThickness="2"
                          ScrollViewer.IsVerticalRailEnabled="True" Width="240"
                         Margin="0"   SelectionChanged="ListviewTransports2_SelectionChanged">
                     <ListView.ItemTemplate>
