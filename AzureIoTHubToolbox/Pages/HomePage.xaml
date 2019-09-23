@@ -48,14 +48,16 @@
                     </Border>
 
 
-                    <local:NewHubElement  DisplayMode="InfoOnly"  Code="About: " TextInfo="An app for getting a QUICK Quickstart with the Azure IoT Hub SDK features"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" />
-                    <local:NewHubElement DisplayMode="link"   Code="Blog:"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
-                                 Url="http://www.sportronics.com.au" UrlText="http://www.sportronics.com.au"/>
+                    <local:NewHubElement  DisplayMode="InfoOnly"  Code="About: " TextInfo="An app for getting a QUICK Quickstart with the Azure IoT Hub SDK features."  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                    <local:NewHubElement  DisplayMode="InfoOnly"  Code="" TextInfo="Simulated Telemetry, Device Streaming , Device remote control."  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" />
+                    <local:NewHubElement  DisplayMode="InfoOnly"  Code="" TextInfo=" Set up an IOT Hub. Deploy prebuilt .Net Core Device app. More coming!"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" />
+
                     <local:NewHubElement  DisplayMode="InfoOnly"  Code="Version: " TextInfo="1.1.34"  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" />
                     <local:NewHubElement  DisplayMode="InfoOnly"  Code="Company: " TextInfo="Sportronics"  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" />
                     <local:NewHubElement  DisplayMode="InfoOnly"  Code="Copyright: " TextInfo="© 2019 Sportronics"  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" />
-
-
+                    <local:NewHubElement DisplayMode="link"   Code="Blog:"  Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5"
+                                 Url="http://www.sportronics.com.au" UrlText="http://www.sportronics.com.au"/>
+                    <Button Content="Rate and/or review the app in the Store" Click="Button_Click_1"  Foreground="AntiqueWhite" Background="Crimson" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" />
                     <Button Content="  OK   " Click="Button_Click" Foreground="AntiqueWhite" />
                 </Grid>
             </Border>
