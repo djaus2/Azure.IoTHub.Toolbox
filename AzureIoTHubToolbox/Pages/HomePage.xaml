@@ -51,7 +51,7 @@
                     <local:NewHubElement  DisplayMode="InfoOnly"  Code="About: " TextInfo="An app for getting a QUICK Quickstart with the Azure IoT Hub SDK features"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" />
                     <local:NewHubElement DisplayMode="link"   Code="Blog:"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
                                  Url="http://www.sportronics.com.au" UrlText="http://www.sportronics.com.au"/>
-                    <local:NewHubElement  DisplayMode="InfoOnly"  Code="Version: " TextInfo="1.1.0"  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" />
+                    <local:NewHubElement  DisplayMode="InfoOnly"  Code="Version: " TextInfo="1.1.2"  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" />
                     <local:NewHubElement  DisplayMode="InfoOnly"  Code="Company: " TextInfo="Sportronics"  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" />
                     <local:NewHubElement  DisplayMode="InfoOnly"  Code="Copyright: " TextInfo="© 2019 Sportronics"  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" />
 
