@@ -62,7 +62,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            ref: https://docs.microsoft.com/en-us/windows/uwp/monetize/request-ratings-and-reviews#show-a-rating-and-review-dialog-in-your-app
+            //ref: https://docs.microsoft.com/en-us/windows/uwp/monetize/request-ratings-and-reviews#show-a-rating-and-review-dialog-in-your-app
             bool result = await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9WZDNCRFHVJL"));
         }
     }
