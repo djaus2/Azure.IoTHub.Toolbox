@@ -77,6 +77,7 @@ namespace Azure_IoTHub_Toolbox_App
             link,
             info,
             info2,
+            InfoOnly,
             infoWithButtonsOnRight,
             seperator
         }
@@ -189,6 +190,7 @@ namespace Azure_IoTHub_Toolbox_App
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            InfoOnly.Visibility = (DisplayMode == Mode.InfoOnly) ? Visibility.Visible : Visibility.Collapsed;
             SectionHeading.Visibility = (DisplayMode == Mode.sectionHeading) ? Visibility.Visible : Visibility.Collapsed;
             InfoWithButtonsOnRight.Visibility = (DisplayMode == Mode.infoWithButtonsOnRight) ? Visibility.Visible : Visibility.Collapsed;
             Separator.Visibility = (DisplayMode == Mode.seperator) ? Visibility.Visible : Visibility.Collapsed;
