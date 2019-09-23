@@ -235,5 +235,17 @@ namespace Azure_IoTHub_Toolbox_App
                 Heading1Icon.Foreground = new SolidColorBrush(Colors.Blue);
             }
         }
+
+        private void InfoWithButtonsOnRightVal_LostFocus(object sender, RoutedEventArgs e)
+        {
+            string val = InfoWithButtonsOnRightVal.Text;
+            TextInfo = val;
+        }
+
+        private void InfoVal_LostFocus(object sender, RoutedEventArgs e)
+        {
+            string val = InfoVal.Text;
+            TextInfo = val;
+        }
     }
 }

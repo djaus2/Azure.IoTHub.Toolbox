@@ -59,7 +59,7 @@
         
         <StackPanel x:Name="Info"  Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
             <TextBlock x:Name="InfoLabel" Text="{Binding Path=Code}" FontSize="16" FontStyle="Italic" Foreground="Purple"  FontWeight="Bold" Width="300"  TextAlignment="Right" />
-            <TextBox x:Name="InfoVal" Text="{Binding Path=TextInfo}" PlaceholderText="{Binding Path=InfoValue}" FontSize="16" Width="500"   />
+            <TextBox x:Name="InfoVal" Text="{Binding Path=TextInfo}" PlaceholderText="{Binding Path=InfoValue}" FontSize="16" Width="500" LostFocus="InfoVal_LostFocus"   />
         </StackPanel>
 
         <Grid x:Name="InfoWithButtonsOnRight"   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,0,0,0" >
@@ -78,7 +78,7 @@
                 <SolidColorBrush x:Key="brush" Color="Silver"/>
             </Grid.Resources>
             <TextBlock x:Name="InfoWithButtonsOnRightLabel" Grid.Row="0" Grid.Column="0"  Text="{Binding Path=Code}" FontSize="16" FontStyle="Italic" Foreground="Purple"  FontWeight="Bold" Width="240"  TextAlignment="Right" Margin="0,10,0,0" />
-            <TextBox x:Name="InfoWithButtonsOnRightVal" Grid.Row="0" Grid.Column="1"  Text="{Binding Path=TextInfo, Mode=TwoWay}" PlaceholderText="{Binding Path=InfoValue}" FontSize="16" Width="500"   />
+            <TextBox x:Name="InfoWithButtonsOnRightVal" Grid.Row="0" Grid.Column="1"  Text="{Binding Path=TextInfo, Mode=TwoWay}" PlaceholderText="{Binding Path=InfoValue}" FontSize="16" Width="500" LostFocus="InfoWithButtonsOnRightVal_LostFocus"  />
             <Button x:Name="InfoWithButtonsOnRightButton_Paste" Grid.Row="0" Grid.Column="2"   FontSize="16"   Click="Button_Click"  Height="38" Width="38" Margin="0"  Visibility="{Binding Path=Show1stButton}" 
                     ToolTipService.ToolTip="Paste info." >
                 <Viewbox x:Name="InfoWithButtonsOnRightViewBox"  >

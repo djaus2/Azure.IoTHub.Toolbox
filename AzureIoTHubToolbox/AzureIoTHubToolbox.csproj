@@ -148,6 +148,7 @@
     <Compile Include="Pages\ControlDeviceTelemetryPage.xaml_Telemetry.cs">
       <DependentUpon>ControlDeviceTelemetryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\NewHub_Data.cs" />
     <Compile Include="Pages\TelemetryPage.xaml.cs">
       <DependentUpon>TelemetryPage.xaml</DependentUpon>
     </Compile>
