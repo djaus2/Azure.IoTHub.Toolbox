@@ -209,7 +209,7 @@ namespace Azure_IoTHub_DeviceStreaming
                                 updateMsg = "Device got a connection.";
                                 UpdateStatus(updateMsg);
 
-                                using (webSocket = await DeviceStreamingCommon.GetStreamingDeviceAsync(streamRequest.Url, streamRequest.AuthorizationToken, cancellationTokenSourceTimeout.Token).ConfigureAwait(false))
+                                using (webSocket = await DeviceStreamingCommon.GetStreamingClientAsync(streamRequest.Url, streamRequest.AuthorizationToken, cancellationTokenSourceTimeout.Token).ConfigureAwait(false))
                                 {
                                     updateMsg = string.Format("Device got stream: Name={0}. Socket open.", streamRequest.Name);
                                     UpdateStatus(updateMsg);

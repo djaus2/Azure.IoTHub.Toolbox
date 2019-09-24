@@ -1,0 +1,260 @@
+﻿<Page
+    x:Class="Azure_IoTHub_Toolbox_App.Pages.ProxyPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Azure_IoTHub_Toolbox_App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_Loaded" SizeChanged="Page_SizeChanged">
+
+    <Page.Resources>
+        <local:EnumToStringConverter  x:Key="EnumToStringConverter"/>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" x:Key="PopupBG">
+            <GradientStop Color="Violet" Offset="1"/>
+            <GradientStop Color="Indigo" Offset="0.55"/>
+            <GradientStop Color="Blue" Offset="0"/>
+        </LinearGradientBrush>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="Page" Grid.Row="0"  Orientation="Horizontal" VerticalAlignment="Top">
+                <TextBlock Text="Sportronics: Azure IoT Hub Toolbox: Device Streaming Proxy" Foreground="Blue" FontSize="32" Margin="100,0,0,0" FontWeight="Bold"/>
+            </StackPanel>
+        <ScrollViewer x:Name="PageBody"  Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+            <StackPanel>
+
+                <CommandBar x:Name="SvcCommands2" Background="Brown" Tapped="CommandBar_Tapped" >
+                    <AppBarButton x:Name="BtnSettings" Icon="Setting"  Label="Settings" IsEnabled="True" IsCompact="True"  Click="AppBarButton_Click" Tag="0" Foreground="AntiqueWhite" FontWeight="Bold" ToolTipService.ToolTip="IoT Hub Connection Settings" />
+                    <AppBarSeparator/>
+                    <AppBarButton x:Name="BtnBasicMode" Icon="Back" Label="Basic Mode" Click="AppBarButton_Click" Tag="1" Foreground="AntiqueWhite" FontWeight="Bold"  ToolTipService.ToolTip="As per SDK Sample"/>
+                    <AppBarButton  x:Name="BtnFeatureMode" Icon="AllApps" Label="Features Mode" Click="AppBarButton_Click" Tag="2" Foreground="Yellow" Background="Green" FontWeight="Bold"  ToolTipService.ToolTip="Features as per this apps"/>
+                    <AppBarButton x:Name="BtnExtendedMode" Icon="AddFriend" Label="Extended Mode" Click="AppBarButton_Click" Tag="3" Foreground="AntiqueWhite" FontWeight="Bold"  ToolTipService.ToolTip="Extended Features, experimental"/>
+
+                    <CommandBar.Content>
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Text="Service Status:"  Margin="10,0,0,0" Foreground="Yellow" HorizontalAlignment="Left" FontSize="16" FontStyle="Italic" FontWeight="Bold" VerticalAlignment="Bottom" />
+                            <TextBlock x:Name="tbSvcStat" Text="Hello ..." Foreground="AntiqueWhite" HorizontalAlignment="Left" FontSize="16" Margin="20,0,0,0" VerticalAlignment="Bottom"/>
+                        </StackPanel>
+                    </CommandBar.Content>
+
+                    <CommandBar.SecondaryCommands>
+                        <AppBarToggleButton x:Name="AppBarToggle4" Icon="Shuffle" Label="Send to Device: Auto Start" Click="AppBarButton_Click" Tag="4"/>
+                        <AppBarToggleButton x:Name="AppBarToggle5"  Icon="Shuffle" Label="Send to Device No Auto Start" Click="AppBarButton_Click" Tag="5"/>
+                        <AppBarSeparator/>
+                        <AppBarToggleButton x:Name="AppBarToggle6"  Icon="Shuffle" Label="Send to Device: Keep Listening" Click="AppBarButton_Click" Tag="6"/>
+                        <AppBarToggleButton x:Name="AppBarToggle7"  Icon="Shuffle" Label="Send to Device: No  Keep Listening" Click="AppBarButton_Click" Tag="7"/>
+                    </CommandBar.SecondaryCommands>
+
+
+                </CommandBar>
+                
+                <RelativePanel >
+
+                    <Button x:Name="btnSend" 
+                Content="Get Telemetry from Hub" Height="120" Width="340" Click="BtnTelemSvc_Click_1" Margin="0,10,0,0" Background="Brown" FontWeight="Bold"
+                    Foreground="Yellow" />
+                    
+                    <CheckBox x:Name="chkAutostartSvc" Content="Autostart Service." IsChecked="{Binding Path=AutoStartSvc,Mode=TwoWay}"
+                      RelativePanel.Below="btnSend" Margin="20,10,0,0" IsTapEnabled="False"
+                      />
+
+
+                    <Ellipse x:Name="SvcIsRunningLED"  RelativePanel.Below="chkAutostartSvc" Width="40" Height="40" Margin="10" Fill="Red" Stroke="Black"  StrokeThickness="2" />
+                    <TextBlock RelativePanel.RightOf="SvcIsRunningLED" RelativePanel.AlignVerticalCenterWith="SvcIsRunningLED" Text="Svc Running"  />
+                    
+                    <Button x:Name="btnCancelSvc" Content="Cancel Svc" 
+                            RelativePanel.Below="btnSend" RelativePanel.AlignRightWith="btnSend"
+                            Background="Red" Foreground="AntiqueWhite"
+                    Margin="20,10,0,0" Height="60" Width="139" Click="ButtonCanceLSvc_Click"/>
+
+                    <Button x:Name="btnBackend" Tag="1" Content="Set Telemetry Delay" Margin="0,10,0,0"  RelativePanel.Below="lblSvcRecv" RelativePanel.AlignRightWith="lblSvcTimeout"  Height="60" Width="180" Click="BtnBackend_Click"  Background="Orange" Foreground="AntiqueWhite" />
+
+                    <Button x:Name="btnBackend2" Tag="2" Content="Toggle LED" Margin="0,10,0,0"  RelativePanel.Below="btnBackend" RelativePanel.AlignRightWith="lblSvcTimeout"  Height="60" Width="180" Click="BtnBackend_Click"  Background="#FFFF00E6" Foreground="AntiqueWhite" />
+
+
+                    <Button x:Name="btnClrRecvdText" Content="Clear Rcv'd Text" RelativePanel.Below="btnBackend2" RelativePanel.AlignRightWith="lblSvcTimeout" Height="60" Width="180" Click="BtnClrRecvdText_Click"  Margin="0,10,0,0" Background="Purple" Foreground="AntiqueWhite"/>
+
+                    <TextBlock x:Name="lblSvcTimeout" RelativePanel.RightOf="btnSend" Width="210" TextAlignment="Right"
+                Margin="20,20,0,0"  ><Run Text="Service-Timeout (sec):"/></TextBlock>
+
+                    <TextBox x:Name="tbSvcTimeout" RelativePanel.RightOf="lblSvcTimeout" RelativePanel.AlignTopWith="lblSvcTimeout"
+                BorderBrush="Blue"  FontWeight="Bold" Foreground="Blue" 
+                             Margin="20,20,0,0"   Width="100" Text="{Binding Path=SvcTimeout,Mode=TwoWay}" />
+
+                    <TextBlock x:Name="lblSvcTimeout2" RelativePanel.RightOf="tbSvcTimeout" Width="210" TextAlignment="Right"
+                Margin="20,20,0,0"  ><Run Text="Service"/><Run Text=" Port"/><Run Text=": "/></TextBlock>
+
+                    <TextBox x:Name="tbSvcTimeout2" RelativePanel.RightOf="lblSvcTimeout2" RelativePanel.AlignTopWith="lblSvcTimeout"
+                BorderBrush="Blue"  FontWeight="Bold" Foreground="Blue" 
+                             Margin="20,20,0,0"   Width="100" Text="2222" />
+
+
+                    <TextBlock x:Name="lblSvcRecv" RelativePanel.RightOf="btnSend" RelativePanel.AlignTopWith="tbSvcMsgIn" RelativePanel.AlignRightWith="lblSvcTimeout"
+                        TextAlignment="Right"
+                Text="Service-Message In:" Margin="20,20,0,0"  />
+
+                    <TextBox x:Name="tbSvcMsgIn" RelativePanel.Below="tbSvcTimeout" RelativePanel.AlignLeftWith="tbSvcTimeout" 
+                     AcceptsReturn="True"
+                 HorizontalAlignment="Left" Height="220" Margin="20,20,0,0" Text="Msg In" VerticalAlignment="Top" MinWidth="200" />
+
+               
+                </RelativePanel>
+
+
+                <!--<CommandBar  Background="DarkCyan" Margin="0,10,0,10" Height="30" x:Name="DeviceProcessingModeCommands"  Opening="DeviceProcessingModeCommands_Opening">
+            <CommandBar.Content >
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton x:Name = "rbDeviceModeBasic" FontSize="12" Foreground="AntiqueWhite" Margin = "10,0,0,0"  GroupName = "DeviceMode" Content="Basic Mode"  Tag="0" Width="80"  />
+                    <RadioButton x:Name = "rbDeviceModeFeature" FontSize="12" Foreground="AntiqueWhite" Margin = "10,0,0,0"   IsChecked ="True"  GroupName = "DeviceMode" Content="Features Mode" Tag="1" Width="100" />
+                    <RadioButton x:Name = "rbDeviceModeExp" Margin = "0" FontSize="12" Foreground="AntiqueWhite"   GroupName = "DeviceMode" Content="Experimental" Tag="2" Width="100" />
+                    <TextBlock Text="Device Status:" Foreground="Yellow" HorizontalAlignment="Left" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
+                    <TextBlock x:Name="tbDeviceStatus" Text="Hello" Foreground="AntiqueWhite" HorizontalAlignment="Left" FontSize="16" Margin="20,0,0,0"/>
+                </StackPanel>
+            </CommandBar.Content>
+            <CommandBar.SecondaryCommands>
+                <AppBarElementContainer x:Name="abec1">
+                    <Frame x:Name="frmGroupDeviceAction"    >
+                        <StackPanel>
+                            <TextBlock Text="Device Transport:" Foreground="Blue"/>
+                            <ListView   x:Name="ListviewTransports2" RelativePanel.Below="tbDeiceMsgOut" RelativePanel.AlignLeftWith="tbDeiceMsgOut" RelativePanel.AlignTopWith="lbTransports"
+                         ScrollViewer.IsVerticalRailEnabled="True"
+                        Margin="0" ItemsSource="{Binding ListEnum}" Background="Beige" SelectionChanged="ListviewTransports_SelectionChanged">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" HorizontalAlignment="Left"  Margin="10,0,0,0" Padding="0"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <TextBlock Text="Device Processing:" Foreground="Blue"/>
+                            <ListView   x:Name="LstDeviceAction" RelativePanel.Below="tbDeiceMsgOut" RelativePanel.AlignLeftWith="tbDeiceMsgOut" RelativePanel.AlignTopWith="lbTransports"
+                         ScrollViewer.IsVerticalRailEnabled="True"
+                        Margin="0" ItemsSource="{Binding ListEnum2}" Background="Beige" SelectionChanged="DeviceAction_SelectionChanged">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" HorizontalAlignment="Left"  Margin="10,0,0,0" Padding="0"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+
+                            </ListView>
+                            -->
+                <!--<RadioButton x:Name = "rbRPI" Margin = "20,0,0,0" Checked = "GroupDeviceAction_Checked" GroupName = "GroupDeviceAction" Content="RPI Environ" Tag="3" />
+                            <RadioButton x:Name = "rbDragonBoard" Margin = "20,0,0,0" Checked = "GroupDeviceAction_Checked" GroupName = "GroupDeviceAction" Content="DB410c Environ" Tag="4" />
+                            <RadioButton x:Name = "rbMinnowBoardMax" Margin = "20,0,0,0" Checked = "GroupDeviceAction_Checked" GroupName = "GroupDeviceAction" Content="BMB Environ" Tag="5" />-->
+                <!--
+                        </StackPanel>
+                    </Frame>
+                </AppBarElementContainer>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>-->
+
+                <CommandBar  Background="DarkCyan" Margin="0,10,0,10" Tapped="DeviceProcessingModeCommands_Tapped" x:Name="DeviceProcessingModeCommands"  Opening="DeviceProcessingModeCommands_Opening">
+                    <AppBarButton x:Name="BtnBasicMode2" Icon="Back" Label="Basic Mode" Click="AppBarButton_Click" Tag="11" Foreground="AntiqueWhite" FontWeight="Bold"  ToolTipService.ToolTip="As per SDK Sample"/>
+                    <AppBarButton  x:Name="BtnFeatureMode2" Icon="AllApps" Label="Features Mode" Click="AppBarButton_Click" Tag="12" Foreground="Yellow" Background="Red" FontWeight="Bold"  ToolTipService.ToolTip="Features as per this apps"/>
+                    <AppBarButton x:Name="BtnExtendedMode2" Icon="AddFriend" Label="Extended Mode" Click="AppBarButton_Click" Tag="13" Foreground="AntiqueWhite" FontWeight="Bold"  ToolTipService.ToolTip="Extended Features, experimental"/>
+
+                    <CommandBar.Content>
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Text="Device Status:"  Margin="10,0,0,0" Foreground="Yellow" HorizontalAlignment="Left" FontSize="16" FontStyle="Italic" FontWeight="Bold" VerticalAlignment="Bottom" />
+                            <TextBlock x:Name="tbDeviceStatus" Text="Hello ..." Foreground="AntiqueWhite" HorizontalAlignment="Left" FontSize="16" Margin="20,0,0,0" VerticalAlignment="Bottom"/>
+                        </StackPanel>
+                    </CommandBar.Content>
+
+                    <CommandBar.SecondaryCommands>
+                        <AppBarElementContainer x:Name="abec1">
+                            <Frame x:Name="frmGroupDeviceAction"    >
+                                <StackPanel>
+                                    <TextBlock Text="Device Transport:" Foreground="Blue"/>
+                                    <ListView   x:Name="ListviewTransports2" RelativePanel.Below="tbDeiceMsgOut" RelativePanel.AlignLeftWith="tbDeiceMsgOut" RelativePanel.AlignTopWith="lbTransports"
+                         ScrollViewer.IsVerticalRailEnabled="True"
+                        Margin="0" ItemsSource="{Binding ListEnum}" Background="Beige" SelectionChanged="ListviewTransports_SelectionChanged">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" HorizontalAlignment="Left"  Margin="10,0,0,0" Padding="0"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                    <TextBlock Text="Device Processing:" Foreground="Blue"/>
+                                    <ListView   x:Name="LstDeviceAction" RelativePanel.Below="tbDeiceMsgOut" RelativePanel.AlignLeftWith="tbDeiceMsgOut" RelativePanel.AlignTopWith="lbTransports"
+                         ScrollViewer.IsVerticalRailEnabled="True"
+                        Margin="0" ItemsSource="{Binding ListEnum2}" Background="Beige" SelectionChanged="DeviceAction_SelectionChanged">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" HorizontalAlignment="Left"  Margin="10,0,0,0" Padding="0"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+
+                                    </ListView>
+                                    <!--<RadioButton x:Name = "rbRPI" Margin = "20,0,0,0" Checked = "GroupDeviceAction_Checked" GroupName = "GroupDeviceAction" Content="RPI Environ" Tag="3" />
+                            <RadioButton x:Name = "rbDragonBoard" Margin = "20,0,0,0" Checked = "GroupDeviceAction_Checked" GroupName = "GroupDeviceAction" Content="DB410c Environ" Tag="4" />
+                            <RadioButton x:Name = "rbMinnowBoardMax" Margin = "20,0,0,0" Checked = "GroupDeviceAction_Checked" GroupName = "GroupDeviceAction" Content="BMB Environ" Tag="5" />-->
+                                </StackPanel>
+                            </Frame>
+                        </AppBarElementContainer>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
+
+                <RelativePanel  >
+
+                    <Button x:Name="btnListen" FontWeight="Bold"
+                Content="Send Telemetry to Hub"  Height="120" Width="340" Click="BtnTelemDevice_Click" Background="DarkCyan" Foreground="Yellow" IsTapEnabled="False" />
+      
+                    <CheckBox x:Name="chkAutoStart" Content="Auto start Device" 
+                      RelativePanel.Below="btnListen" Margin="20,10,0,0"  IsChecked="{Binding Path=AutoStartDevice,Mode=TwoWay}" IsTapEnabled="False"
+                      />
+                    <Ellipse x:Name="DeviceIsRunningLED" RelativePanel.Below="chkAutoStart" Width="40" Height="40" Margin="10" Fill="Red" Stroke="Black"  StrokeThickness="2"/>
+                    <TextBlock RelativePanel.RightOf="DeviceIsRunningLED" RelativePanel.AlignVerticalCenterWith="DeviceIsRunningLED" Text="Device Running"  />
+
+                    <Rectangle x:Name="DeviceControlLED" RelativePanel.RightOf="btnCancelDevice" RelativePanel.AlignVerticalCenterWith="btnCancelDevice" Width="50" Height="50" Margin="40,10,0,0" Fill="White" Stroke="Black"  StrokeThickness="2"/>
+                    <TextBlock RelativePanel.RightOf="DeviceControlLED" RelativePanel.AlignVerticalCenterWith="DeviceControlLED" Text="Control LED" Margin="10"  />
+
+                    <TextBlock x:Name="lblDeviceTimeout" RelativePanel.RightOf="btnListen" Width="210" TextAlignment="Right" 
+                Text="Device-Timeout (sec):" Margin="20,20,0,0"  />
+                    <TextBox x:Name="tbDeviceTimeout" RelativePanel.RightOf="lblDeviceTimeout" RelativePanel.AlignTopWith="lblDeviceTimeout"
+                             BorderBrush="Blue"  FontWeight="Bold" Foreground="Blue" 
+                     HorizontalAlignment="Left"  Margin="20,20,0,0"  VerticalAlignment="Top" Width="100" Text="{Binding Path=DeviceTimeout,Mode=TwoWay}"/>
+                    
+
+                  
+                    <TextBlock x:Name="lblDevMode" RelativePanel.RightOf="tbDeviceTimeout"  Margin="20,20,0,0"  FontStyle="Italic"
+                        TextAlignment="Right" Text="Device Mode:" />
+                    <TextBox x:Name="tbDevMode" RelativePanel.RightOf="lblDevMode" 
+                        TextAlignment="Right" BorderBrush="Blue"
+                Text="Device-Mode:" Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue" />
+
+                    <TextBlock x:Name="lblTransport" RelativePanel.RightOf="tbDevMode"  Margin="20,20,0,0"  FontStyle="Italic"
+                        TextAlignment="Right" Text="Transport:" />
+                    <TextBox x:Name="tbTransport" RelativePanel.RightOf="lblTransport" 
+                        TextAlignment="Right" BorderBrush="Blue"
+                Text="mqtt:" Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue" />
+
+                    <TextBlock x:Name="lblTelemetryDelay" RelativePanel.RightOf="tbTransport"  Margin="20,20,0,0"  FontStyle="Italic"
+                        TextAlignment="Right" Text="Telemetry Delay (sec):" />
+                    <TextBox x:Name="tbTelemetryDelay" RelativePanel.RightOf="lblTelemetryDelay" 
+                        TextAlignment="Right" BorderBrush="Blue" Text="{Binding Path=TelemetryDelayBtwReadings,Mode=TwoWay}"
+                            Margin="10,20,0,0" FontWeight="Bold" Foreground="Blue"  />
+
+                    <TextBlock x:Name="lblDeviceSend" 
+                               RelativePanel.RightOf="btnListen" RelativePanel.Below="tbDeviceTimeout" RelativePanel.AlignRightWith="lblDeviceTimeout"
+                        TextAlignment="Right"
+                Text="Device-Message Sent:" Margin="10,20,0,0"  />
+
+                    <TextBox x:Name="tbDeviceMsgOut" RelativePanel.RightOf="lblDeviceSend" RelativePanel.AlignTopWith="lblDeviceSend" RelativePanel.AlignLeftWith="tbDeviceTimeout"
+                     AcceptsReturn="True" TextWrapping="Wrap"
+                     Height="180" Margin="20,20,0,20" Text="Dev Out" VerticalAlignment="Top" MinWidth="200" IsReadOnly="True" />
+
+                    <Button x:Name="btnCancelDevice" Content="Cancel Device" RelativePanel.Below="btnListen" RelativePanel.AlignRightWith="btnListen" Height="60" Width="139" Click="ButtonCanceLDevice_Click" Background="Red" Foreground="AntiqueWhite" Margin="0,10,0,0"/>
+
+                </RelativePanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+
+
+</Page>

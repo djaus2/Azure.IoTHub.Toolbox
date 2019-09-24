@@ -211,7 +211,7 @@ namespace Azure_IoTHub_DeviceStreaming
                         {
                             try
                             {
-                                using (stream = await DeviceStreamingCommon.GetStreamingDeviceAsync(result.Url, result.AuthorizationToken, cancellationTokenSourceTimeout.Token).ConfigureAwait(false))
+                                using (stream = await DeviceStreamingCommon.GetStreamingClientAsync(result.Url, result.AuthorizationToken, cancellationTokenSourceTimeout.Token).ConfigureAwait(false))
                                 {
                                     updateMsg = "Stream is open.";
                                     UpdateStatus(updateMsg);

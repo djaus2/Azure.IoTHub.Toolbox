@@ -35,7 +35,7 @@ namespace Azure_IoTHub_DeviceStreaming
         /// <param name="authorizationToken">Authorization token to connect to the Streaming Gateway.</param>
         /// <param name="cancellationToken">The token used for cancelling this operation if desired.</param>
         /// <returns>A ClientWebSocket instance connected to the Device Streaming gateway, if successful.</returns>
-        public static async Task<ClientWebSocket> GetStreamingDeviceAsync(Uri url, string authorizationToken, CancellationToken cancellationToken)
+        public static async Task<ClientWebSocket> GetStreamingClientAsync(Uri url, string authorizationToken, CancellationToken cancellationToken)
         {
 
             ClientWebSocket wsClient = new ClientWebSocket();
@@ -45,5 +45,7 @@ namespace Azure_IoTHub_DeviceStreaming
 
             return wsClient;
         }
+
+      
     }
 }

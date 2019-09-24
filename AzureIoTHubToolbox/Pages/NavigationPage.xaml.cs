@@ -55,11 +55,15 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                         break;
                     case 5:
                         break;
+                    case 6:
+                        break;
+                    case 8:
+                        break;
                 }
                 var eventargs = (NavigationViewSelectionChangedEventArgs)args;
                 if (int.TryParse( (string)((Control)eventargs.SelectedItem).Tag, out int newPage))
                 {
-                    if ((new List<int>() { 1, 2, 3, 4, 5,6,7}).Contains(newPage))
+                    if ((new List<int>() { 1, 2, 3, 4, 5,6,7,8}).Contains(newPage))
                     {
                         currentPage = newPage;
                            
@@ -77,12 +81,16 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                             case 4:
                                 NavigationFrame.Navigate(typeof(Pages.ControlDeviceTelemetryPage), null);
                                 break;
+                            case 8:
+                                NavigationFrame.Navigate(typeof(Pages.ProxyPage), null);
+                                break;
                             case 5:
                                 NavigationFrame.Navigate(typeof(Pages.DeployToDevice), null);
                                 break;
                             case 6:
                                 NavigationFrame.Navigate(typeof(Pages.LinksPage), null);
                                 break;
+
                             case 7:
                                     currentPage = 1;
                                     NavigationFrame.Navigate(typeof(Pages.HomePage),true);
