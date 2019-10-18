@@ -156,17 +156,26 @@ namespace Azure_IoTHub_Toolbox_App
                             break;
                         case "InfoWithButtonsOnRightButton_Paste":
                             var cb = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
-                            string pastedText = await cb.GetTextAsync();
-                            //Allow double quotes either end. Remove them, and spaces on end.
-                            pastedText = pastedText.Trim();
-                            if (!string.IsNullOrEmpty(pastedText))
+                            
+                            //string dummy = "dummy";
+                            if (cb.Contains(Windows.ApplicationModel.DataTransfer.StandardDataFormats.Text))
+                            //if (cb.GetType() == dummy.GetType())
                             {
-                                pastedText = (pastedText[0] == '\"') ? pastedText.Substring(1) : pastedText;
+                                string pastedText = await cb.GetTextAsync();
+                                //Allow double quotes either end. Remove them, and spaces on end.
+                                pastedText = pastedText.Trim();
                                 if (!string.IsNullOrEmpty(pastedText))
                                 {
-                                    pastedText = (pastedText[pastedText.Length-1] == '\"') ? pastedText.Substring(0, pastedText.Length - 1) : pastedText;
-                                    pastedText = pastedText.Trim();
-                                    TextInfo = pastedText;
+                                    pastedText = (pastedText[0] == '\"') ? pastedText.Substring(1) : pastedText;
+                                    if (!string.IsNullOrEmpty(pastedText))
+                                    {
+                                        pastedText = (pastedText[pastedText.Length - 1] == '\"') ? pastedText.Substring(0, pastedText.Length - 1) : pastedText;
+                                        pastedText = pastedText.Trim();
+                                        if (!string.IsNullOrEmpty(pastedText))
+                                        {
+                                            TextInfo = pastedText;
+                                        }
+                                    }
                                 }
                             }
                             break;

@@ -17,12 +17,36 @@ namespace Azure_IoTHub_DeviceStreaming
         private DeviceClient _deviceClient;
         private String _host;
         private int _port;
+        // Callback for received message
+        private ActionReceivedText OnRecvdTextD = null;
+        private ActionReceivedText OnDeviceStatusUpdateD = null;
 
-        public DeviceStreamSample(DeviceClient deviceClient, String host, int port)
+        private static DeviceStreamSample sample = null;
+
+        public DeviceStreamSample(DeviceClient deviceClient, String host, int port, ActionReceivedText onRecvdText,  ActionReceivedText onDeviceStatusUpdateD = null)
         {
+            sample = this;
+            OnRecvdTextD = onRecvdText;
+            OnDeviceStatusUpdateD = onDeviceStatusUpdateD;
+
             _deviceClient = deviceClient;
             _host = host;
             _port = port;
+        }
+
+        private static void  ErrorMsg(string Context, Exception ex)
+        {
+            sample?.OnDeviceStatusUpdateD?.Invoke(string.Format("Device " + Context + " {0}", ex.Message));
+        }
+
+        private static void Update(string msg)
+        {
+            sample?.OnDeviceStatusUpdateD?.Invoke("Device " + msg);
+        }
+
+        private static void Info(string msg)
+        {
+            sample?.OnRecvdTextD?.Invoke(msg);
         }
 
         private static async Task HandleIncomingDataAsync(NetworkStream localStream, ClientWebSocket remoteStream, CancellationToken cancellationToken)
@@ -48,7 +72,7 @@ namespace Azure_IoTHub_DeviceStreaming
                 int receiveCount = await localStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
 
                 counter += receiveCount;
-                Console.WriteLine(string.Format("Device count = {0}", counter));
+                Info(string.Format("Device count = {0}", counter));
 
                 await remoteStream.SendAsync(new ArraySegment<byte>(buffer, 0, receiveCount), WebSocketMessageType.Binary, true, cancellationToken).ConfigureAwait(false);
             }
@@ -64,9 +88,9 @@ namespace Azure_IoTHub_DeviceStreaming
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Device got connection exception: {0}", ex);
+                    ErrorMsg("Device got connection exception", ex);
                 }
-                Console.WriteLine("Device waiting again...");
+                Update("Device waiting again...");
             }
         }
 
@@ -74,8 +98,9 @@ namespace Azure_IoTHub_DeviceStreaming
         {
             try
             {
+                Update("Awaiting connection.");
                 DeviceStreamRequest streamRequest = await _deviceClient.WaitForDeviceStreamRequestAsync(cancellationTokenSource.Token).ConfigureAwait(false);
-
+                Update("Got request.");
                 if (streamRequest != null)
                 {
                     if (acceptDeviceStreamingRequest)
@@ -83,22 +108,25 @@ namespace Azure_IoTHub_DeviceStreaming
                         try
                         {
                             await _deviceClient.AcceptDeviceStreamRequestAsync(streamRequest, cancellationTokenSource.Token).ConfigureAwait(false);
-
+                            Update("Accepted request.");
                             using (ClientWebSocket webSocket = await DeviceStreamingCommon.GetStreamingClientAsync(streamRequest.Url, streamRequest.AuthorizationToken, cancellationTokenSource.Token).ConfigureAwait(false))
                             {
+                                Update("Got client stream.");
                                 using (TcpClient tcpClient = new TcpClient())
                                 {
+                                    Update("Connecting to stream.");
                                     await tcpClient.ConnectAsync(_host, _port).ConfigureAwait(false);
 
                                     using (NetworkStream localStream = tcpClient.GetStream())
                                     {
-                                        Console.WriteLine("Starting streaming");
+                                        Update("Device starting streaming");
                                         counter = 0;
                                         await Task.WhenAny(
                                             HandleIncomingDataAsync(localStream, webSocket, cancellationTokenSource.Token),
                                             HandleOutgoingDataAsync(localStream, webSocket, cancellationTokenSource.Token)).ConfigureAwait(false);
-
+                                        Update("Closing stream");
                                         localStream.Close();
+                                        Update("Closed stream");
                                     }
                                 }
 
@@ -107,7 +135,7 @@ namespace Azure_IoTHub_DeviceStreaming
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Device got an inner exception. Exiting connection."); //: {0}", ex);
+                            Update("Device got an inner exception. Exiting connection."); //: {0}", ex);
                         }
                     }
                     else
@@ -118,7 +146,7 @@ namespace Azure_IoTHub_DeviceStreaming
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Device got an outer exception: {0}", ex);
+               ErrorMsg("Device got an outer exception", ex);
             }
         }
     }

@@ -22,6 +22,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
     /// </summary>
     public sealed partial class HomePage : Page
     {
+        public static int ShowPanel = 1;
         public HomePage()
         {
             this.InitializeComponent();
@@ -34,7 +35,17 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private  void Page_Loaded(object sender, RoutedEventArgs e)
         {
-
+            switch (ShowPanel)
+            {
+                case 1:
+                    Panel1.Visibility = Visibility.Visible;
+                    Panel2.Visibility = Visibility.Collapsed;
+                    break;
+                case 2:
+                    Panel2.Visibility = Visibility.Visible;
+                    Panel1.Visibility = Visibility.Collapsed;
+                    break;
+            }
         }
 
         protected  override void OnNavigatedTo(NavigationEventArgs e)
@@ -65,6 +76,15 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             //ref: https://docs.microsoft.com/en-us/windows/uwp/monetize/request-ratings-and-reviews#show-a-rating-and-review-dialog-in-your-app
             bool result = await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9PMCF9CLTTWZ"));
             //bool result = await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9WZDNCRFHVJL"));
+        }
+
+        private void Popup_SetConnectionDetails_Closed(object sender, object e)
+        {
+            if (this.Frame.CanGoBack)
+            {
+                HomePage.ShowPanel = 1;
+                this.Frame.GoBack();
+            }
         }
     }
 }

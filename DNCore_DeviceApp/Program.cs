@@ -22,8 +22,9 @@ namespace DeviceDNCoreApp
         public  bool basicMode { get; set; } 
         public  bool UseCustomClass { get; set; }
         public  bool ResponseExpected { get; set; }
-        public  bool KeepAlive { get; set; } 
+        public  bool KeepAlive { get; set; }
 
+        public string hub_cs { get; set; }
         public  string device_id { get; set; }
         public  string device_cs { get; set; }  
 

@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +15,9 @@ namespace Azure_IoTHub_Sensors
     {
         public const string Prefix = "TELEM";
         public string city { get; set; } = "";
-        public int temperature { get; set; } = -123456; //Use these initialisers to indicate no value supplied
-        public int pressure { get; set; } = -1;
-        public int humidity { get; set; } = -1;
+        public double temperature { get; set; } = -123456; //Use these initialisers to indicate no value supplied
+        public double pressure { get; set; } = -1;
+        public double humidity { get; set; } = -1;
         public static int WeatherIndex { get; set; }
 
         public TelemetryDataPoint()
@@ -32,7 +34,54 @@ namespace Azure_IoTHub_Sensors
             }
             catch (Exception)
             {
-                return null;
+                JObject obj = (JObject)JsonConvert.DeserializeObject(msg);
+
+                
+                if (obj != null)
+                {
+                    var to =  new TelemetryDataPoint();
+                    ////https://stackoverflow.com/questions/4144778/get-properties-and-values-from-unknown-object
+                    //Type myType = obj.GetType();
+                    //IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
+                    ////////////////////
+                    foreach (var property in obj.Properties()) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
+                    {
+                        string propertyName = property.Name;
+                        var val = obj.GetValue(propertyName); // static classes cannot be instanced, so use null...
+                        
+
+                        Type type2 = typeof(TelemetryDataPoint); // IoTHubConnectionDetails is static class with public static properties
+                        foreach (var property2 in type2.GetProperties())//System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)) //(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic))
+                        {
+                            string propertyName2 = property2.Name;
+                            if (propertyName2.ToLower() == propertyName.ToLower())
+                            {
+                               
+                                var propertyInfo = type2.GetProperty(propertyName2); //, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                                string strngVal = val.ToString();
+
+                                //Assume its a string, but try to convert to double and int
+                                object obj2 = strngVal;
+                                int i;
+                                double d;
+                                if (double.TryParse(strngVal, out d))
+                                {
+                                    obj2 = d;
+                                }
+                                else if (int.TryParse(strngVal, out i))
+                                {
+                                    obj2 = i;
+                                }
+
+                                
+                                //var info = propertyInfo.GetValue(type2, null);
+                                propertyInfo.SetValue(to, obj2);
+                            }
+                        }
+                    }
+                    return to;
+                }
+                return null; 
             }
 
         }
@@ -41,10 +90,14 @@ namespace Azure_IoTHub_Sensors
         public  override string ToString()
         {
             string response = "";
-            response += string.Format("City:  {0}", city);
-            response += string.Format("\r\nTemperature:  {0} C", temperature);
-            response += string.Format("\r\nHumidity:  {0}%", humidity);
-            response += string.Format("\r\nPressure:  {0}", pressure);      
+            if (city !="")
+                response += string.Format("City:  {0}", city);
+            if (temperature != -123456)
+                response += string.Format("\r\nTemperature:  {0} C", temperature);
+            if (humidity != -1)
+                response += string.Format("\r\nHumidity:  {0}%", humidity);
+            if (pressure != -1)
+                response += string.Format("\r\nPressure:  {0}", pressure);      
             return response;
         }
     }

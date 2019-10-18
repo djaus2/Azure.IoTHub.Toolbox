@@ -45,7 +45,6 @@ namespace Azure_IoTHub_Toolbox_App
 
         //The next is superfulous as this device app will always autostart.
         public bool AutoStartDevice { get; set; }
-
-
+        public string iothub_cs { get; internal set; }
     }
 }

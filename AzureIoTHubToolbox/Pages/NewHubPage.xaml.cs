@@ -215,6 +215,15 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             ND.GenerateEntityInfo = GenerateEntityInfo;
             NCS1.GenerateEntityInfo = GenerateEntityInfo;
             NCS2.GenerateEntityInfo = GenerateEntityInfo;
+            Data1.ResetData();
+
+            BtnClear.IsCompact = true;
+            BtnCommit.IsCompact = BtnClear.IsCompact;
+            BtnSave.IsCompact = BtnClear.IsCompact;
+            BtnLoad.IsCompact = BtnClear.IsCompact;
+            BtnUndo.IsCompact = BtnClear.IsCompact;
+            Data1.state = "Loaded";
+            Data1.OpenIconViz = Visibility.Collapsed;
         }
 
         private void RbF1_Checked(object sender, RoutedEventArgs e)
@@ -346,6 +355,74 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         public static void Stop()
         {
             newHub.Data1.Commit();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Data1.Commit();
+            await ApplicationSettings.SaveMyConnectionsToFile(Data1.Filename);
+        }
+
+        private async void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            await ApplicationSettings.LoadMyConnectionsFromFile();
+            Data1.ResetData();
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            Data1.ClearData();
+        }
+
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            string tag = (string)((Control)sender).Tag;
+            if (!string.IsNullOrEmpty(tag))
+            {
+                switch (tag)
+                {
+                    case "0":
+                        Data1.ClearData();
+                        Data1.state = "Uncommitted";
+                        Data1.OpenIconViz = Visibility.Visible;
+                        break;
+                    case "1":
+                        Data1.Commit();
+                        Data1.state = "Committed";
+                        Data1.OpenIconViz = Visibility.Collapsed;
+                        break;
+                    case "2":
+                        await ApplicationSettings.LoadMyConnectionsFromFile();
+                        Data1.ResetData();
+                        Data1.state = "Committed";
+                        Data1.OpenIconViz = Visibility.Collapsed;
+                        break;
+                    case "3":
+                        Data1.Commit();
+                        await ApplicationSettings.SaveMyConnectionsToFile(Data1.Filename);
+                        Data1.state = "Committed";
+                        Data1.OpenIconViz = Visibility.Collapsed;
+                        break;
+                    case "4":
+                        Data1.ResetData();
+                        Data1.state = "Committed";
+                        Data1.OpenIconViz = Visibility.Collapsed;
+                        break;
+                    case "5":
+                        break;
+                }
+            }
+                
+        }
+
+        private void SvcCommands2_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            BtnClear.IsCompact = !BtnClear.IsCompact;
+            BtnCommit.IsCompact = BtnClear.IsCompact;
+            BtnSave.IsCompact = BtnClear.IsCompact;
+            BtnLoad.IsCompact = BtnClear.IsCompact;
+            BtnUndo.IsCompact = BtnClear.IsCompact;
+            SvcCommands2.IsOpen = !BtnClear.IsCompact;
         }
     }
 }

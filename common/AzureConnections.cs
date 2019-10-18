@@ -11,6 +11,7 @@ namespace Azure_IoTHub_Connections
 {
     public static partial class MyConnections
     {
+       
         public static int TelemetryDelayBtwReadings { get; set; }  //Seconds
         public static int SvcTelemetryDelayBtwReadingsToSend { get; set; }  //Seconds
         public static int WaitAtEndOfConsoleAppSecs { get; set; } = 5; //Secs
@@ -24,6 +25,8 @@ namespace Azure_IoTHub_Connections
         /// </summary>
         /// 
         public static bool EHMethod1 { get; set; }
+
+        public static string Filename { get; set; } = "";
 
         public static string AzureGroup { get; set; } = "MyNewGroup";
 

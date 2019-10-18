@@ -65,17 +65,36 @@ namespace Azure_IoTHub_Telemetry
                     string data = Encoding.UTF8.GetString(eventData.Body.Array);
                     System.Diagnostics.Debug.WriteLine("Message received on partition {0}:", partition);
                     System.Diagnostics.Debug.WriteLine("  {0}:", data);
-
-                    System.Diagnostics.Debug.WriteLine("Application properties (set by device):");
-                    foreach (var prop in eventData.Properties)
+                    if (eventData.Properties != null)
                     {
-                        System.Diagnostics.Debug.WriteLine("  {0}: {1}", prop.Key, prop.Value);
+                        if (eventData.Properties.Count != 0)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Application properties (set by device):");
+                            foreach (var prop in eventData.Properties)
+                            {
+                                System.Diagnostics.Debug.WriteLine("  {0}: {1}", prop.Key, prop.Value);
+                            }
+                        }
+                        else
+                            System.Diagnostics.Debug.WriteLine("No Application Properties (set by device)");
                     }
-                    System.Diagnostics.Debug.WriteLine("System properties (set by IoT Hub):");
-                    foreach (var prop in eventData.SystemProperties)
+                    else
+                        System.Diagnostics.Debug.WriteLine("No Application Properties (set by device");
+                    if (eventData.SystemProperties != null)
                     {
-                        System.Diagnostics.Debug.WriteLine("  {0}: {1}", prop.Key, prop.Value);
+                        if (eventData.SystemProperties.Count != 0)
+                        {
+                            System.Diagnostics.Debug.WriteLine("System properties (set by IoT Hub):");
+                            foreach (var prop in eventData.SystemProperties)
+                            {
+                                System.Diagnostics.Debug.WriteLine("  {0}: {1}", prop.Key, prop.Value);
+                            }
+                        }
+                        else
+                            System.Diagnostics.Debug.WriteLine("No System properties from IoT Hub");
                     }
+                    else
+                        System.Diagnostics.Debug.WriteLine("No System properties from IoT Hub");
 
                     OnSvcRecvText?.Invoke(Azure_IoTHub_Telemetry.SyntheticIoTMessage.EventData_ToString(eventData));
                 }

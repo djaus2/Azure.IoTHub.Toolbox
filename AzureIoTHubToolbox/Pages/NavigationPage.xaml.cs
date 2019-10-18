@@ -57,19 +57,20 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                         break;
                     case 6:
                         break;
-                    case 8:
+                    case 7:
                         break;
                 }
                 var eventargs = (NavigationViewSelectionChangedEventArgs)args;
                 if (int.TryParse( (string)((Control)eventargs.SelectedItem).Tag, out int newPage))
                 {
-                    if ((new List<int>() { 1, 2, 3, 4, 5,6,7,8}).Contains(newPage))
+                    if ((new List<int>() { 1, 2, 3, 4, 5, 6, 7 }).Contains(newPage))//,8}).Contains(newPage))
                     {
                         currentPage = newPage;
                            
                         switch (currentPage)
                         {
                             case 1:
+                                Pages.HomePage.ShowPanel = 1;
                                 NavigationFrame.Navigate(typeof(Pages.HomePage), false);
                                 break;
                             case 2:
@@ -81,9 +82,9 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                             case 4:
                                 NavigationFrame.Navigate(typeof(Pages.ControlDeviceTelemetryPage), null);
                                 break;
-                            case 8:
-                                NavigationFrame.Navigate(typeof(Pages.ProxyPage), null);
-                                break;
+                            //case 8:
+                            //    NavigationFrame.Navigate(typeof(Pages.ProxyPage), null);
+                            //    break;
                             case 5:
                                 NavigationFrame.Navigate(typeof(Pages.DeployToDevice), null);
                                 break;
@@ -93,6 +94,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
                             case 7:
                                     currentPage = 1;
+                                Pages.HomePage.ShowPanel = 2;
                                     NavigationFrame.Navigate(typeof(Pages.HomePage),true);
                                 break;
                         }

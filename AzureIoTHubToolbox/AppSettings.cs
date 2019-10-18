@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
+using Windows.Storage;
+using Windows.Storage.AccessCache;
+using Windows.Storage.Pickers;
+using Windows.Storage.Search;
+using Windows.Storage.Provider;
 //Orig
 namespace Azure_IoTHub_Toolbox_App
 {
@@ -38,6 +44,10 @@ namespace Azure_IoTHub_Toolbox_App
                         }
                     }
                 }
+            }
+            else
+            {
+                //Pages.IoTHubConnectionDetails.
             }
         }
 
@@ -94,9 +104,110 @@ namespace Azure_IoTHub_Toolbox_App
             }
         }
 
-        // Create a new instance of ApplicationDataCompositeValue object as ComDetail
-        // Iterate through the properties of a static class and store each name value pair in a ComDetail
-        // Save that to the application's local settings, replacing the existing object if it exists.
+        public static async Task<string> SaveMyConnectionsToFile(string filename)
+        {
+            try
+            {
+                Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                if (localSettings.Values.Keys.Contains("ConDetail"))
+                {
+                    Windows.Storage.ApplicationDataCompositeValue composite =
+                           (Windows.Storage.ApplicationDataCompositeValue)localSettings.Values["ConDetail"];
+                    if (composite != null)
+                    {
+                        string cons = JsonConvert.SerializeObject(composite);
+                        FileSavePicker filePicker = new FileSavePicker();
+                        filePicker.SuggestedStartLocation = PickerLocationId.Downloads;
+                        filePicker.FileTypeChoices.Add("Connections", new List<string>() { ".con", ".json", ".txt" });
+                        // Default file name if the user does not type one in or select a file to replace
+                        filePicker.SuggestedFileName = filename;
+
+                        StorageFile file = await filePicker.PickSaveFileAsync();
+                        if (file != null)
+                        {
+                            // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+                            CachedFileManager.DeferUpdates(file);
+                            // write to file
+                            await FileIO.WriteTextAsync(file, cons);
+                            // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                            // Completing updates may require Windows to ask for user input.
+                            FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                            if (status == FileUpdateStatus.Complete)
+                            {
+                                return "Save Connection File " + file.Name + " was saved.";
+                            }
+                            else
+                            {
+                                return "Save Connection File " + file.Name + " couldn't be saved.";
+                            }
+                        }
+                        else
+                        {
+                            return "Save Connection Operation cancelled.";
+                        }
+
+                    }
+                    return "Save Connection Operation  not completed.";
+                }
+                return "Save Connection Operation  not completed.";
+            } catch (Exception ex)
+            {
+                return ("Save Connection Operation failed: " + ex.Message);
+            }
+
+        }
+
+        public static void NewConSettings()
+        {
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if (localSettings.Values.Keys.Contains("ConDetail"))
+            {
+                localSettings.Values.Remove("ConDetail");
+                LoadConSettings();
+            }
+        }
+        public static async Task<string> LoadMyConnectionsFromFile()
+        {
+            try { 
+                FileOpenPicker openPicker = new FileOpenPicker();
+                openPicker.ViewMode = PickerViewMode.List;
+                openPicker.SuggestedStartLocation = PickerLocationId.Downloads;
+                openPicker.FileTypeFilter.Add(".con");
+                openPicker.FileTypeFilter.Add(".json");
+                openPicker.FileTypeFilter.Add(".txt");
+
+                StorageFile file = await openPicker.PickSingleFileAsync();
+                if (file != null)
+                {
+                    string json = await FileIO.ReadTextAsync(file);
+                    var composite = JsonConvert.DeserializeObject<Windows.Storage.ApplicationDataCompositeValue>(json);
+                    if (composite != null)
+                    {
+                        Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                        if (localSettings.Values.Keys.Contains("ConDetail"))
+                        {
+                            localSettings.Values.Remove("ConDetail");
+                        }
+                        localSettings.Values.Add("ConDetail", composite);
+                        LoadConSettings();
+                        return "Loaded Hub Connection from: " + file.Name;
+                    }
+                    else
+                        return "Load Hub Connection Operation failed from: " + file.Name;
+                }
+                else
+                {
+                    return "Load Hub Connection Operation cancelled.";
+                }
+            } catch (Exception ex)
+            {
+                return ("Load Hub Connection Operation failed: " + ex.Message);
+            }
+        }
+
+            // Create a new instance of ApplicationDataCompositeValue object as ComDetail
+            // Iterate through the properties of a static class and store each name value pair in a ComDetail
+            // Save that to the application's local settings, replacing the existing object if it exists.
         public static void SaveSettingsToAppData()
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -154,6 +265,7 @@ namespace Azure_IoTHub_Toolbox_App
             }
             settings.AutoStartDevice = true;
             settings.KeepDeviceListening = true;
+            settings.iothub_cs = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
             settings.device_cs = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
             settings.device_id = Azure_IoTHub_Connections.MyConnections.DeviceId;
             settings.DeviceTimeout = Azure_IoTHub_DeviceStreaming.DeviceStreamingCommon.DeviceTimeout.Seconds;

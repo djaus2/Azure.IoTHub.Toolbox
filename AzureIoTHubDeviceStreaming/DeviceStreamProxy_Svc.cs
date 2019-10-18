@@ -18,17 +18,40 @@ namespace Azure_IoTHub_DeviceStreaming
         private String _deviceId;
         private int _localPort;
 
-        public DeviceStreamProxySvc(ServiceClient deviceClient, String deviceId, int localPort)
+        public ActionReceivedText OnRecvdTextD = null;
+        public ActionReceivedText OnStatusUpdateD = null;
+
+        private static DeviceStreamProxySvc sample = null;
+
+        public DeviceStreamProxySvc(ServiceClient deviceClient, String deviceId, int localPort, ActionReceivedText onRecvdTextD = null, ActionReceivedText onStatusUpdateD = null)
         {
+            sample = this;
+            OnRecvdTextD = onRecvdTextD;
+            OnStatusUpdateD = onStatusUpdateD;
             _serviceClient = deviceClient;
             _deviceId = deviceId;
             _localPort = localPort;
         }
 
+        private static void ErrorMsg(string Context, Exception ex)
+        {
+            sample?.OnStatusUpdateD?.Invoke(string.Format("Svc " + Context + " {0}", ex.Message));
+        }
+
+        private static void Update(string msg)
+        {
+            sample?.OnStatusUpdateD?.Invoke("Svc " + msg);
+        }
+
+        private static void Info(string msg)
+        {
+            sample?.OnRecvdTextD?.Invoke(msg);
+        }
+
         private static async Task HandleIncomingDataAsync(NetworkStream localStream, ClientWebSocket remoteStream, CancellationToken cancellationToken)
         {
             byte[] bytes = new byte[10240];
-            System.ArraySegment<byte> receiveBuffer= new ArraySegment<byte>(bytes);
+            System.ArraySegment<byte> receiveBuffer = new ArraySegment<byte>(bytes);
             while (localStream.CanRead)
             {
                 var receiveResult = await remoteStream.ReceiveAsync(receiveBuffer, cancellationToken).ConfigureAwait(false);
@@ -37,7 +60,7 @@ namespace Azure_IoTHub_DeviceStreaming
             }
         }
 
-        private static  long counter = 0;
+        private static long counter = 0;
         private static async Task HandleOutgoingDataAsync(NetworkStream localStream, ClientWebSocket remoteStream, CancellationToken cancellationToken)
         {
             byte[] buffer = new byte[10240];
@@ -46,7 +69,7 @@ namespace Azure_IoTHub_DeviceStreaming
             {
                 int receiveCount = await localStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                 counter += receiveCount;
-                Console.WriteLine(string.Format("Device cont= {0}", counter));
+                Info(string.Format("Device count= {0}", counter));
 
                 await remoteStream.SendAsync(new ArraySegment<byte>(buffer, 0, receiveCount), WebSocketMessageType.Binary, true, cancellationToken).ConfigureAwait(false);
             }
@@ -60,46 +83,87 @@ namespace Azure_IoTHub_DeviceStreaming
 
             using (var localStream = tcpClient.GetStream())
             {
-                DeviceStreamResponse result = await serviceClient.CreateStreamAsync(deviceId, deviceStreamRequest, CancellationToken.None).ConfigureAwait(false);
-
-                Console.WriteLine($"Stream response received: Name={deviceStreamRequest.StreamName} IsAccepted={result.IsAccepted}");
-
-                if (result.IsAccepted)
+                Update("Awaiting connection");
+                using (cancellationTokenSourceOuter = new CancellationTokenSource())
                 {
-                    try
-                    {
-                        using (var cancellationTokenSource = new CancellationTokenSource())
-                        using (ClientWebSocket remoteStream = await DeviceStreamingCommon.GetStreamingClientAsync(result.Url, result.AuthorizationToken, cancellationTokenSource.Token).ConfigureAwait(false))
-                        {
-                            Console.WriteLine("Starting streaming");
-                            counter = 0;
-                            await Task.WhenAny(
-                                HandleIncomingDataAsync(localStream, remoteStream, cancellationTokenSource.Token),
-                                HandleOutgoingDataAsync(localStream, remoteStream, cancellationTokenSource.Token)).ConfigureAwait(false);
-                        }
+                    DeviceStreamResponse result = await serviceClient.CreateStreamAsync(deviceId, deviceStreamRequest, cancellationTokenSourceOuter.Token).ConfigureAwait(false);
 
-                            Console.WriteLine("Done streaming");
-                    }
-                    catch (Exception ex)
+                    Update($"Stream response received: Name={deviceStreamRequest.StreamName} IsAccepted={result.IsAccepted}");
+
+                    if (result.IsAccepted)
                     {
-                        Console.WriteLine("Service got an exception: {0}", ex);
+                        try
+                        {
+                            using (cancellationTokenSource = new CancellationTokenSource())
+                            using (ClientWebSocket remoteStream = await DeviceStreamingCommon.GetStreamingClientAsync(result.Url, result.AuthorizationToken, cancellationTokenSource.Token).ConfigureAwait(false))
+                            {
+                                Update("Starting streaming");
+                                counter = 0;
+                                await Task.WhenAny(
+                                    HandleIncomingDataAsync(localStream, remoteStream, cancellationTokenSource.Token),
+                                    HandleOutgoingDataAsync(localStream, remoteStream, cancellationTokenSource.Token)).ConfigureAwait(false);
+                            }
+
+                            Update("Done streaming");
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorMsg("Service got an exception: {0}", ex);
+                        }
                     }
                 }
             }
             tcpClient.Close();
         }
 
+        private static CancellationTokenSource cancellationTokenSource = null;
+        private static CancellationTokenSource cancellationTokenSourceOuter = null;
+
+        public  static void Cancel()
+        {
+            Update("Cancelling.");
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSourceOuter?.Cancel();
+            _cancel = true;
+        }
+
+        private Task task = null;
+        private static bool _cancel = false;
+
+        public static bool isRunning = false;
+
         public async Task RunSampleAsync()
         {
-            var tcpListener = new TcpListener(IPAddress.Loopback, _localPort);
-            tcpListener.Start();
-
-            while (true)
+            //IPAddress ipAddress = Dns.GetHostAddresses("localhost")[0];//.Resolve("localhost").AddressList[0];
+            try
             {
-                var tcpClient = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+                
 
-                HandleIncomingConnectionsAndCreateStreams(_deviceId, _serviceClient, tcpClient);
+                //TcpListener tcpListener = new TcpListener(ipAddress, _localPort);
+
+                //IPAddress ip = new IPAddress(new byte[] { 192, 168, 0, 10 });
+                //var tcpListener = new TcpListener(ip, _localPort);
+
+                _cancel = false;
+                var tcpListener = new TcpListener(IPAddress.Loopback, _localPort);
+                Update(string.Format("Creating listener @ address {0} on port {1}.", IPAddress.Loopback, _localPort));
+                tcpListener.Start();
+                isRunning = false;
+                while (!_cancel)
+                {
+                    Update("Starting to listen.");
+                    var tcpClient = await tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
+                    Update("Got listener.");
+                    isRunning = true;
+                    HandleIncomingConnectionsAndCreateStreams(_deviceId, _serviceClient, tcpClient);
+                    isRunning = false;
+                }
             }
+            catch (Exception e)
+            {
+                ErrorMsg("Exiting connection", e);
+            }
+            
         }
-    }
+}
 }

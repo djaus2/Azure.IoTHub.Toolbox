@@ -21,7 +21,7 @@
             <NavigationViewItem Icon="Share"  Content="Device Streaming" Tag="2" />
             <NavigationViewItem Icon="Send"  Content="Telemetry" Tag="3" />
             <NavigationViewItem Icon="Shuffle"  Content="Control device" Tag="4" />
-            <NavigationViewItem Icon="Shuffle"  Content="Device Streaming Proxy" Tag="8" />
+            <!--<NavigationViewItem Icon="Shuffle"  Content="Device Streaming Proxy" Tag="8" />-->
             <NavigationViewItem Icon="World"  Content="Deploy to IoT Device" Tag="5" />
             <NavigationViewItem Icon="World"  Content="Links" Tag="6" />
             <NavigationViewItem Icon="ContactInfo"  Content="About" Tag="7" />

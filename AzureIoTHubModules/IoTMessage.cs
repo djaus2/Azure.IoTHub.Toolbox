@@ -146,6 +146,11 @@ namespace Azure_IoTHub_Telemetry
                 //response += string.Format("\r\n  {0}:", data);
                 Azure_IoTHub_Sensors.TelemetryDataPoint telemetryDataPoint =
                     Azure_IoTHub_Sensors.TelemetryDataPoint.Deserialize(data);
+                if(telemetryDataPoint == null)
+                {
+                    return response; 
+                }
+
                 if (!string.IsNullOrEmpty(telemetryDataPoint.city))
                     response += string.Format("City:  {0}", telemetryDataPoint.city);
                 if (telemetryDataPoint.temperature != -123456)

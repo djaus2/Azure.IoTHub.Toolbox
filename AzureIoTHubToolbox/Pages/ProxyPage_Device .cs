@@ -205,48 +205,48 @@ namespace Azure_IoTHub_Toolbox_App.Pages
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    if (msgIn.ToLower().Contains("Telemetry interval set".ToLower()))
-                    {
-                        AppSettingsValues.Settings.TelemetryDelayBtwReadings = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
-                    }
-                    else if (msgIn.ToLower().Contains("LED Toggle".ToLower()))
-                    {
-                        LEDCol++;
-                        if (LEDCol >1)
-                            LEDCol = 0;
+                    //if (msgIn.ToLower().Contains("Telemetry interval set".ToLower()))
+                    //{
+                    //    AppSettingsValues.Settings.TelemetryDelayBtwReadings = Azure_IoTHub_Connections.MyConnections.TelemetryDelayBtwReadings;
+                    //}
+                    //else if (msgIn.ToLower().Contains("LED Toggle".ToLower()))
+                    //{
+                    //    LEDCol++;
+                    //    if (LEDCol >1)
+                    //        LEDCol = 0;
  
 
-                        if (LEDCol > 0)
-                        {
-                            DeviceControlLED.Fill = new SolidColorBrush(Colors.Red);
-                        }
-                        else
-                        {
-                            DeviceControlLED.Fill = new SolidColorBrush(Colors.White);
-                        }
-                    }
-                    else if (msgIn.ToLower().Contains("Simulated Device Started".ToLower()))
-                    {
-                        DeviceState = deviceStates.listening;
-                        DeviceIsRunningLED.Fill = MainPage.Cols[1];
-                    }
-                    else if (msgIn.ToLower().Contains("Device Sending Messages".ToLower()))
-                    {
-                        DeviceState = deviceStates.listening;
-                        DeviceIsRunningLED.Fill = MainPage.Cols[0];
-                    }
-                    else if (msgIn.ToLower().Contains("Device end".ToLower()))
-                    {
-                        DeviceState = deviceStates.stopped;
-                        DeviceIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 2];
-                    }
-                    else if (msgIn.ToLower().Contains("Device done".ToLower()))
-                    {
-                        DeviceState = deviceStates.stopped;
-                        DeviceIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 1];
-                    }
+                    //    if (LEDCol > 0)
+                    //    {
+                    //        DeviceControlLED.Fill = new SolidColorBrush(Colors.Red);
+                    //    }
+                    //    else
+                    //    {
+                    //        DeviceControlLED.Fill = new SolidColorBrush(Colors.White);
+                    //    }
+                    //}
+                    //else if (msgIn.ToLower().Contains("Simulated Device Started".ToLower()))
+                    //{
+                    //    DeviceState = deviceStates.listening;
+                    //    DeviceIsRunningLED.Fill = MainPage.Cols[1];
+                    //}
+                    //else if (msgIn.ToLower().Contains("Device Sending Messages".ToLower()))
+                    //{
+                    //    DeviceState = deviceStates.listening;
+                    //    DeviceIsRunningLED.Fill = MainPage.Cols[0];
+                    //}
+                    //else if (msgIn.ToLower().Contains("Device end".ToLower()))
+                    //{
+                    //    DeviceState = deviceStates.stopped;
+                    //    DeviceIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 2];
+                    //}
+                    //else if (msgIn.ToLower().Contains("Device done".ToLower()))
+                    //{
+                    //    DeviceState = deviceStates.stopped;
+                    //    DeviceIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 1];
+                    //}
 
-                    tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
+                    //tbDevMode.Text = ListEnum2[Azure_IoTHub_Connections.MyConnections.DeviceAction];
                     tbDeviceStatus.Text = msgIn;
                 });
             });
@@ -285,7 +285,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private async void Button_Click_Device(object sender, RoutedEventArgs e)
         {
-            string s_port = tbSvcTimeout2.Text;
+            string s_port = "22";// tbSvcTimeout2.Text;
             int port = int.Parse(s_port, CultureInfo.InvariantCulture);
             string s_deviceConnectionString = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
             Microsoft.Azure.Devices.Client.TransportType s_transportType = Microsoft.Azure.Devices.Client.TransportType.Amqp;
@@ -305,7 +305,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                             return ;
                         }
 
-                        var sample = new DeviceStreamSample(deviceClient, "localhost", port);
+                        var sample = new DeviceStreamSample(deviceClient, "localhost", port,  UpdateDeviceOutputText, OnDeviceStatusUpdate);
                         sample.RunSampleAsync(new CancellationTokenSource()).GetAwaiter().GetResult();
                     }
                     //if (DeviceBasicMode)
@@ -317,15 +317,15 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 }
                 catch (TaskCanceledException)
                 {
-                    System.Diagnostics.Debug.WriteLine("0 Error App.RunClient(): Task cancelled");
+                    OnDeviceStatusUpdate("0 Error App.RunClient(): Task cancelled");
                 }
                 catch (OperationCanceledException)
                 {
-                    System.Diagnostics.Debug.WriteLine("0 Error App.RunClient(): Operation cancelled");
+                    OnDeviceStatusUpdate("0 Error App.RunClient(): Operation cancelled");
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine("0 Error App.RunClient(): " + ex.Message);
+                    OnDeviceStatusUpdate("0 Error App.RunClient(): " + ex.Message);
                 }
             });
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Core;
@@ -28,39 +29,54 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     tbSvcMsgIn.Text = recvdMsg;
+                    System.Diagnostics.Debug.WriteLine(recvdMsg);
                 });
             });
         }
 
         private void OnSvcStatusUpdate(string msgIn)
         {
+            System.Diagnostics.Debug.WriteLine(msgIn);
             Task.Run(async () => {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     tbSvcStat.Text = msgIn;
 
-                    if (msgIn.ToLower().Contains("listening"))
-                    {
-                        SvcState = deviceStates.listening;
-                        SvcIsRunningLED.Fill = MainPage.Cols[0]; ;
-                    }
-                    else if (msgIn.ToLower().Contains("cancelling"))
-                        SvcIsRunningLED.Fill = MainPage.Cols[1];
-                    else if (msgIn.ToLower().Contains("exiting"))
-                        SvcIsRunningLED.Fill = MainPage.Cols[2];
-                    else
-                    {
-                        SvcState = deviceStates.stopped;
-                        SvcIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 1];
-                    }
+                    //if (msgIn.ToLower().Contains("listening"))
+                    //{
+                    //    SvcState = deviceStates.listening;
+                    //    SvcIsRunningLED.Fill = MainPage.Cols[0]; ;
+                    //}
+                    //else if (msgIn.ToLower().Contains("cancelling"))
+                    //    SvcIsRunningLED.Fill = MainPage.Cols[1];
+                    //else if (msgIn.ToLower().Contains("exiting"))
+                    //    SvcIsRunningLED.Fill = MainPage.Cols[2];
+                    //else
+                    //{
+                    //    SvcState = deviceStates.stopped;
+                    //    SvcIsRunningLED.Fill = MainPage.Cols[MainPage.Cols.Count() - 1];
+                    //}
                 });
             });
         }
         private void ButtonCanceLSvc_Click(object sender, RoutedEventArgs e)
         {
-            DeviceStream_Svc.deviceStream_Svc?.Cancel();
-            Azure_IoTHub_Telemetry.ReadDeviceToCloudMessages.Cancel();
-            OnSvcStatusUpdate("Telemetry cancelling - Svc end");
+            
+            //DeviceStream_Svc.deviceStream_Svc?.Cancel();
+            //Azure_IoTHub_Telemetry.ReadDeviceToCloudMessages.Cancel();
+            OnSvcStatusUpdate("Svc Cancelling actioned");
+            if (! DeviceStreamProxySvc.isRunning)
+            {
+                if (tasks != null)
+                {
+                    if (tasks.Count != 0)
+                    {
+                        source.Cancel();
+                    }
+                }
+            }
+            else
+                DeviceStreamProxySvc.Cancel();
         }
 
         public bool svcCustomClassMode { get; set; } = false;
@@ -69,20 +85,41 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         public int DevAutoStart { get; set; } = 2;
         public int DevKeepListening { get; set; }  = 2;
 
-        private void Button_Click_Svc(object sender, RoutedEventArgs e)
-        {
+        CancellationTokenSource source = new CancellationTokenSource();
+        CancellationToken token;
 
+        List<Task> tasks;
+        private   void Button_Click_Svc(object sender, RoutedEventArgs e)
+        {
+            source = new CancellationTokenSource();
+            token = source.Token;
             string s_port = tbSvcTimeout2.Text;
             int port = int.Parse(s_port, CultureInfo.InvariantCulture);
-            string s_connectionString = Azure_IoTHub_Connections.MyConnections.DeviceConnectionString;
+            string s_connectionString = Azure_IoTHub_Connections.MyConnections.IoTHubConnectionString;
             Microsoft.Azure.Devices.TransportType s_transportType = Microsoft.Azure.Devices.TransportType.Amqp;
             string s_deviceId = Azure_IoTHub_Connections.MyConnections.DeviceId;
-
-            using (ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(s_connectionString, s_transportType))
+            Task.Run(async () =>
             {
-                var sample = new DeviceStreamProxySvc(serviceClient, s_deviceId, port);
-                sample.RunSampleAsync().GetAwaiter().GetResult();
-            }
+                try
+                {
+                    using (ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(s_connectionString, s_transportType))
+                    {
+                        var sample = new DNStandardDeviceStreaming.DeviceStreamProxySvc(serviceClient, s_deviceId, port, OnSvcRecvText, OnSvcStatusUpdate);
+                        await sample.RunSampleAsync();//.GetAwaiter().GetResult();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    OnSvcStatusUpdate(string.Format("Proxy Svc fail {0}", ex.Message));
+                }
+            });
+                
+            int i = 0;
+            //using (ServiceClient serviceClient = ServiceClient.CreateFromConnectionString(s_connectionString, s_transportType))
+            //{
+            //    var sample = new DeviceStreamProxySvc(serviceClient, s_deviceId, port);
+            //    sample.RunSampleAsync()
+            //}
 
             ////Store these current values then reset. These vales are passed to the device and remain so until changed.
             ////Whereas 

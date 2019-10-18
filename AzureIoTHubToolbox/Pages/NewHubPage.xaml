@@ -15,13 +15,61 @@
         </Grid.RowDefinitions>
 
             <TextBlock x:Name="PageHeading" Grid.Row="0" HorizontalAlignment="Left" Text="IoT Hub Creation and Configuration Information" FontSize="36" FontWeight="Bold"  />
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Commit Changes" Click="Button_Click_7" />
-            <Button Content="Discard Changes/Reload Settings" Margin="40,0,0,0" Click="Button_Click_5"/>
-            <TextBlock   Text="Nb: Changes are auto-comitted when you return."  FontSize="16"  Foreground="Gray" Margin="10,0,10,0" VerticalAlignment="Center" />
-        </StackPanel>
+        <!--<StackPanel Grid.Row="1" >
+            <StackPanel  Orientation="Horizontal">
+                <Button Content="Commit Changes" Click="Button_Click_7" />
+                <Button Content="Discard Changes/Reload Settings" Margin="40,0,0,0" Click="Button_Click_5"/>
+                <TextBlock   Text="Nb: Changes are auto-comitted when you return."  FontSize="16"  Foreground="Gray" Margin="10,0,10,0" VerticalAlignment="Center" />
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <Button Content="Save Current Hub Connection to File" Click="Button_Click" Margin="10" />
+                <Button Content="Load Hub Connection from File" Click="Button_Click_2" Margin = "10"/>
+                <Button Content="New Hub Settings" Click="Button_Click_4" Margin="10"/>
+            </StackPanel>-->
+        <CommandBar x:Name="SvcCommands2" Background="Brown"  Grid.Row="1" Tapped="SvcCommands2_Tapped" >
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 
-    <ScrollViewer x:Name="PageBody" Grid.Row="2" VerticalScrollBarVisibility="Auto" >
+                        <TextBlock Text="IoT Hub App Settings Status: "  Margin="10,0,0,0" Foreground="Yellow" HorizontalAlignment="Left" FontSize="16" FontStyle="Italic" FontWeight="Bold" VerticalAlignment="Bottom" />
+                        <TextBlock x:Name="tbHubStatus" Text="{x:Bind Data1.state ,Mode=OneWay}" Foreground="AntiqueWhite" HorizontalAlignment="Left" FontSize="16" Margin="20,0,0,0" VerticalAlignment="Bottom" Width="110"/>
+                        <Border x:Name="OpenIcon" Width="30" Height="30" Background="LightGray" Visibility="{x:Bind Data1.OpenIconViz ,Mode=OneWay}">
+                            <Viewbox   >
+                                <SymbolIcon  Symbol="OpenFile"  Foreground="Blue"  />
+                            </Viewbox>
+                        </Border>
+                        <Border x:Name="ClosedIcon"  Width="30" Height="30" Background="LightGray" Visibility="{x:Bind Data1.ClosedIconViz ,Mode=OneWay}">
+                            <Viewbox   >
+                                <SymbolIcon  Symbol="Page"  Foreground="Blue" />
+                            </Viewbox>
+                        </Border>
+                    </StackPanel>
+                    <AppBarButton x:Name="BtnClear" Icon="Clear"  Label="Clear" IsEnabled="True" IsCompact="True"  Click="AppBarButton_Click" Tag="0" Foreground="AntiqueWhite" FontWeight="Bold" ToolTipService.ToolTip="CLEAR all values here" />
+
+                    <AppBarButton x:Name="BtnCommit" Icon="SaveLocal"  Label="Commit" IsEnabled="True" IsCompact="True"  Click="AppBarButton_Click" Tag="1" Foreground="AntiqueWhite" FontWeight="Bold" ToolTipService.ToolTip="COMMIT all changes to app:                                            Nb: Changes are auto-comitted on leave page." />
+
+                    <AppBarButton x:Name="BtnLoad" Icon="OpenFile" Label="Load" Click="AppBarButton_Click" Tag="2" Foreground="AntiqueWhite" FontWeight="Bold"  ToolTipService.ToolTip="LOAD Hub settings from file"/>
+                    <AppBarButton  x:Name="BtnSave" Icon="Save" Label="Save" Click="AppBarButton_Click" Tag="3" Foreground="Yellow" Background="Green" FontWeight="Bold"  ToolTipService.ToolTip="SAVE Hub settings to file"/>
+                    <AppBarButton x:Name="BtnUndo" Icon="Undo" Label="Undo" Click="AppBarButton_Click" Tag="4" Foreground="AntiqueWhite" FontWeight="Bold"  ToolTipService.ToolTip="DISCARD changes."/>
+                </StackPanel>
+            </CommandBar.Content>
+            <!--<CommandBar.
+                </>Content>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+
+                        <TextBlock Text="IoT Hub Settings Status: "  Margin="10,0,0,0" Foreground="Yellow" HorizontalAlignment="Left" FontSize="16" FontStyle="Italic" FontWeight="Bold" VerticalAlignment="Bottom" />
+                        <TextBlock x:Name="tbSvcStat" Text="Saved" Foreground="AntiqueWhite" HorizontalAlignment="Left" FontSize="16" Margin="20,0,0,0" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+                </CommandBar.Content>-->
+
+                <CommandBar.SecondaryCommands>
+                </CommandBar.SecondaryCommands>
+
+
+            </CommandBar>
+        <!--</StackPanel>-->
+
+        <ScrollViewer x:Name="PageBody" Grid.Row="2" VerticalScrollBarVisibility="Auto" >
         <StackPanel >
 
             <StackPanel   Orientation="Horizontal" VerticalAlignment="Center" Margin="10"  >
@@ -63,6 +111,8 @@
             <StackPanel x:Name="Info" Visibility="Collapsed">
                 <local:NewHubElement DisplayMode="comment"   Code="Enter (or patse) a new or Existing Resource Group Name,IoTHub Name and Device Name.( Nb: Names if new need to be unique.)"/>
                 <local:NewHubElement DisplayMode="comment"  Code="Nb: The Az scripts (that you copy) get auto updated with this info.  Nb: You can also get this info from Azure Portal and paste it in here." />
+                    <local:NewHubElement DisplayMode="comment"  Code="Nb2: Text manually entered only gets committted when when you click outside of the Textbox. Uncommitted for buttons and page exit." />
+                    <local:NewHubElement x:Name="HubFilename"  DisplayMode="infoWithButtonsOnRight" InfoValue="Enter filename for File Save"  Code="Filename: "  Property="Filename" TextInfo="{x:Bind Data1.Filename,Mode=TwoWay}"  />
                 <local:NewHubElement x:Name="NG"  DisplayMode="infoWithButtonsOnRight" InfoValue="Enter new or Existing Resource Group Name" Code="Resource Group Name: " TextInfo="{x:Bind Data1.ResourceGroupName,Mode=TwoWay}" Property="Group"   />
                 <local:NewHubElement x:Name="NH"  DisplayMode="infoWithButtonsOnRight" InfoValue="Enter unique IoTHub Name"  Code="IoTHubName: "  Property="Hub" TextInfo="{x:Bind Data1.IoTHubName,Mode=TwoWay}" Show4thButton="Visible"  />
                 <local:NewHubElement x:Name="ND"  DisplayMode="infoWithButtonsOnRight" InfoValue="Enter unique Device Name"  Code="* DeviceId: "  Property="Device" TextInfo="{x:Bind Data1.DeviceId,Mode=TwoWay}" Show2ndButton="Visible" Show3rdButton="Visible"  Show4thButton="Visible"   />

@@ -1,4 +1,5 @@
 ﻿{
+  "Port": "2222",
   "runMode": 1,
   "waitAtEndOfConsoleAppSecs": 10,
   "DeviceTimeout": 100,
@@ -7,9 +8,9 @@
   "UseCustomClass": false,
   "ResponseExpected": true,
   "KeepAlive": false,
-  "iothub_cs": "",
-  "device_id": "",
-  "device_cs": "HostName=MyNewHub2.azure-devices.net;DeviceId=MyNewDevice2;SharedAccessKey=uIPA9ftcG4F5aPI/WTD3CDUDt7BuT0AEYCW0aMAIn2o=",
+  "device_id": "Dev2",
+  "device_cs": "",
+  "connectionString": "HostName=MyDevice-1.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=1udhyt9yOp9kCA3rKDnsS4ykbESnx0iSbPybgN7n+Uo=",
   "KeepDeviceListening": true,
   "AutoStartDevice": true
 }

@@ -26,7 +26,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
     public class IoTHubConnectionDetails
     {
-
+        public static string Filename { get { return MyConnections.Filename; } set { MyConnections.Filename = value; } }
         public static bool EHMethod1 { get { return MyConnections.EHMethod1; } set { MyConnections.EHMethod1 = value; } }
         public static string ResourceGroupName { get { return MyConnections.AzureGroup; } set { MyConnections.AzureGroup = value; } }
         public static string IoTHubName { get { return MyConnections.IoTHubName; } set { MyConnections.IoTHubName = value; } }
@@ -66,6 +66,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private string deviceId = "";
         private string deviceConnectionString = "";
         private string ioTHubConnectionString = "";
+        private string filename = "";
 
         public Data()
         {
@@ -74,53 +75,124 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         public void ResetData()
         {
+            if (!string.IsNullOrEmpty(IoTHubConnectionDetails.Filename))
+                Filename = IoTHubConnectionDetails.Filename;
+            else
+                Filename = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.ResourceGroupName))
                 ResourceGroupName = IoTHubConnectionDetails.ResourceGroupName;
+            else
+                ResourceGroupName = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.IoTHubName))
                 IoTHubName = IoTHubConnectionDetails.IoTHubName;
+            else
+                IoTHubName = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.DeviceId))
                 DeviceId = IoTHubConnectionDetails.DeviceId;
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.IoTHubConnectionString))
                 IoTHubConnectionString = IoTHubConnectionDetails.IoTHubConnectionString;
+            else
+                IoTHubConnectionString = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.DeviceConnectionString))
                 DeviceConnectionString = IoTHubConnectionDetails.DeviceConnectionString;
+            else
+                DeviceConnectionString = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.EventHubsCompatiblePath))
                 EventHubsCompatiblePath = IoTHubConnectionDetails.EventHubsCompatiblePath;
+            else
+                EventHubsCompatiblePath = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.EventHubsCompatibleEndpoint))
                 EventHubsCompatibleEndpoint = IoTHubConnectionDetails.EventHubsCompatibleEndpoint;
+            else
+                EventHubsCompatibleEndpoint = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.EventHubsConnectionString))
                 EventHubsConnectionString = IoTHubConnectionDetails.EventHubsConnectionString;
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.IotHubKeyName))
                 IotHubKeyName = IoTHubConnectionDetails.IotHubKeyName;
+            else
+                IotHubKeyName = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.IotHubKeyName))
                 IotHubKeyName = IoTHubConnectionDetails.IotHubKeyName;
+            else
+                IotHubKeyName = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionDetails.EventHubsSasKey))
                 EventHubsSasKey = IoTHubConnectionDetails.EventHubsSasKey;
+            else
+                EventHubsSasKey = "";
+            if (!string.IsNullOrEmpty(IoTHubConnectionDetails.SKU))
+                sku = EventHubsSasKey = IoTHubConnectionDetails.SKU;
+            else
+                sku = "F1";
+
             EHMethod1 = IoTHubConnectionDetails.EHMethod1;
+        }
+
+        public void ClearData()
+        {
+            Filename = "";
+            ResourceGroupName = "";
+            IoTHubName = "";
+            DeviceId = "";
+            IoTHubConnectionString = "";
+            DeviceConnectionString = "";
+            EventHubsCompatiblePath = "";
+            EventHubsCompatibleEndpoint = "";
+            EventHubsConnectionString = "";
+            IotHubKeyName = "";
+            EventHubsSasKey = "";
+            sku = "F1";
+            EHMethod1 = IoTHubConnectionDetails.EHMethod1;
+
         }
 
         public void Commit()
         {
+            if (!string.IsNullOrEmpty(Filename))
+                IoTHubConnectionDetails.Filename = Filename;
+            else
+                IoTHubConnectionDetails.Filename = "";
             if (!string.IsNullOrEmpty(ResourceGroupName))
                 IoTHubConnectionDetails.ResourceGroupName = ResourceGroupName;
+            else
+                IoTHubConnectionDetails.ResourceGroupName = "";
             if (!string.IsNullOrEmpty(IoTHubName))
                 IoTHubConnectionDetails.IoTHubName = IoTHubName;
+            else
+                IoTHubConnectionDetails.IoTHubName = "";
             if (!string.IsNullOrEmpty(DeviceId))
                 IoTHubConnectionDetails.DeviceId = DeviceId;
+            else
+                IoTHubConnectionDetails.DeviceId = "";
             if (!string.IsNullOrEmpty(IoTHubConnectionString))
                 IoTHubConnectionDetails.IoTHubConnectionString = IoTHubConnectionString;
+            else
+                IoTHubConnectionDetails.IoTHubConnectionString = "";
             if (!string.IsNullOrEmpty(DeviceConnectionString))
                 IoTHubConnectionDetails.DeviceConnectionString = DeviceConnectionString;
+            else
+                IoTHubConnectionDetails.DeviceConnectionString = "";
             if (!string.IsNullOrEmpty(EventHubsCompatiblePath))
                 IoTHubConnectionDetails.EventHubsCompatiblePath = EventHubsCompatiblePath;
+            else
+                IoTHubConnectionDetails.EventHubsCompatiblePath = "";
             if (!string.IsNullOrEmpty(EventHubsCompatibleEndpoint))
                 IoTHubConnectionDetails.EventHubsCompatibleEndpoint = EventHubsCompatibleEndpoint;
+            else
+                IoTHubConnectionDetails.EventHubsCompatibleEndpoint = "";
             if (!string.IsNullOrEmpty(EventHubsConnectionString))
                 IoTHubConnectionDetails.EventHubsConnectionString = EventHubsConnectionString;
+            else
+                IoTHubConnectionDetails.EventHubsConnectionString = "";
             if (!string.IsNullOrEmpty(IotHubKeyName))
                 IoTHubConnectionDetails.IotHubKeyName = IotHubKeyName;
             if (!string.IsNullOrEmpty(EventHubsSasKey))
                 IoTHubConnectionDetails.EventHubsSasKey = EventHubsSasKey;
+            else
+                IoTHubConnectionDetails.EventHubsSasKey = "";
+            if (!string.IsNullOrEmpty(sku))
+                IoTHubConnectionDetails.SKU = sku;
+            else
+                IoTHubConnectionDetails.SKU = "F1";
             IoTHubConnectionDetails.EHMethod1 = EHMethod1;
             ApplicationSettings.SaveSettingsToAppData();
         }
@@ -134,8 +206,12 @@ namespace Azure_IoTHub_Toolbox_App.Pages
         private string eventHubsCompatiblePath = "";
         private string eventHubsSasKey = "";
 
+        public string Filename { get => filename; set { if (filename != value) { filename = value; OnPropertyChanged(); } } }
 
         private string iotHubKeyName = "";
+        private string state1;
+        private Visibility closedIconViz;
+        private Visibility openIconViz;
 
         public string IotHubKeyName { get => iotHubKeyName; set { if (iotHubKeyName != value) { iotHubKeyName = value; OnPropertyChanged(); } } }
 
@@ -239,9 +315,50 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public string state
+        {
+            get => state1;
+            set
+            {
+                if (state1 != value)
+                {
+                    state1 = value;
+                    OnPropertyChanged();
+                    OpenIconViz = state == "Committed" ? Visibility.Collapsed : Visibility.Visible;
+                }
+            }
+        }
+
+        public Visibility ClosedIconViz { get => closedIconViz; 
+            set 
+            {
+                if (closedIconViz != value)
+                {
+                    closedIconViz = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        //Changes here imapct on Closed , so set Open
+        public Visibility OpenIconViz { get => openIconViz;
+            set
+            {
+                if (openIconViz != value)
+                {
+                    openIconViz = value;
+                    ClosedIconViz= value == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                }
+                OnPropertyChanged();
+                }
+            }
+
+
         protected void OnPropertyChanged(
         [System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
+            if ((propertyName != "state") && (propertyName != "OpenIconViz") && (propertyName != "ClosedIconViz"))
+                state = "Uncommitted";
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
             {
