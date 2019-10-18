@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="Azure_IoTHub_Toolbox_App.Pages.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Azure_IoTHub_Toolbox_App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
+    <Page.Background>
+        <ImageBrush Stretch="Fill" ImageSource="/Assets/homepage2.png"/>
+    </Page.Background>
+
+
+
+    <StackPanel >
+        <Border BorderBrush="{StaticResource ApplicationForegroundThemeBrush}"  Margin="10,50,0,0"
+                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                BorderThickness="2" Width="700" >
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="PaleVioletRed">
+                <Grid.RowDefinitions>
+                    <RowDefinition  />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition  />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <Border Background="Crimson" BorderThickness="1" Height="30" BorderBrush="Black" Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="5">
+                    <TextBlock x:Name="tbPopupTitleSet" Text="Azure IoT Hub Toolbox" 
+                               FontStyle="Italic" FontWeight="Bold" Foreground="White"
+                               HorizontalAlignment="Center"
+                                   Height="30"
+                                TextAlignment="Left" Margin="0"/>
+                </Border>
+
+
+                <local:NewHubElement  DisplayMode="InfoOnly"  Code="About: " TextInfo="An app for getting a QUICK Quickstart with the Azure IoT Hub SDK features."  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                <local:NewHubElement  DisplayMode="InfoOnly"  Code="" TextInfo="Simulated Telemetry, Device Streaming , Device remote control."  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" />
+                <local:NewHubElement  DisplayMode="InfoOnly"  Code="" TextInfo=" Set up an Azure IoT Hub. Deploy prebuilt .Net Core Device app. More coming!"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" />
+
+                <local:NewHubElement  DisplayMode="InfoOnly"  Code="Version: " TextInfo="1.2.37"  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" />
+                <local:NewHubElement  DisplayMode="InfoOnly"  Code="Company: " TextInfo="Sportronics"  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" />
+                <local:NewHubElement  DisplayMode="InfoOnly"  Code="Copyright: " TextInfo="© 2019 Sportronics"  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" />
+                <local:NewHubElement DisplayMode="link"   Code="Blog:"  Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="5"
+                                 Url="http://www.sportronics.com.au" UrlText="http://www.sportronics.com.au"/>
+                <Button Content="Rate and/or review the app in the Store" Click="Button_Click_1"  Foreground="AntiqueWhite" Background="Crimson" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" />
+            </Grid>
+        </Border>
+
+        <!--<StackPanel x:Name="Panel1" Margin="10,10,10,10" >
+            <TextBlock HorizontalAlignment="Left"  Margin="10,20,0,0" Text="Azure IoT Hub Toolbox" TextAlignment="Center" FontSize="100" Foreground="Blue" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True"  TextWrapping="WrapWholeWords"  VerticalAlignment="Top" />
+            <TextBlock x:Name="h1" Margin="50,10,0,10"  Text="Telemetry, Device Streaming, Device Control ..." HorizontalAlignment="Left" TextAlignment="Center" FontSize="36" Foreground="Purple" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True" />
+            <TextBlock x:Name="h2" Margin="50,10,0,10"  Text="A Quickstart on the Azure IOT Hub SDK Quickstarts!" HorizontalAlignment="Left" TextAlignment="Center" FontSize="24" Foreground="Green" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True" />
+            <TextBlock x:Name="h3" Margin="50,10,0,10"  Text="Hint: Go to Settings and set up your IoT Hub." HorizontalAlignment="Left" TextAlignment="Center" FontSize="24" Foreground="Green"  FontStyle="Oblique" IsColorFontEnabled="True" />
+
+            <Image Source="/Assets/400toolbox.jpg" Margin="10,50,10,10" />
+        </StackPanel  >
+        <StackPanel x:Name="Panel2" Margin="10,10,10,10"  Visibility="Collapsed">
+
+            <Image Source="/Assets/homepage2.png" Margin="0" />-->
+        <!--</StackPanel  >-->
+    </StackPanel>
+</Page>

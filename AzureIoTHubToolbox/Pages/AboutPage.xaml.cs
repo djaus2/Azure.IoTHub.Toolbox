@@ -20,10 +20,10 @@ namespace Azure_IoTHub_Toolbox_App.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class HomePage : Page
+    public sealed partial class AboutPage : Page
     {
 
-        public HomePage()
+        public AboutPage()
         {
             this.InitializeComponent();
         }
@@ -35,40 +35,22 @@ namespace Azure_IoTHub_Toolbox_App.Pages
 
         private  void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //switch (ShowPanel)
-            //{
-            //    case 1:
-            //        Panel1.Visibility = Visibility.Visible;
-            //        Panel2.Visibility = Visibility.Collapsed;
-            //        break;
-            //    case 2:
-            //        Panel2.Visibility = Visibility.Visible;
-            //        Panel1.Visibility = Visibility.Collapsed;
-            //        break;
-            //}
+ 
         }
 
-        //protected  override void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //    base.OnNavigatedTo(e);
-        //    if (e.Parameter != null)
-        //    {
-        //        bool? sho = (bool)e.Parameter;
-        //        if (sho != null)
-        //        {
-        //            if (sho == true)
-        //                 Popup_SetConnectionDetails.IsOpen = true;
-        //        }
-        //    }
+        protected  override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+          
 
-        //    // parameters.Name
-        //    // parameters.Text
-        //    // ...
-        //}
+            // parameters.Name
+            // parameters.Text
+            // ...
+        }
 
         //private void Button_Click(object sender, RoutedEventArgs e)
         //{
-        //    Popup_SetConnectionDetails.IsOpen = false;
+        //    //Popup_SetConnectionDetails.IsOpen = false;
         //}
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)

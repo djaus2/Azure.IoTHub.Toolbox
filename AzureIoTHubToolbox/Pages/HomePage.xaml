@@ -12,7 +12,7 @@
 
 
         <StackPanel>
-        <Popup VerticalOffset="10"               x:Name="Popup_SetConnectionDetails" 
+        <!--<Popup VerticalOffset="10"               x:Name="Popup_SetConnectionDetails" 
                HorizontalAlignment="Left" 
                HorizontalOffset="100" 
                VerticalAlignment="Top"
@@ -61,7 +61,7 @@
                     <Button Content="  OK   " Click="Button_Click" Foreground="AntiqueWhite" />
                 </Grid>
             </Border>
-        </Popup>
+        </Popup>-->
         <StackPanel x:Name="Panel1" Margin="10,10,10,10" >
             <TextBlock HorizontalAlignment="Left"  Margin="10,20,0,0" Text="Azure IoT Hub Toolbox" TextAlignment="Center" FontSize="100" Foreground="Blue" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True"  TextWrapping="WrapWholeWords"  VerticalAlignment="Top" />
             <TextBlock x:Name="h1" Margin="50,10,0,10"  Text="Telemetry, Device Streaming, Device Control ..." HorizontalAlignment="Left" TextAlignment="Center" FontSize="36" Foreground="Purple" FontWeight="Black"  FontStyle="Oblique" IsColorFontEnabled="True" />
@@ -70,9 +70,9 @@
 
             <Image Source="/Assets/400toolbox.jpg" Margin="10,50,10,10" />
         </StackPanel  >
-        <StackPanel x:Name="Panel2" Margin="10,10,10,10"  Visibility="Collapsed">
+        <!--<StackPanel x:Name="Panel2" Margin="10,10,10,10"  Visibility="Collapsed">
 
             <Image Source="/Assets/homepage2.png" Margin="0" />
-        </StackPanel  >
+        </StackPanel  >-->
     </StackPanel>
 </Page>

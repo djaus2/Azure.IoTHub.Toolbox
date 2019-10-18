@@ -70,7 +70,6 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                         switch (currentPage)
                         {
                             case 1:
-                                Pages.HomePage.ShowPanel = 1;
                                 NavigationFrame.Navigate(typeof(Pages.HomePage), false);
                                 break;
                             case 2:
@@ -93,9 +92,7 @@ namespace Azure_IoTHub_Toolbox_App.Pages
                                 break;
 
                             case 7:
-                                    currentPage = 1;
-                                Pages.HomePage.ShowPanel = 2;
-                                    NavigationFrame.Navigate(typeof(Pages.HomePage),true);
+                                    NavigationFrame.Navigate(typeof(Pages.AboutPage),true);
                                 break;
                         }
                     }
